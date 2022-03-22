@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <h1>Main</h1>
+<div th:each="room: ${rooms}">
+    <a th:text="${room.id}"></a>
+    <a th:text="${room.classTranslated}"></a>
+</div>
 </body>
 </html>

@@ -37,4 +37,7 @@ public class Room {
     @ManyToOne(optional = false)
     private RoomClass roomClass;
 
+    @Transient
+    private String classTranslated;
+
 }
