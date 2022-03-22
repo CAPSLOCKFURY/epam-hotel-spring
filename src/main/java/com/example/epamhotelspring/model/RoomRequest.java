@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.model;
 
+import com.example.epamhotelspring.model.enums.RequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

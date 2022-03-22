@@ -1,4 +1,4 @@
-package com.example.epamhotelspring.model;
+package com.example.epamhotelspring.model.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
