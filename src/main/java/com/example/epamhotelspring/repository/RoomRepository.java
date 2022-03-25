@@ -11,7 +11,8 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    @Query("select new com.example.epamhotelspring.dto.RoomListDTO(r.id, r.number, r.roomStatus, r.name, r.price, r.capacity, rct.name)" +
+    @Query("select r.id as id, r.number as number, r.roomStatus as roomStatus, r.name as name, " +
+            "r.price as price, r.capacity as capacity, rct.name as classTranslated " +
             "from Room r left join r.roomClass rc " +
             "left join rc.roomClassTranslations rct on rct.language = :locale")
     List<RoomListDTO> findAllRooms(String locale);

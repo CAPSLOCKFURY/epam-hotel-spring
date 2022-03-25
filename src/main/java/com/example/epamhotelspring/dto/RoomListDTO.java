@@ -1,27 +1,23 @@
 package com.example.epamhotelspring.dto;
 
-import com.example.epamhotelspring.model.RoomClass;
 import com.example.epamhotelspring.model.enums.RoomStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.math.BigDecimal;
 
-@Getter @AllArgsConstructor
-public class RoomListDTO {
+public interface RoomListDTO{
 
-    private final Long id;
+    Long getId();
 
-    private final Integer number;
+    Integer getNumber();
 
-    private final RoomStatus roomStatus;
+    RoomStatus getRoomStatus();
 
-    private final String name;
+    String getName();
 
-    private final BigDecimal price;
+    BigDecimal getPrice();
 
-    private final Integer capacity;
+    Integer getCapacity();
 
-    private final String classTranslated;
+    String getClassTranslated();
 
 }

@@ -34,7 +34,7 @@ public class Room {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private RoomClass roomClass;
 
     @Transient
