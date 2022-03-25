@@ -2,12 +2,17 @@ package com.example.epamhotelspring.controller;
 
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.UserService;
+import com.example.epamhotelspring.validators.utils.FlashAttributePrg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 public class AuthController {
@@ -16,13 +21,22 @@ public class AuthController {
 
     @GetMapping("/register")
     public String showRegister(Model model){
-        model.addAttribute("formObject", new User());
+        if(!model.containsAttribute("registrationForm")) {
+            model.addAttribute("registrationForm", new User());
+        }
         return "register";
     }
 
     @PostMapping("/register")
-    public String postRegister(@ModelAttribute User user){
-        userService.registerUser(user);
+    public String postRegister(@Valid @ModelAttribute("registrationForm") User userForm,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes){
+        FlashAttributePrg errorsPrg = new FlashAttributePrg(bindingResult, redirectAttributes, "registrationForm", userForm);
+        boolean hasErrors = errorsPrg.processErrorsIfExists();
+        if(hasErrors){
+            return "redirect:/register";
+        }
+        userService.registerUser(userForm);
         return "redirect:/login";
     }
 

@@ -6,12 +6,22 @@
 </head>
 <body>
 <h1 th:text="#{title.register}">Register</h1>
-<form method="post" th:action="@{/register}" th:object="${formObject}">
-    <p th:text="#{user.username}">Username</p><input th:field="*{username}">
-    <p th:text="#{user.password}">Password</p><input th:field="*{password}">
-    <p th:text="#{user.email}">Email</p><input th:field="*{email}">
-    <p th:text="#{user.firstName}">First Name</p><input th:field="*{firstName}">
-    <p th:text="#{user.lastName}">Last Name</p><input th:field="*{lastName}">
+<form method="post" th:action="@{/register}" th:object="${registrationForm}">
+    <p th:text="#{user.username}">Username</p>
+        <input th:field="*{username}">
+        <a th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</a>
+    <p th:text="#{user.password}">Password</p>
+        <input th:field="*{password}">
+        <a th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</a>
+    <p th:text="#{user.email}">Email</p>
+        <input th:field="*{email}">
+        <a th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</a>
+    <p th:text="#{user.firstName}">First Name</p>
+        <input th:field="*{firstName}">
+        <a th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</a>
+    <p th:text="#{user.lastName}">Last Name</p>
+        <input th:field="*{lastName}">
+        <a th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</a>
     <button th:text="#{button.register}" type="submit">Register</button>
 </form>
 </body>
