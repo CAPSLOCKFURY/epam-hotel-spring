@@ -12,3 +12,7 @@ values (1, default, 'Room 1', 100, 2, 1), (2, default, 'Room 2', 110, 3, 1), (3,
        (9, default, 'Half lux Room 1', 350, 4, 3),(10, default, 'Half lux Room 2', 370, 5, 3), (11, default, 'Half lux Room 3', 400, 4, 3), (12, default, 'Half lux Room 4', 500, 6, 3),
        (13, default, 'lux Room 1', 700, 8, 4),(14, default, 'lux Room 2', 1000, 8, 4);
 
+insert into room_registry(archived, check_in_date, check_out_date, room_id, user_id)
+values (false, '25-03-2022', '30-03-2022', 2, 1);
+
+select * from room_registry;

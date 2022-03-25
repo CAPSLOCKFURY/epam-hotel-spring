@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -36,6 +37,9 @@ public class Room {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private RoomClass roomClass;
+
+    @OneToMany(mappedBy = "room")
+    private List<RoomRegistry> roomRegistries;
 
     @Transient
     private String classTranslated;

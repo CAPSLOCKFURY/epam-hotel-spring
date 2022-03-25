@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Room</title>
+</head>
+<body>
+<div>
+    <a th:text="${room.classTranslated}"></a>
+    <div th:each="roomRegistry: ${room.roomRegistries}">
+        <a th:text="${roomRegistry.checkInDate}"></a>
+        <a th:text="${roomRegistry.checkOutDate}"></a>
+    </div>
+</div>
+</body>
+</html>
