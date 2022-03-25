@@ -23,7 +23,7 @@ public class RoomRequest {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private RoomClass roomClass;
 
     @Column(name = "check_in_date")
@@ -39,12 +39,12 @@ public class RoomRequest {
     @Enumerated(EnumType.STRING)
     private RequestStatus status = RequestStatus.AWAITING;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 
     private String managerComment;
 
-    @OneToOne(mappedBy = "roomRequest", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "roomRequest", fetch = FetchType.LAZY)
     private Billing billing;
 
 }
