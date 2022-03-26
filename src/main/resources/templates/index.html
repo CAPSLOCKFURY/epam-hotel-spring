@@ -5,10 +5,18 @@
     <title>Title</title>
 </head>
 <body>
+<div th:include="header::nav"></div>
 <h1>Main</h1>
 <div th:each="room: ${rooms}">
-    <a th:text="${room.id}"></a>
-    <a th:text="${room.classTranslated}"></a>
+    <hr>
+    <h1 th:inline="text">Room number : [[${room.number}]]</h1>
+    <h1 th:inline="text">Room name : [[${room.name}]]</h1>
+    <h1 th:inline="text">Room status : [[${room.roomStatus}]]</h1>
+    <h1 th:inline="text">Room capacity : [[${room.capacity}]]</h1>
+    <h1 th:inline="text">Room class : [[${room.classTranslated}]]</h1>
+    <h1 th:inline="text">Room price : [[${room.price}]]</h1>
+    <h2><a th:href="@{/room/{id}(id=${room.id})}">See room</a></h2>
+    <hr>
 </div>
 </body>
 </html>

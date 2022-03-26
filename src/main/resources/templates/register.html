@@ -5,6 +5,7 @@
     <title th:text="#{title.register}">Title</title>
 </head>
 <body>
+<div th:include="header::nav"></div>
 <h1 th:text="#{title.register}">Register</h1>
 <form method="post" th:action="@{/register}" th:object="${registrationForm}">
     <p th:text="#{user.username}">Username</p>

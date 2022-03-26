@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Home</a>
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/register}">Register</a>
+    </div>
+    <form method="get">
+        <select name="lang">
+            <option th:selected="${#locale.toLanguageTag()} == en" value="en">English</option>
+            <option th:selected="${#locale.toLanguageTag()} == ru" value="ru">Русский</option>
+        </select>
+        <button type="submit">Change language</button>
+    </form>
+</nav>
+</body>
+</html>

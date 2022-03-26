@@ -15,4 +15,4 @@ values (1, default, 'Room 1', 100, 2, 1), (2, default, 'Room 2', 110, 3, 1), (3,
 insert into room_registry(archived, check_in_date, check_out_date, room_id, user_id)
 values (false, '25-03-2022', '30-03-2022', 2, 1);
 
-select * from room_registry;
+update rooms set status = 'FREE';

@@ -5,6 +5,7 @@
     <title th:text="#{title.login}">Login</title>
 </head>
 <body>
+<div th:include="header::nav"></div>
 <h1 th:text="#{title.login}">Login</h1>
 <form name="f" th:action="@{/perform-login}" method="post">
     <a th:if="${param.error}" th:text="#{errors.badCredentials}">Bad Credentials</a>
