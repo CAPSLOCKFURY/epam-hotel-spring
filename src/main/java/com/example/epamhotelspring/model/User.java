@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.model;
 
+import com.example.epamhotelspring.forms.UserForm;
 import com.example.epamhotelspring.model.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,26 +25,21 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "username")
-    @Pattern(regexp = "[a-zA-Z_0-9-]+")
     private String username;
 
     @Column(name = "password")
-    @Pattern(regexp = "[a-zA-Z_0-9-]+")
     private String password;
 
     @Column(name = "email")
-    @Pattern(regexp = "[a-z0-9.]+@[a-z]+(\\.com|\\.net|\\.ukr|\\.ru|\\.ua)")
     private String email;
 
     @Column(name = "balance", precision = 11, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
 
     @Column(name = "first_name")
-    @Pattern(regexp = "[а-яА-Я|a-zA-Z]+")
     private String firstName;
 
     @Column(name = "last_name")
-    @Pattern(regexp = "[а-яА-Я|a-zA-Z]+")
     private String lastName;
 
     @Column(name = "role")
@@ -85,6 +80,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User(UserForm form){
+        username = form.getUsername();
+        password = form.getPassword();
+        email = form.getEmail();
+        firstName = form.getFirstName();
+        lastName = form.getLastName();
     }
 }
 

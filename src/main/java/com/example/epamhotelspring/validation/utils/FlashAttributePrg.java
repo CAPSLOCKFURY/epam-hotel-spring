@@ -1,4 +1,4 @@
-package com.example.epamhotelspring.validators.utils;
+package com.example.epamhotelspring.validation.utils;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;

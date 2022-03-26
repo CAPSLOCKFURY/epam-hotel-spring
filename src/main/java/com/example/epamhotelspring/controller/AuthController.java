@@ -1,8 +1,9 @@
 package com.example.epamhotelspring.controller;
 
+import com.example.epamhotelspring.forms.UserForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.UserService;
-import com.example.epamhotelspring.validators.utils.FlashAttributePrg;
+import com.example.epamhotelspring.validation.utils.FlashAttributePrg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +23,13 @@ public class AuthController {
     @GetMapping("/register")
     public String showRegister(Model model){
         if(!model.containsAttribute("registrationForm")) {
-            model.addAttribute("registrationForm", new User());
+            model.addAttribute("registrationForm", new UserForm());
         }
         return "register";
     }
 
     @PostMapping("/register")
-    public String postRegister(@Valid @ModelAttribute("registrationForm") User userForm,
+    public String postRegister(@Valid @ModelAttribute("registrationForm") UserForm userForm,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes){
         FlashAttributePrg errorsPrg = new FlashAttributePrg(bindingResult, redirectAttributes, "registrationForm", userForm);
@@ -36,7 +37,7 @@ public class AuthController {
         if(hasErrors){
             return "redirect:/register";
         }
-        userService.registerUser(userForm);
+        userService.registerUser(new User(userForm));
         return "redirect:/login";
     }
 
