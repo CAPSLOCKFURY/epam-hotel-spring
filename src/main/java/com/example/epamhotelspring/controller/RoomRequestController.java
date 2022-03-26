@@ -1,6 +1,7 @@
 package com.example.epamhotelspring.controller;
 
 import com.example.epamhotelspring.dto.RoomClassTranslationDTO;
+import com.example.epamhotelspring.dto.RoomRequestDTO;
 import com.example.epamhotelspring.forms.RoomRequestForm;
 import com.example.epamhotelspring.model.RoomRequest;
 import com.example.epamhotelspring.model.User;
@@ -50,7 +51,14 @@ public class RoomRequestController {
         RoomRequest roomRequest = new RoomRequest(roomRequestForm);
         roomRequest.setUser(user);
         roomRequestService.createRoomRequest(roomRequest);
-        return "redirect:/profile/request-room";
+        return "redirect:/profile/room-requests";
+    }
+
+    @GetMapping("/profile/room-requests")
+    public String getMyRoomRequests(Model model, Locale locale, @AuthenticationPrincipal User user){
+        List<RoomRequestDTO> roomRequests = roomRequestService.getUserRoomRequests(user.getId(), locale.toLanguageTag());
+        model.addAttribute("roomRequests", roomRequests);
+        return "room-requests";
     }
 
     @Autowired

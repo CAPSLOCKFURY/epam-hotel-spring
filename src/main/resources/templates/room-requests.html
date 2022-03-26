@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:include="header::nav"></div>
+<div th:each="roomRequest: ${roomRequests}">
+    <hr>
+    <h1 th:inline="text">Request Id : [[${roomRequest.id}]]</h1>
+    <h1 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h1>
+    <h1 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h1>
+    <h1 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h1>
+    <h1 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h1>
+    <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
+    <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
+    <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
+    <hr>
+</div>
+</body>
+</html>

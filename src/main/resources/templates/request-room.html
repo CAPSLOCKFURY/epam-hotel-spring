@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Request Room</h1>
+<div th:include="header::nav"></div>
 <form method="post" th:action="@{/profile/request-room}" th:object="${roomRequestForm}">
     <p>Capacity</p>
         <input type="number" min="1" th:field="*{capacity}">
