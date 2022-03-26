@@ -25,14 +25,18 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User getUserByEmail(String email){
-        return repository.findUserByEmail(email);
-    }
-
     public User registerUser(User user){
         String userPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(userPassword));
         return repository.save(user);
+    }
+
+    public User getUserByEmail(String email){
+        return repository.findUserByEmail(email);
+    }
+
+    public User getUserById(Long id){
+        return repository.findUserById(id);
     }
 
     @Autowired

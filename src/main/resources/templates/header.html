@@ -12,6 +12,9 @@
         <a th:href="@{/login}">Login</a>
         <a th:href="@{/register}">Register</a>
     </div>
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{/profile}">Profile</a>
+    </div>
     <form method="get">
         <select name="lang">
             <option th:selected="${#locale.toLanguageTag()} == en" value="en">English</option>
