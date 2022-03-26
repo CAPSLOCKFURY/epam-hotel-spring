@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Request Room</h1>
+<form method="post" th:action="@{/profile/request-room}" th:object="${roomRequestForm}">
+    <p>Capacity</p>
+        <input type="number" min="1" th:field="*{capacity}">
+        <a th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}">Capacity Error</a>
+    <p>Room Class</p>
+        <select th:field="*{roomClass.id}">
+            <option th:each="roomClass: ${roomClasses}" th:value="${roomClass.roomClassId}" th:text="${roomClass.name}"></option>
+        </select>
+    <p>Check In Date</p>
+        <input type="date" th:field="*{checkInDate}">
+        <a th:if="${#fields.hasErrors('checkInDate')}" th:errors="*{checkInDate}">Check In Date Error</a>
+    <p>Check Out Date</p>
+        <input type="date" th:field="*{checkOutDate}">
+        <a th:if="${#fields.hasErrors('checkOutDate')}" th:errors="*{checkOutDate}">Check Out Date Error</a>
+    <p>Comment</p>
+        <input th:field="*{comment}">
+        <a th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment Error</a>
+    <button type="submit">Request Room</button>
+    <div th:if="${#fields.hasErrors('global')}">
+        <a th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></a>
+    </div>
+</form>
+</body>
+</html>

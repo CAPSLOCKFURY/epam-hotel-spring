@@ -8,6 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -26,7 +27,7 @@ public class Billing {
 
     @Column(name = "pay_end_date")
     @ColumnDefault("current_date + interval '2 day'")
-    private java.sql.Date payEndDate;
+    private LocalDate payEndDate;
 
     @Column(name = "paid")
     private Boolean paid = false;

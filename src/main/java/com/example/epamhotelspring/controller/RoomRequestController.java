@@ -1,0 +1,61 @@
+package com.example.epamhotelspring.controller;
+
+import com.example.epamhotelspring.dto.RoomClassTranslationDTO;
+import com.example.epamhotelspring.forms.RoomRequestForm;
+import com.example.epamhotelspring.model.RoomRequest;
+import com.example.epamhotelspring.model.User;
+import com.example.epamhotelspring.service.RoomClassTranslationService;
+import com.example.epamhotelspring.service.RoomRequestService;
+import com.example.epamhotelspring.validation.utils.FlashAttributePrg;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Locale;
+
+@Controller
+public class RoomRequestController {
+
+    private final RoomRequestService roomRequestService;
+
+    private final RoomClassTranslationService roomClassTranslationService;
+
+    @GetMapping("/profile/request-room")
+    public String showRoomRequestForm(Model model, Locale locale){
+        if(!model.containsAttribute("roomRequestForm")) {
+            model.addAttribute("roomRequestForm", new RoomRequestForm());
+        }
+        List<RoomClassTranslationDTO> roomClasses = roomClassTranslationService.getRoomClassesByLanguage(locale.toLanguageTag());
+        model.addAttribute("roomClasses", roomClasses);
+        return "request-room";
+    }
+
+    @PostMapping("/profile/request-room")
+    public String requestRoom(@Valid @ModelAttribute("roomRequestForm") RoomRequestForm roomRequestForm,
+                              BindingResult bindingResult, RedirectAttributes attrs,
+                              @AuthenticationPrincipal User user){
+        FlashAttributePrg attributePrg = new FlashAttributePrg(bindingResult, attrs, "roomRequestForm", roomRequestForm);
+        boolean hasErrors = attributePrg.processErrorsIfExists();
+        if(hasErrors){
+            return "redirect:/profile/request-room";
+        }
+        RoomRequest roomRequest = new RoomRequest(roomRequestForm);
+        roomRequest.setUser(user);
+        roomRequestService.createRoomRequest(roomRequest);
+        return "redirect:/profile/request-room";
+    }
+
+    @Autowired
+    public RoomRequestController(RoomRequestService roomRequestService, RoomClassTranslationService roomClassTranslationService) {
+        this.roomRequestService = roomRequestService;
+        this.roomClassTranslationService = roomClassTranslationService;
+    }
+}

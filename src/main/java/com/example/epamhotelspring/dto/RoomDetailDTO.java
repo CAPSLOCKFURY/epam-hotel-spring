@@ -4,6 +4,7 @@ import com.example.epamhotelspring.model.enums.RoomStatus;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RoomDetailDTO {
@@ -25,9 +26,9 @@ public interface RoomDetailDTO {
     List<RoomRegistryDTO> getRoomRegistries();
 
     interface RoomRegistryDTO{
-        java.sql.Date getCheckInDate();
+        LocalDate getCheckInDate();
 
-        java.sql.Date getCheckOutDate();
+        LocalDate getCheckOutDate();
     }
 
 }

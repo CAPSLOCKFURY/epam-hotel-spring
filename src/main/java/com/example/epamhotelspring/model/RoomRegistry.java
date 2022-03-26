@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -23,10 +24,10 @@ public class RoomRegistry {
     private Room room;
 
     @Column(name = "check_in_date")
-    private java.sql.Date checkInDate;
+    private LocalDate checkInDate;
 
     @Column(name = "check_out_date")
-    private java.sql.Date checkOutDate;
+    private LocalDate checkOutDate;
 
     private Boolean archived = false;
 }

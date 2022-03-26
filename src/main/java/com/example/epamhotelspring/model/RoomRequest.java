@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.model;
 
+import com.example.epamhotelspring.forms.RoomRequestForm;
 import com.example.epamhotelspring.model.enums.RequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -27,10 +29,10 @@ public class RoomRequest {
     private RoomClass roomClass;
 
     @Column(name = "check_in_date")
-    private java.sql.Date checkInDate;
+    private LocalDate checkInDate;
 
     @Column(name = "check_out_date")
-    private java.sql.Date checkOutDate;
+    private LocalDate checkOutDate;
 
     @Column(name = "comment")
     private String comment;
@@ -47,4 +49,11 @@ public class RoomRequest {
     @OneToOne(mappedBy = "roomRequest", fetch = FetchType.LAZY)
     private Billing billing;
 
+    public RoomRequest(RoomRequestForm form){
+        capacity = form.getCapacity();
+        roomClass = form.getRoomClass();
+        checkInDate = form.getCheckInDate();
+        checkOutDate = form.getCheckOutDate();
+        comment = form.getComment();
+    }
 }
