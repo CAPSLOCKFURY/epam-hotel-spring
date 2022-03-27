@@ -8,6 +8,9 @@
 <div th:include="header::nav"></div>
 <h1 th:inline="text">Welcome : [[${user.firstName} + ' ' + ${user.lastName}]]</h1>
 <h1 th:inline="text">Your balance : [[${user.balance}]]</h1>
+<a th:href="@{/profile/request-room}">Request Room</a>
+<a th:href="@{/profile/room-requests}">Room requests</a>
+<a th:href="@{/profile/add-balance}">Add Balance</a>
 <a th:href="@{/logout}">Logout</a>
 </body>
 </html>
