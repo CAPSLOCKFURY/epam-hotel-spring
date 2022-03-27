@@ -48,7 +48,12 @@ public class RoomController {
         if(hasErrors){
             return "redirect:".concat(referer);
         }
-        roomService.bookRoom(new RoomRegistry(bookRoomForm), user);
+        roomService.bookRoom(new RoomRegistry(bookRoomForm), user, bindingResult);
+
+        boolean hasErrorsAfterService = errorsPrg.processErrorsIfExists();
+        if(hasErrorsAfterService){
+            return "redirect:".concat(referer);
+        }
         return "redirect:/profile";
     }
 
