@@ -19,7 +19,7 @@ public class Billing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private RoomRequest roomRequest;
 
     @Column(name = "price", precision = 11, scale = 2)

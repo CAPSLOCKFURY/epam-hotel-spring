@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -59,6 +60,12 @@ public class RoomRequestController {
         List<RoomRequestDTO> roomRequests = roomRequestService.getUserRoomRequests(user.getId(), locale.toLanguageTag());
         model.addAttribute("roomRequests", roomRequests);
         return "room-requests";
+    }
+
+    @GetMapping("/profile/room-requests/close/{id}")
+    public String closeRoomRequest(@PathVariable Long id, @AuthenticationPrincipal User user){
+        roomRequestService.closeRoomRequest(id, user.getId());
+        return "redirect:/profile/room-requests";
     }
 
     @Autowired

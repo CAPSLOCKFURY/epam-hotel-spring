@@ -16,6 +16,7 @@
     <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
     <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
     <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
+    <a th:href="@{/profile/room-requests/close/{id}(id=${roomRequest.id})}">Close this room request</a>
     <hr>
 </div>
 </body>
