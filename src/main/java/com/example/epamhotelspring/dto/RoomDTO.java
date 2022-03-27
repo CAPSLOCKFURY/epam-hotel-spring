@@ -4,7 +4,7 @@ import com.example.epamhotelspring.model.enums.RoomStatus;
 
 import java.math.BigDecimal;
 
-public interface RoomListDTO{
+public interface RoomDTO {
 
     Long getId();
 

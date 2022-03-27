@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -37,6 +41,13 @@ public class UserService implements UserDetailsService {
 
     public User getUserById(Long id){
         return repository.findUserById(id);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void addBalance(BigDecimal amount, User user){
+        User dbUser = repository.findUserById(user.getId());
+        dbUser.setBalance(dbUser.getBalance().add(amount));
+        repository.save(dbUser);
     }
 
     @Autowired

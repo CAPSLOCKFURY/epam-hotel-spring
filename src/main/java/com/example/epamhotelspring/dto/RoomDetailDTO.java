@@ -1,34 +1,42 @@
 package com.example.epamhotelspring.dto;
 
+import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.enums.RoomStatus;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
-public interface RoomDetailDTO {
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+public class RoomDetailDTO {
 
-    Long getId();
+    private Long id;
 
-    Integer getNumber();
+    Integer number;
 
-    RoomStatus getRoomStatus();
+    RoomStatus roomStatus;
 
-    String getName();
+    String name;
 
-    BigDecimal getPrice();
+    BigDecimal price;
 
-    Integer getCapacity();
+    Integer capacity;
 
-    String getClassTranslated();
+    String classTranslated;
 
-    List<RoomRegistryDTO> getRoomRegistries();
+    List<RoomRegistry> roomRegistries;
 
-    interface RoomRegistryDTO{
-        LocalDate getCheckInDate();
-
-        LocalDate getCheckOutDate();
+    public RoomDetailDTO(RoomDTO roomDTO, List<RoomRegistry> roomRegistries) {
+        id = roomDTO.getId();
+        number = roomDTO.getNumber();
+        roomStatus = roomDTO.getRoomStatus();
+        name = roomDTO.getName();
+        price = roomDTO.getPrice();
+        capacity = roomDTO.getCapacity();
+        classTranslated = roomDTO.getClassTranslated();
+        this.roomRegistries = roomRegistries;
     }
-
 }

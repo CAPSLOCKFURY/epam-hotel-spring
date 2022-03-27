@@ -5,14 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Table(name = "rooms")
+@Accessors(chain = true)
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Room {
 
     @Id

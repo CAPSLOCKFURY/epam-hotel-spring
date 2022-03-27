@@ -1,13 +1,20 @@
 package com.example.epamhotelspring.controller;
 
 import com.example.epamhotelspring.dto.RoomDetailDTO;
+import com.example.epamhotelspring.forms.BookRoomForm;
+import com.example.epamhotelspring.model.RoomRegistry;
+import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.RoomService;
+import com.example.epamhotelspring.validation.utils.FlashAttributePrg;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
@@ -26,7 +33,24 @@ public class RoomController {
     public String roomDetail(Model model, @PathVariable Long id, Locale locale){
         RoomDetailDTO room = roomService.getRoomById(id, locale.toLanguageTag());
         model.addAttribute("room", room);
+        if(!model.containsAttribute("bookRoomForm")) {
+            model.addAttribute("bookRoomForm", new BookRoomForm());
+        }
         return "room";
+    }
+
+    //TODO add annotation to process form prg
+    @PostMapping("/room/book-room")
+    public String bookRoom(
+            @Valid @ModelAttribute("bookRoomForm") BookRoomForm bookRoomForm, BindingResult bindingResult,
+            RedirectAttributes attrs, @RequestHeader("Referer") String referer, @AuthenticationPrincipal User user){
+        FlashAttributePrg errorsPrg = new FlashAttributePrg(bindingResult, attrs, "bookRoomForm", bookRoomForm);
+        boolean hasErrors = errorsPrg.processErrorsIfExists();
+        if(hasErrors){
+            return "redirect:".concat(referer);
+        }
+        roomService.bookRoom(new RoomRegistry(bookRoomForm), user);
+        return "redirect:/profile";
     }
 
     @Autowired
