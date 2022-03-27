@@ -2,6 +2,7 @@ package com.example.epamhotelspring.repository;
 
 import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.dto.RoomDTO;
+import com.example.epamhotelspring.dto.RoomHistoryDTO;
 import com.example.epamhotelspring.model.Room;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,5 +31,13 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select count(rr.id) from RoomRegistry rr where rr.archived = false and rr.room.id = :roomId " +
             "and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate)")
     Long countRoomOverlaps(LocalDate checkInDate, LocalDate checkOutDate, Long roomId);
+
+    @Query("select r.id as id, r.number as number, r.roomStatus as roomStatus, r.name as name, " +
+            "r.price as price, r.capacity as capacity, rct.name as classTranslated, rr.checkInDate as checkInDate, rr.checkOutDate as checkOutDate " +
+            "from Room r left join r.roomClass rc " +
+            "left join rc.roomClassTranslations rct on rct.language = :locale " +
+            "join r.roomRegistries rr " +
+            "where rr.user.id = :userId ")
+    List<RoomHistoryDTO> findUserRoomHistory(Long userId, String locale);
 
 }
