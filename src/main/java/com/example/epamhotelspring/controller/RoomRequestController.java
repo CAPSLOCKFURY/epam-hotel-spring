@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.controller;
 
+import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.dto.RoomClassTranslationDTO;
 import com.example.epamhotelspring.dto.RoomRequestDTO;
 import com.example.epamhotelspring.forms.RoomRequestForm;
@@ -40,15 +41,11 @@ public class RoomRequestController {
         return "request-room";
     }
 
+    @ValidateFormWithPRG(formName = "roomRequestForm", redirectUrlOnError = "redirect:/profile/request-room")
     @PostMapping("/profile/request-room")
     public String requestRoom(@Valid @ModelAttribute("roomRequestForm") RoomRequestForm roomRequestForm,
                               BindingResult bindingResult, RedirectAttributes attrs,
                               @AuthenticationPrincipal User user){
-        FlashAttributePrg attributePrg = new FlashAttributePrg(bindingResult, attrs, "roomRequestForm", roomRequestForm);
-        boolean hasErrors = attributePrg.processErrorsIfExists();
-        if(hasErrors){
-            return "redirect:/profile/request-room";
-        }
         RoomRequest roomRequest = new RoomRequest(roomRequestForm);
         roomRequest.setUser(user);
         roomRequestService.createRoomRequest(roomRequest);

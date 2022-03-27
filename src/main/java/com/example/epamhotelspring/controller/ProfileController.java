@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.controller;
 
+import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.forms.AddBalanceForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.UserService;
@@ -38,14 +39,10 @@ public class ProfileController {
         return "add-balance";
     }
 
+    @ValidateFormWithPRG(formName = "addBalanceForm", redirectUrlOnError = "redirect:/profile/add-balance")
     @PostMapping("/add-balance")
     public String addBalance(@Valid @ModelAttribute("addBalanceForm") AddBalanceForm addBalanceForm, BindingResult bindingResult,
                              RedirectAttributes attrs, @AuthenticationPrincipal User user){
-        FlashAttributePrg attributePrg = new FlashAttributePrg(bindingResult, attrs, "addBalanceForm", addBalanceForm);
-        boolean hasErrors = attributePrg.processErrorsIfExists();
-        if(hasErrors){
-            return "redirect:/profile/add-balance";
-        }
         userService.addBalance(addBalanceForm.getAmount(), user);
         return "redirect:/profile";
     }

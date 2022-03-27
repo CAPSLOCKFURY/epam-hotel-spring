@@ -39,7 +39,6 @@ public class RoomController {
         return "room";
     }
 
-    //TODO add annotation to process form prg
     @PostMapping("/room/book-room")
     public String bookRoom(
             @Valid @ModelAttribute("bookRoomForm") BookRoomForm bookRoomForm, BindingResult bindingResult,

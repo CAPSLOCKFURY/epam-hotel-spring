@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.controller;
 
+import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.forms.UserForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.UserService;
@@ -28,15 +29,11 @@ public class AuthController {
         return "register";
     }
 
+    @ValidateFormWithPRG(formName = "registrationForm", redirectUrlOnError = "redirect:/register")
     @PostMapping("/register")
     public String postRegister(@Valid @ModelAttribute("registrationForm") UserForm userForm,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes){
-        FlashAttributePrg errorsPrg = new FlashAttributePrg(bindingResult, redirectAttributes, "registrationForm", userForm);
-        boolean hasErrors = errorsPrg.processErrorsIfExists();
-        if(hasErrors){
-            return "redirect:/register";
-        }
         userService.registerUser(new User(userForm));
         return "redirect:/login";
     }
