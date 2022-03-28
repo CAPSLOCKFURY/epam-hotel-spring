@@ -22,7 +22,7 @@ public interface AdminRoomRequestRepository extends JpaRepository<RoomRequest, L
             "left join rc.roomClassTranslations rct on rct.language = :locale " +
             "left join r.user user"
     )
-    List<AdminRoomRequestDTO> findAdminRoomRequests(String locale);
+    List<AdminRoomRequestDTO> findAdminRoomRequests();
 
     @Query("select r.id as id, r.capacity as capacity, rct.name as roomClass, r.checkInDate as checkInDate, " +
             "r.checkOutDate as checkOutDate, r.comment as comment, r.status as status, room.id as roomId, r.managerComment as managerComment, " +
