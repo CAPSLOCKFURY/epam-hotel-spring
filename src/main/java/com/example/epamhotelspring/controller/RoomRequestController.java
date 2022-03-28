@@ -52,8 +52,8 @@ public class RoomRequestController {
     }
 
     @GetMapping("/profile/room-requests")
-    public String getMyRoomRequests(Model model, Locale locale, @AuthenticationPrincipal User user){
-        List<RoomRequestDTO> roomRequests = roomRequestService.getUserRoomRequests(user.getId(), locale.toLanguageTag());
+    public String getMyRoomRequests(Model model, @AuthenticationPrincipal User user){
+        List<RoomRequestDTO> roomRequests = roomRequestService.getUserRoomRequests(user.getId());
         model.addAttribute("roomRequests", roomRequests);
         return "room-requests";
     }

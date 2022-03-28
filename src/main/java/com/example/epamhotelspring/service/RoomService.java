@@ -30,12 +30,12 @@ public class RoomService {
 
     private final UserRepository userRepository;
 
-    public List<RoomDTO> getAllRooms(String locale){
-        return roomRepository.findAllRooms(locale, Sort.by(Sort.Direction.ASC, "id"));
+    public List<RoomDTO> getAllRooms(){
+        return roomRepository.findAllRooms(Sort.by(Sort.Direction.ASC, "id"));
     }
 
-    public RoomDetailDTO getRoomById(Long id, String locale){
-        RoomDTO roomDetailDTO = roomRepository.findRoomById(id, locale);
+    public RoomDetailDTO getRoomById(Long id){
+        RoomDTO roomDetailDTO = roomRepository.findRoomById(id);
         List<RoomRegistry> roomRegistries = roomRegistryRepository.findRoomRegistriesByRoomIdAndArchivedFalse(id);
         return new RoomDetailDTO(roomDetailDTO, roomRegistries);
     }
@@ -62,8 +62,8 @@ public class RoomService {
         roomRegistryRepository.save(roomRegistry);
     }
 
-    public List<RoomHistoryDTO> getUserRoomHistory(Long userId, String locale){
-        return roomRepository.findUserRoomHistory(userId, locale);
+    public List<RoomHistoryDTO> getUserRoomHistory(Long userId){
+        return roomRepository.findUserRoomHistory(userId);
     }
 
     @Autowired

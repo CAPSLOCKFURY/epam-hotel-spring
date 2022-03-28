@@ -24,15 +24,14 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/")
-    public String mainPage(Model model, Locale locale){
-        String localeString = locale.toLanguageTag();
-        model.addAttribute("rooms", roomService.getAllRooms(localeString));
+    public String mainPage(Model model){
+        model.addAttribute("rooms", roomService.getAllRooms());
         return "index";
     }
 
     @GetMapping("/room/{id}")
-    public String roomDetail(Model model, @PathVariable Long id, Locale locale){
-        RoomDetailDTO room = roomService.getRoomById(id, locale.toLanguageTag());
+    public String roomDetail(Model model, @PathVariable Long id){
+        RoomDetailDTO room = roomService.getRoomById(id);
         model.addAttribute("room", room);
         if(!model.containsAttribute("bookRoomForm")) {
             model.addAttribute("bookRoomForm", new BookRoomForm());

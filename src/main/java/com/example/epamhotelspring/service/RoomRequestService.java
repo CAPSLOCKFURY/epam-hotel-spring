@@ -20,8 +20,8 @@ public class RoomRequestService {
         return repository.save(roomRequest);
     }
 
-    public List<RoomRequestDTO> getUserRoomRequests(Long userId, String locale){
-        return repository.findRoomRequestsByUserId(userId, locale);
+    public List<RoomRequestDTO> getUserRoomRequests(Long userId){
+        return repository.findRoomRequestsByUserId(userId);
     }
 
     @Transactional

@@ -16,8 +16,8 @@ public interface RoomRequestRepository extends JpaRepository<RoomRequest, Long> 
             "from RoomRequest r " +
             "left join r.room room " +
             "left join room.roomClass rc " +
-            "left join rc.roomClassTranslations rct on rct.language = :locale " +
+            "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} " +
             "where r.user.id = :userId")
-    List<RoomRequestDTO> findRoomRequestsByUserId(Long userId, String locale);
+    List<RoomRequestDTO> findRoomRequestsByUserId(Long userId);
 
 }

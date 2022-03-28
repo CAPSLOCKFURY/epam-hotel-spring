@@ -17,15 +17,15 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select r.id as id, r.number as number, r.roomStatus as roomStatus, r.name as name, " +
             "r.price as price, r.capacity as capacity, rct.name as classTranslated " +
             "from Room r left join r.roomClass rc " +
-            "left join rc.roomClassTranslations rct on rct.language = :locale")
-    List<RoomDTO> findAllRooms(String locale, Sort sort);
+            "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} ")
+    List<RoomDTO> findAllRooms(Sort sort);
 
     @Query("select r.id as id, r.number as number, r.roomStatus as roomStatus, r.name as name, " +
             "r.price as price, r.capacity as capacity, rct.name as classTranslated " +
             "from Room r left join r.roomClass rc " +
-            "left join rc.roomClassTranslations rct on rct.language = :locale " +
+            "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} " +
             "where r.id = :id")
-    RoomDTO findRoomById(Long id, String locale);
+    RoomDTO findRoomById(Long id);
 
     @Query("select count(rr.id) from RoomRegistry rr where rr.archived = false and rr.room.id = :roomId " +
             "and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate)")
@@ -34,9 +34,9 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select r.id as id, r.number as number, r.roomStatus as roomStatus, r.name as name, " +
             "r.price as price, r.capacity as capacity, rct.name as classTranslated, rr.checkInDate as checkInDate, rr.checkOutDate as checkOutDate " +
             "from Room r left join r.roomClass rc " +
-            "left join rc.roomClassTranslations rct on rct.language = :locale " +
+            "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} " +
             "join r.roomRegistries rr " +
             "where rr.user.id = :userId ")
-    List<RoomHistoryDTO> findUserRoomHistory(Long userId, String locale);
+    List<RoomHistoryDTO> findUserRoomHistory(Long userId);
 
 }

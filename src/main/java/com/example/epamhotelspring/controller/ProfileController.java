@@ -54,8 +54,8 @@ public class ProfileController {
 
 
     @GetMapping("/room-history")
-    public String getUserRoomHistory(Model model, @AuthenticationPrincipal User user, Locale locale){
-        List<RoomHistoryDTO> roomHistory = roomService.getUserRoomHistory(user.getId(), locale.toLanguageTag());
+    public String getUserRoomHistory(Model model, @AuthenticationPrincipal User user){
+        List<RoomHistoryDTO> roomHistory = roomService.getUserRoomHistory(user.getId());
         model.addAttribute("rooms", roomHistory);
         return "room-history";
     }
