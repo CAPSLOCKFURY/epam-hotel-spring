@@ -57,7 +57,7 @@ public class RoomController {
         if(hasErrorsAfterService){
             return "redirect:".concat(referer);
         }
-        return "redirect:/profile";
+        return "redirect:/profile/room-history";
     }
 
     @Autowired
