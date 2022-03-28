@@ -2,7 +2,6 @@ package com.example.epamhotelspring.validation.constraints;
 
 
 import com.example.epamhotelspring.validation.validators.OneDateAfterAnotherValidator;
-import com.example.epamhotelspring.validation.validators.UniqueEmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,7 +1,6 @@
 package com.example.epamhotelspring.controller;
 
 import com.example.epamhotelspring.dto.RoomDetailDTO;
-import com.example.epamhotelspring.dto.RoomHistoryDTO;
 import com.example.epamhotelspring.forms.BookRoomForm;
 import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.User;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Locale;
 
 

@@ -8,7 +8,6 @@ import com.example.epamhotelspring.model.RoomRequest;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.RoomClassTranslationService;
 import com.example.epamhotelspring.service.RoomRequestService;
-import com.example.epamhotelspring.validation.utils.FlashAttributePrg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

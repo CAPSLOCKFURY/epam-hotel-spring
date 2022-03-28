@@ -1,7 +1,6 @@
 package com.example.epamhotelspring.service;
 
 import com.example.epamhotelspring.dto.RoomClassTranslationDTO;
-import com.example.epamhotelspring.model.RoomClassTranslation;
 import com.example.epamhotelspring.repository.RoomClassTranslationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

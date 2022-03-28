@@ -4,7 +4,6 @@ import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.forms.UserForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.UserService;
-import com.example.epamhotelspring.validation.utils.FlashAttributePrg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

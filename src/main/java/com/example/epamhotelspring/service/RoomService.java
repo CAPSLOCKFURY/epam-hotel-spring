@@ -1,7 +1,7 @@
 package com.example.epamhotelspring.service;
 
-import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.dto.RoomDTO;
+import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.dto.RoomHistoryDTO;
 import com.example.epamhotelspring.model.Room;
 import com.example.epamhotelspring.model.RoomRegistry;
