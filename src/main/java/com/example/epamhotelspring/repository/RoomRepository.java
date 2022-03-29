@@ -5,6 +5,7 @@ import com.example.epamhotelspring.dto.RoomHistoryDTO;
 import com.example.epamhotelspring.model.Room;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -42,4 +43,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select count(rr.id) > 0 from RoomRequest rr where rr.room.id = :roomId and rr.status = 'AWAITING_CONFIRMATION' " +
             "and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate) ")
     boolean isRoomAssignedToRequest(Long roomId, LocalDate checkInDate, LocalDate checkOutDate);
+
+    @Modifying
+    @Query("update RoomRequest rr set rr.room = null, rr.status = 'AWAITING' where rr.status = 'AWAITING_CONFIRMATION' and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate)")
+    void unAssignRoomOnOverlappingDates(LocalDate checkInDate, LocalDate checkOutDate);
 }

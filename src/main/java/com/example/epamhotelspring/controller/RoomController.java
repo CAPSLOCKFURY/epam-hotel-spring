@@ -45,7 +45,6 @@ public class RoomController {
             RedirectAttributes attrs, @RequestHeader("Referer") String referer, @AuthenticationPrincipal User user){
         FlashAttributePrg errorsPrg = new FlashAttributePrg(bindingResult, attrs, "bookRoomForm", bookRoomForm);
         boolean hasErrors = errorsPrg.processErrorsIfExists();
-        // TODO remove assigned room from room request on overlapping dates
         if(hasErrors){
             return "redirect:".concat(referer);
         }
