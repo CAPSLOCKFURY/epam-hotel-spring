@@ -1,18 +1,20 @@
 package com.example.epamhotelspring.controller.admin;
 
 import com.example.epamhotelspring.dto.AdminRoomRequestDTO;
+import com.example.epamhotelspring.dto.RoomDTO;
+import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.service.admin.AdminRoomRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
-@RequestMapping("/profile/manager")
+@RequestMapping("/manager")
 public class AdminRoomRequestController {
 
     private final AdminRoomRequestService roomRequestService;
@@ -20,7 +22,28 @@ public class AdminRoomRequestController {
     @GetMapping("/room-requests")
     public String getAdminRoomRequests(Model model){
         List<AdminRoomRequestDTO> roomRequests = roomRequestService.getAdminRoomRequests();
-        return null;
+        model.addAttribute("roomRequests", roomRequests);
+        return "admin-room-requests";
+    }
+
+    @GetMapping("/room-request/{id}")
+    public String adminRoomRequestDetails(@PathVariable Long id, Model model){
+        AdminRoomRequestDTO roomRequest = roomRequestService.getAdminRoomRequestById(id);
+        model.addAttribute("roomRequest", roomRequest);
+        if(roomRequest.getStatus() == RequestStatus.AWAITING) {
+            List<RoomDTO> suitableRooms = roomRequestService.getSuitableRoomsForRequest(roomRequest.getCheckInDate(), roomRequest.getCheckOutDate());
+            model.addAttribute("suitableRooms", suitableRooms);
+        }
+        return "admin-room-request";
+    }
+
+    @PostMapping("/room-request/{id}/assign-room/{roomId}")
+    public String assignRoomToRoomRequest(@PathVariable("id") Long requestId, @PathVariable("roomId") Long roomId, RedirectAttributes redirectAttributes, @RequestHeader("Referer") String referer) {
+        boolean serviceResultSuccess = roomRequestService.assignRoomToRequest(requestId, roomId, redirectAttributes);
+        if(!serviceResultSuccess){
+            return "redirect:".concat(referer);
+        }
+        return "redirect:/manager/room-requests";
     }
 
     @Autowired

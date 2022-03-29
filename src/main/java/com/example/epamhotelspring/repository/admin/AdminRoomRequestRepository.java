@@ -18,7 +18,7 @@ public interface AdminRoomRequestRepository extends JpaRepository<RoomRequest, L
             "user.firstName as userFirstName, user.lastName as userLastName, user.email as userEmail, user.username as userUsername " +
             "from RoomRequest r " +
             "left join r.roomClass rc " +
-            "left join rc.roomClassTranslations rct on rct.language = :locale " +
+            "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} " +
             "left join r.user user"
     )
     List<AdminRoomRequestDTO> findAdminRoomRequests();
@@ -42,7 +42,7 @@ public interface AdminRoomRequestRepository extends JpaRepository<RoomRequest, L
             "r.id not in " +
             "(select distinct rr.room.id from RoomRegistry rr where (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate) " +
             " and rr.archived = false" +
-            ") and r.id not in (select distinct rq.room.id from RoomRequest rq where rq.room.id is not null) "
+            ") and r.id not in (select distinct rq.room.id from RoomRequest rq where rq.room.id is not null and (:checkInDate <= rq.checkOutDate and :checkOutDate >= rq.checkInDate)) "
     )
     List<RoomDTO> findSuitableRoomsForRoomRequest(LocalDate checkInDate, LocalDate checkOutDate);
 

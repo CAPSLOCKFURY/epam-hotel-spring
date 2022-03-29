@@ -6,8 +6,13 @@
 </head>
 <body>
 <div th:include="header::nav"></div>
+<h1>Users room requests</h1>
 <div th:each="roomRequest: ${roomRequests}">
     <hr>
+    <h1 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h1>
+    <h1 th:inline="text">Last Name : [[${roomRequest.userLastName}]]</h1>
+    <h1 th:inline="text">User Email : [[${roomRequest.userEmail}]]</h1>
+    <h1 th:inline="text">Username : [[${roomRequest.userUsername}]]</h1>
     <h1 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h1>
     <h1 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h1>
     <h1 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h1>
@@ -15,7 +20,7 @@
     <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
     <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
     <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
-    <a th:href="@{/profile/room-requests/close/{id}(id=${roomRequest.id})}">Close this room request</a>
+    <h2><a th:href="@{/manager/room-request/{id}(id=${roomRequest.id})}">See request</a></h2>
     <hr>
 </div>
 </body>

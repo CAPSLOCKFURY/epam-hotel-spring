@@ -39,4 +39,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "where rr.user.id = :userId ")
     List<RoomHistoryDTO> findUserRoomHistory(Long userId);
 
+    @Query("select count(rr.id) > 0 from RoomRequest rr where rr.room.id = :roomId and rr.status = 'AWAITING_CONFIRMATION' " +
+            "and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate) ")
+    boolean isRoomAssignedToRequest(Long roomId, LocalDate checkInDate, LocalDate checkOutDate);
 }

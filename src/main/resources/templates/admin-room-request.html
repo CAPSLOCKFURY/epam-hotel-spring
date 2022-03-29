@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>User room request</h1>
+<div th:if="${errors != null}" th:each="error: ${errors}">
+    <h2 th:text="#{${error}}"></h2>
+</div>
+<hr>
+<h1 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h1>
+<h1 th:inline="text">Last Name : [[${roomRequest.userLastName}]]</h1>
+<h1 th:inline="text">User Email : [[${roomRequest.userEmail}]]</h1>
+<h1 th:inline="text">Username : [[${roomRequest.userUsername}]]</h1>
+<h1 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h1>
+<h1 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h1>
+<h1 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h1>
+<h1 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h1>
+<h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
+<h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
+<h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
+<hr>
+<h1>Suitable rooms</h1>
+<th:block th:if="${suitableRooms != null}">
+    <div th:each="room: ${suitableRooms}">
+        <hr>
+        <h1 th:inline="text">Room number : [[${room.number}]]</h1>
+        <h1 th:inline="text">Room name : [[${room.name}]]</h1>
+        <h1 th:inline="text">Room status : [[${room.roomStatus}]]</h1>
+        <h1 th:inline="text">Room capacity : [[${room.capacity}]]</h1>
+        <h1 th:inline="text">Room class : [[${room.classTranslated}]]</h1>
+        <h1 th:inline="text">Room price : [[${room.price}]]</h1>
+        <form method="post" th:action="@{/manager/room-request/{id}/assign-room/{roomId}(id=${roomRequest.id}, roomId=${room.id})}">
+            <button type="submit">Assign this room</button>
+        </form>
+        <hr>
+    </div>
+</th:block>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.config;
 
+import com.example.epamhotelspring.model.enums.Role;
 import com.example.epamhotelspring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/static/**").permitAll()
                 .antMatchers("/", "/room/*","/register").permitAll()
                 .antMatchers("/profile", "/profile/**").authenticated()
+                .antMatchers("/manager/**").hasAuthority(Role.MANAGER.getAuthority())
                 .and()
                     .formLogin()
                     .loginPage("/login")
