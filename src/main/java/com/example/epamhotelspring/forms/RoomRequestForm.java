@@ -1,6 +1,7 @@
 package com.example.epamhotelspring.forms;
 
 import com.example.epamhotelspring.model.RoomClass;
+import com.example.epamhotelspring.utils.StringUtils;
 import com.example.epamhotelspring.validation.constraints.MinDateToday;
 import com.example.epamhotelspring.validation.constraints.OneDateAfterAnother;
 import lombok.AllArgsConstructor;
@@ -34,10 +35,8 @@ public class RoomRequestForm {
 
     private String comment;
 
-    private final static String REPLACE_HTML_REGEX = "<[^>]*>";
-
     public void setComment(String comment) {
-        comment = comment.replaceAll(REPLACE_HTML_REGEX, "");
+        comment = StringUtils.removeRegexFromString(comment);
         this.comment = comment;
     }
 }

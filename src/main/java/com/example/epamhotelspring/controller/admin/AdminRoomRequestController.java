@@ -2,6 +2,7 @@ package com.example.epamhotelspring.controller.admin;
 
 import com.example.epamhotelspring.dto.AdminRoomRequestDTO;
 import com.example.epamhotelspring.dto.RoomDTO;
+import com.example.epamhotelspring.forms.CloseRequestForm;
 import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.service.admin.AdminRoomRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -34,6 +34,7 @@ public class AdminRoomRequestController {
             List<RoomDTO> suitableRooms = roomRequestService.getSuitableRoomsForRequest(roomRequest.getCheckInDate(), roomRequest.getCheckOutDate());
             model.addAttribute("suitableRooms", suitableRooms);
         }
+        model.addAttribute("closeRequestForm", new CloseRequestForm());
         return "admin-room-request";
     }
 
@@ -44,6 +45,12 @@ public class AdminRoomRequestController {
             return "redirect:".concat(referer);
         }
         return "redirect:/manager/room-requests";
+    }
+
+    @PostMapping("/room-request/close")
+    public String closeRoomRequest(@ModelAttribute("closeRequestForm")CloseRequestForm form, RedirectAttributes redirectAttributes, @RequestHeader("Referer") String referer){
+        roomRequestService.closeRoomRequest(form, redirectAttributes);
+        return "redirect:".concat(referer);
     }
 
     @Autowired

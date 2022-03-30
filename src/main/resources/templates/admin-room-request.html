@@ -21,6 +21,13 @@
 <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
 <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
 <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
+<div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING || roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">
+    <form method="post" th:action="@{/manager/room-request/close}" th:object="${closeRequestForm}">
+        <input type="hidden" th:value="${roomRequest.id}" name="requestId">
+        <input placeholder="Comment" type="text" th:field="*{comment}">
+        <button type="submit">Close request</button>
+    </form>
+</div>
 <hr>
 <h1>Suitable rooms</h1>
 <th:block th:if="${suitableRooms != null}">

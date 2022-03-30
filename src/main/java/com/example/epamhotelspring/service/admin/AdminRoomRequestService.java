@@ -2,6 +2,7 @@ package com.example.epamhotelspring.service.admin;
 
 import com.example.epamhotelspring.dto.AdminRoomRequestDTO;
 import com.example.epamhotelspring.dto.RoomDTO;
+import com.example.epamhotelspring.forms.CloseRequestForm;
 import com.example.epamhotelspring.model.Room;
 import com.example.epamhotelspring.model.RoomRequest;
 import com.example.epamhotelspring.model.enums.RequestStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -63,6 +65,19 @@ public class AdminRoomRequestService {
         roomRequest.setStatus(RequestStatus.AWAITING_CONFIRMATION);
         roomRequestRepository.save(roomRequest);
         return true;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void closeRoomRequest(CloseRequestForm form, RedirectAttributes errors){
+        RoomRequest roomRequest = roomRequestRepository.findById(form.getRequestId()).orElseThrow(EntityNotFoundException::new);
+        if(roomRequest.getStatus() != RequestStatus.AWAITING_CONFIRMATION && roomRequest.getStatus() != RequestStatus.AWAITING){
+            errors.addFlashAttribute("errors", Collections.singletonList("errors.requestStatusIsNotAwaitingOrAwaitingConf"));
+            return;
+        }
+        roomRequest.setManagerComment(form.getComment());
+        roomRequest.setStatus(RequestStatus.CLOSED);
+        roomRequest.setRoom(null);
+        roomRequestRepository.save(roomRequest);
     }
 
     @Autowired
