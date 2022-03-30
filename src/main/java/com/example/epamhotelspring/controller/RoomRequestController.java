@@ -58,9 +58,16 @@ public class RoomRequestController {
         return "room-requests";
     }
 
+    //TODO make this in post request
     @GetMapping("/profile/room-requests/close/{id}")
     public String closeRoomRequest(@PathVariable Long id, @AuthenticationPrincipal User user){
         roomRequestService.closeRoomRequest(id, user.getId());
+        return "redirect:/profile/room-requests";
+    }
+
+    @PostMapping("/profile/room-requests/confirm/{id}")
+    public String acceptAssignedRoom(@PathVariable Long id, @AuthenticationPrincipal User user){
+        roomRequestService.acceptRoomRequest(id, user);
         return "redirect:/profile/room-requests";
     }
 

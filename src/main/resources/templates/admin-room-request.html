@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+<div th:include="header::nav"></div>
 <h1>User room request</h1>
 <div th:if="${errors != null}" th:each="error: ${errors}">
     <h2 th:text="#{${error}}"></h2>
@@ -20,6 +21,7 @@
 <h1 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h1>
 <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
 <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
+<h1 th:inline="text">Comment: [[${roomRequest.comment}]]</h1>
 <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
 <div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING || roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">
     <form method="post" th:action="@{/manager/room-request/close}" th:object="${closeRequestForm}">

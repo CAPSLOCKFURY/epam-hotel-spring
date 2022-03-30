@@ -19,6 +19,7 @@
     <h1 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h1>
     <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
     <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
+    <h1 th:inline="text">Comment: [[${roomRequest.comment}]]</h1>
     <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
     <h2><a th:href="@{/manager/room-request/{id}(id=${roomRequest.id})}">See request</a></h2>
     <hr>

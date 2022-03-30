@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RoomRequestRepository extends JpaRepository<RoomRequest, Long> {
@@ -18,5 +19,8 @@ public interface RoomRequestRepository extends JpaRepository<RoomRequest, Long> 
             "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} " +
             "where r.user.id = :userId")
     List<RoomRequestDTO> findRoomRequestsByUserId(Long userId);
+
+    @Query("select rr, room, user from RoomRequest rr join rr.room room join rr.user user where rr.id = :requestId")
+    Optional<RoomRequest> findRoomRequestEagerById(Long requestId);
 
 }

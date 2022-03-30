@@ -15,6 +15,11 @@
     <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
     <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
     <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
+    <div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">
+        <form method="post" th:action="@{/profile/room-requests/confirm/{id}(id=${roomRequest.id})}">
+            <button type="submit">Accept room</button>
+        </form>
+    </div>
     <a th:href="@{/profile/room-requests/close/{id}(id=${roomRequest.id})}">Close this room request</a>
     <hr>
 </div>
