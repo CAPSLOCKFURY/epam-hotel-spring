@@ -3,6 +3,7 @@ package com.example.epamhotelspring.controller;
 import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.dto.RoomClassTranslationDTO;
 import com.example.epamhotelspring.dto.RoomRequestDTO;
+import com.example.epamhotelspring.forms.DeclineRoomForm;
 import com.example.epamhotelspring.forms.RoomRequestForm;
 import com.example.epamhotelspring.model.RoomRequest;
 import com.example.epamhotelspring.model.User;
@@ -55,6 +56,7 @@ public class RoomRequestController {
     public String getMyRoomRequests(Model model, @AuthenticationPrincipal User user){
         List<RoomRequestDTO> roomRequests = roomRequestService.getUserRoomRequests(user.getId());
         model.addAttribute("roomRequests", roomRequests);
+        model.addAttribute("declineRoomForm", new DeclineRoomForm());
         return "room-requests";
     }
 
@@ -68,6 +70,12 @@ public class RoomRequestController {
     @PostMapping("/profile/room-requests/confirm/{id}")
     public String acceptAssignedRoom(@PathVariable Long id, @AuthenticationPrincipal User user){
         roomRequestService.acceptRoomRequest(id, user);
+        return "redirect:/profile/room-requests";
+    }
+
+    @PostMapping("/profile/room-requests/decline/{id}")
+    public String declineAssignedRoom(@PathVariable Long id, @ModelAttribute("declineRoomForm") DeclineRoomForm form, @AuthenticationPrincipal User user){
+        roomRequestService.declineRoomRequest(id, form, user);
         return "redirect:/profile/room-requests";
     }
 

@@ -1,6 +1,7 @@
 package com.example.epamhotelspring.service;
 
 import com.example.epamhotelspring.dto.RoomRequestDTO;
+import com.example.epamhotelspring.forms.DeclineRoomForm;
 import com.example.epamhotelspring.model.Billing;
 import com.example.epamhotelspring.model.RoomRequest;
 import com.example.epamhotelspring.model.User;
@@ -64,6 +65,18 @@ public class RoomRequestService {
         billingRepository.save(billing);
         roomRequestRepository.save(roomRequest);
     }
+
+    public void declineRoomRequest(Long requestId, DeclineRoomForm form, User user){
+        RoomRequest roomRequest = roomRequestRepository.findById(requestId).orElseThrow(EntityNotFoundException::new);
+        if(roomRequest.getStatus() != RequestStatus.AWAITING_CONFIRMATION) {
+            return;
+        }
+        roomRequest.setStatus(RequestStatus.AWAITING);
+        roomRequest.setRoom(null);
+        roomRequest.setComment(form.getComment());
+        roomRequestRepository.save(roomRequest);
+    }
+
 
     @Autowired
     public RoomRequestService(RoomRequestRepository roomRequestRepository, BillingRepository billingRepository) {
