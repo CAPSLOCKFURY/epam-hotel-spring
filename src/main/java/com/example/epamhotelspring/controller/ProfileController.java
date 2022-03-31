@@ -44,7 +44,7 @@ public class ProfileController {
         return "add-balance";
     }
 
-    @ValidateFormWithPRG(formName = "addBalanceForm", redirectUrlOnError = "redirect:/profile/add-balance")
+    @ValidateFormWithPRG(formName = "addBalanceForm", redirectUrlOnError = "'redirect:/profile/add-balance'")
     @PostMapping("/add-balance")
     public String addBalance(@Valid @ModelAttribute("addBalanceForm") AddBalanceForm addBalanceForm, BindingResult bindingResult,
                              RedirectAttributes attrs, @AuthenticationPrincipal User user){

@@ -41,7 +41,7 @@ public class RoomRequestController {
         return "request-room";
     }
 
-    @ValidateFormWithPRG(formName = "roomRequestForm", redirectUrlOnError = "redirect:/profile/request-room")
+    @ValidateFormWithPRG(formName = "roomRequestForm", redirectUrlOnError = "'redirect:/profile/request-room'")
     @PostMapping("/profile/request-room")
     public String requestRoom(@Valid @ModelAttribute("roomRequestForm") RoomRequestForm roomRequestForm,
                               BindingResult bindingResult, RedirectAttributes attrs,

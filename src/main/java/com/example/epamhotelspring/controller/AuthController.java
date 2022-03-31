@@ -28,7 +28,7 @@ public class AuthController {
         return "register";
     }
 
-    @ValidateFormWithPRG(formName = "registrationForm", redirectUrlOnError = "redirect:/register")
+    @ValidateFormWithPRG(formName = "registrationForm", redirectUrlOnError = "'redirect:/register'")
     @PostMapping("/register")
     public String postRegister(@Valid @ModelAttribute("registrationForm") UserForm userForm,
                                BindingResult bindingResult,

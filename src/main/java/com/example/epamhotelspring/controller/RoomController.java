@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.controller;
 
+import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.forms.BookRoomForm;
 import com.example.epamhotelspring.model.User;
@@ -37,17 +38,14 @@ public class RoomController {
         return "room";
     }
 
+    @ValidateFormWithPRG(redirectUrlOnError = "'redirect:'+#referer", formName = "bookRoomForm")
     @PostMapping("/room/book-room")
     public String bookRoom(
             @Valid @ModelAttribute("bookRoomForm") BookRoomForm bookRoomForm, BindingResult bindingResult,
             RedirectAttributes attrs, @RequestHeader("Referer") String referer, @AuthenticationPrincipal User user){
-        FlashAttributePrg errorsPrg = new FlashAttributePrg(bindingResult, attrs, "bookRoomForm", bookRoomForm);
-        boolean hasErrors = errorsPrg.processErrorsIfExists();
-        if(hasErrors){
-            return "redirect:".concat(referer);
-        }
-        roomService.bookRoom(bookRoomForm, user, bindingResult);
 
+        roomService.bookRoom(bookRoomForm, user, bindingResult);
+        FlashAttributePrg errorsPrg = new FlashAttributePrg(bindingResult, attrs, "bookRoomForm", bookRoomForm);
         boolean hasErrorsAfterService = errorsPrg.processErrorsIfExists();
         if(hasErrorsAfterService){
             return "redirect:".concat(referer);
