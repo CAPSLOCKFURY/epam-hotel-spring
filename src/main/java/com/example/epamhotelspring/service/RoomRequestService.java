@@ -3,10 +3,12 @@ package com.example.epamhotelspring.service;
 import com.example.epamhotelspring.dto.RoomRequestDTO;
 import com.example.epamhotelspring.forms.DeclineRoomForm;
 import com.example.epamhotelspring.model.Billing;
+import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.RoomRequest;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.repository.BillingRepository;
+import com.example.epamhotelspring.repository.RoomRegistryRepository;
 import com.example.epamhotelspring.repository.RoomRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class RoomRequestService {
     private final RoomRequestRepository roomRequestRepository;
 
     private final BillingRepository billingRepository;
+
+    private final RoomRegistryRepository roomRegistryRepository;
 
     public RoomRequest createRoomRequest(RoomRequest roomRequest){
         return roomRequestRepository.save(roomRequest);
@@ -48,7 +52,6 @@ public class RoomRequestService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void acceptRoomRequest(Long requestId, User user){
-        //TODO add room registry on room accept
         RoomRequest roomRequest = roomRequestRepository.findRoomRequestEagerById(requestId).orElseThrow(EntityNotFoundException::new);
         if(!roomRequest.getUser().getId().equals(user.getId())){
             return;
@@ -57,14 +60,11 @@ public class RoomRequestService {
             return;
         }
         roomRequest.setStatus(RequestStatus.AWAITING_PAYMENT);
-        Billing billing = new Billing();
-        billing.setRoomRequest(roomRequest);
-        BigDecimal roomPrice = roomRequest.getRoom().getPrice();
-        long stayDaysCount = Duration.between(roomRequest.getCheckInDate().atStartOfDay(), roomRequest.getCheckOutDate().atStartOfDay()).toDays();
-        billing.setPrice(roomPrice.multiply(new BigDecimal(stayDaysCount)));
-        billing.setPayEndDate(LocalDate.now().plus(2, ChronoUnit.DAYS));
+        Billing billing = new Billing(roomRequest);
+        RoomRegistry roomRegistry = new RoomRegistry(roomRequest);
         billingRepository.save(billing);
         roomRequestRepository.save(roomRequest);
+        roomRegistryRepository.save(roomRegistry);
     }
 
     public void declineRoomRequest(Long requestId, DeclineRoomForm form, User user){
@@ -80,8 +80,9 @@ public class RoomRequestService {
 
 
     @Autowired
-    public RoomRequestService(RoomRequestRepository roomRequestRepository, BillingRepository billingRepository) {
+    public RoomRequestService(RoomRequestRepository roomRequestRepository, BillingRepository billingRepository, RoomRegistryRepository roomRegistryRepository) {
         this.roomRequestRepository = roomRequestRepository;
         this.billingRepository = billingRepository;
+        this.roomRegistryRepository = roomRegistryRepository;
     }
 }

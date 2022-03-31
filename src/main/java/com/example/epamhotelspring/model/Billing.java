@@ -8,7 +8,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -31,5 +33,13 @@ public class Billing {
 
     @Column(name = "paid")
     private Boolean paid = false;
+
+    public Billing(RoomRequest roomRequest){
+        this.roomRequest = roomRequest;
+        BigDecimal roomPrice = roomRequest.getRoom().getPrice();
+        long stayDaysCount = Duration.between(roomRequest.getCheckInDate().atStartOfDay(), roomRequest.getCheckOutDate().atStartOfDay()).toDays();
+        this.price = roomPrice.multiply(new BigDecimal(stayDaysCount));
+        this.payEndDate = LocalDate.now().plus(2, ChronoUnit.DAYS);
+    }
 
 }

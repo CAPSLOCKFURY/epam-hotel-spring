@@ -40,4 +40,11 @@ public class RoomRegistry {
         checkOutDate = form.getCheckOutDate();
         this.room = new Room().setId(form.getRoomId());
     }
+
+    public RoomRegistry(RoomRequest roomRequest){
+        checkInDate = roomRequest.getCheckInDate();
+        checkOutDate = roomRequest.getCheckOutDate();
+        user = roomRequest.getUser();
+        room = roomRequest.getRoom();
+    }
 }
