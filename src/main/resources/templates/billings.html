@@ -6,12 +6,18 @@
 </head>
 <body>
 <div th:include="header::nav"></div>
+<div th:if="${errors != null}" th:each="error: ${errors}">
+    <h2 th:text="#{${error}}"></h2>
+</div>
 <h1>My billings</h1>
     <div th:each="billing: ${billings}">
         <hr>
         <h1 th:inline="text">Price: [[${billing.price}]]</h1>
         <h1 th:inline="text">Pay End Date : [[${billing.payEndDate}]]</h1>
         <h1 th:inline="text">Is paid : [[${billing.paid}]]</h1>
+        <form method="post" th:action="@{/profile/billings/pay/{id}(id=${billing.id})}">
+            <button type="submit">Pay billing</button>
+        </form>
         <hr>
     </div>
 </body>

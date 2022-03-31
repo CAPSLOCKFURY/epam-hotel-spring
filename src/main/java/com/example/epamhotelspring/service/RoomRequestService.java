@@ -48,6 +48,7 @@ public class RoomRequestService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void acceptRoomRequest(Long requestId, User user){
+        //TODO add room registry on room accept
         RoomRequest roomRequest = roomRequestRepository.findRoomRequestEagerById(requestId).orElseThrow(EntityNotFoundException::new);
         if(!roomRequest.getUser().getId().equals(user.getId())){
             return;
