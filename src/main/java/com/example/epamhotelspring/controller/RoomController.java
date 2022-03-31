@@ -2,7 +2,6 @@ package com.example.epamhotelspring.controller;
 
 import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.forms.BookRoomForm;
-import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.RoomService;
 import com.example.epamhotelspring.validation.utils.FlashAttributePrg;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Locale;
 
 
 @Controller
@@ -48,7 +46,7 @@ public class RoomController {
         if(hasErrors){
             return "redirect:".concat(referer);
         }
-        roomService.bookRoom(new RoomRegistry(bookRoomForm), user, bindingResult);
+        roomService.bookRoom(bookRoomForm, user, bindingResult);
 
         boolean hasErrorsAfterService = errorsPrg.processErrorsIfExists();
         if(hasErrorsAfterService){

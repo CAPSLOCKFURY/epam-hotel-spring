@@ -3,6 +3,7 @@ package com.example.epamhotelspring.service;
 import com.example.epamhotelspring.dto.RoomDTO;
 import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.dto.RoomHistoryDTO;
+import com.example.epamhotelspring.forms.BookRoomForm;
 import com.example.epamhotelspring.model.Room;
 import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.User;
@@ -41,7 +42,8 @@ public class RoomService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void bookRoom(RoomRegistry roomRegistry, User user, BindingResult bindingResult){
+    public void bookRoom(BookRoomForm form, User user, BindingResult bindingResult){
+        RoomRegistry roomRegistry = new RoomRegistry(form);
         roomRegistry.setUser(user);
         Long bookingOverlaps = roomRepository.countRoomOverlaps(roomRegistry.getCheckInDate(), roomRegistry.getCheckOutDate(), roomRegistry.getRoom().getId());
         if(bookingOverlaps != 0){
