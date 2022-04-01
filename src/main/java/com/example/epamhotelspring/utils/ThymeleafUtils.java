@@ -27,4 +27,38 @@ public class ThymeleafUtils {
                 .collect(Collectors.joining("&"));
     }
 
+    /**
+     * Returns true whether field is in sort expression like 'id,asc'
+     * @param param Get parameter containing sort expression
+     * @param fieldName name of sort field
+     * @return true if field is in param
+     */
+    public boolean sortFieldSelected(String param, String fieldName){
+        if(param == null || param.isEmpty() || param.isBlank()){
+            return false;
+        }
+        String[] string = param.split(",");
+        if(string.length != 2){
+            return false;
+        }
+        return string[0].equals(fieldName);
+    }
+
+    /**
+     * Returns true whether direction is in sort expression like 'id,asc'
+     * @param param Get parameter containing sort expression
+     * @param directionName name of direction field
+     * @return true if direction name is in param
+     */
+    public boolean sortDirectionSelected(String param, String directionName){
+        if(param == null || param.isEmpty() || param.isBlank()){
+            return false;
+        }
+        String[] strings = param.split(",");
+        if(strings.length != 2){
+            return false;
+        }
+        return strings[1].equals(directionName);
+    }
+
 }

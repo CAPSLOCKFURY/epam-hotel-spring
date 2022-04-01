@@ -8,6 +8,21 @@
 <div th:include="header::nav"></div>
 <h1>Main</h1>
 <div th:replace="fragments/pagination.html :: pagination(${rooms.pageable}, ${rooms.getTotalPages()}, ${rooms.hasNext()})"></div>
+<form id="sortForm" method="get">
+    <script type="text/javascript" th:src="@{/js/sendSortForm.js}"></script>
+    <select name="sort" id="sortField">
+        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'id')}" value="id">Id</option>
+        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'price')}" value="price">Price</option>
+        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomStatus')}" value="roomStatus">Status</option>
+        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomClass')}" value="roomClass">Class</option>
+        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'capacity')}" value="capacity">Capacity</option>
+    </select>
+    <select id="sortDirection">
+        <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'asc')}" value="asc">Ascending</option>
+        <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'desc')}" value="desc">Descending</option>
+    </select>
+    <button onclick="sendSortParameters()">Sort</button>
+</form>
 <div th:each="room: ${rooms}">
     <hr>
     <h1 th:inline="text">Room number : [[${room.number}]]</h1>
