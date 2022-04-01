@@ -11,6 +11,8 @@ import com.example.epamhotelspring.repository.RoomRegistryRepository;
 import com.example.epamhotelspring.repository.RoomRepository;
 import com.example.epamhotelspring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -31,8 +33,8 @@ public class RoomService {
 
     private final UserRepository userRepository;
 
-    public List<RoomDTO> getAllRooms(){
-        return roomRepository.findAllRooms(Sort.by(Sort.Direction.ASC, "id"));
+    public Page<RoomDTO> getAllRooms(Pageable pageable){
+        return roomRepository.findAllRooms(pageable);
     }
 
     public RoomDetailDTO getRoomById(Long id){

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/*@thymesVar id="pageable" type="org.springframework.data.domain.Pageable"*/-->
+<div th:fragment="pagination(pageable, totalPages, hasNext)">
+    <div th:with="getParams=${@thymeleafUtils.buildGetParameters(param, 'page')}">
+        <a th:if="${pageable.hasPrevious()}" th:href="@{${'?page='+pageable.previousOrFirst().getPageNumber() + '&'} + ${getParams}}">Previous page</a>
+        <th:block th:if="${pageable.getPageNumber() - 3 >= 0}">
+            <a th:href="@{'?page=0&' + ${getParams}}">1</a>
+            <a>... </a>
+        </th:block>
+        <th:block th:if="${pageable.getPageNumber() - 2 <= 0}">
+            <th:block th:each="pageNumber:${#numbers.sequence(0, 5)}">
+                <th:block th:if="${pageNumber <= totalPages - 1}">
+                    <a th:if="${pageNumber == pageable.getPageNumber()}" th:text="${pageNumber + 1}"></a>
+                    <a th:if="${pageNumber != pageable.getPageNumber()}" th:text="${pageNumber + 1}" th:href="@{${'?page='+ pageNumber + '&'} + ${getParams}}"></a>
+                </th:block>
+            </th:block>
+        </th:block>
+        <th:block th:if="${pageable.getPageNumber() - 2 > 0}">
+            <th:block th:each="pageNumber:${#numbers.sequence(pageable.getPageNumber() - 2, pageable.getPageNumber() + 2)}">
+                <th:block th:if="${pageNumber <= totalPages - 1}">
+                    <a th:if="${pageNumber == pageable.getPageNumber()}" th:text="${pageNumber + 1}"></a>
+                    <a th:if="${pageNumber != pageable.getPageNumber()}" th:text="${pageNumber + 1}" th:href="@{${'?page='+ pageNumber + '&'} + ${getParams}}"></a>
+                </th:block>
+            </th:block>
+        </th:block>
+        <th:block th:if="${pageable.getPageNumber() + 2 < totalPages - 1}">
+            <a> ...</a>
+            <a th:href="@{${'?page=' + (totalPages - 1)} + '&' + ${getParams}}" th:text="${totalPages}"></a>
+        </th:block>
+        <a th:if="${hasNext}" th:href="@{${'?page='+pageable.next().getPageNumber() + '&'} + ${getParams}}">Next page</a>
+    </div>
+</div>
+</body>
+</html>

@@ -3,6 +3,8 @@ package com.example.epamhotelspring.repository;
 import com.example.epamhotelspring.dto.RoomDTO;
 import com.example.epamhotelspring.dto.RoomHistoryDTO;
 import com.example.epamhotelspring.model.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,7 +21,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "r.price as price, r.capacity as capacity, rct.name as classTranslated " +
             "from Room r left join r.roomClass rc " +
             "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} ")
-    List<RoomDTO> findAllRooms(Sort sort);
+    Page<RoomDTO> findAllRooms(Pageable pageable);
 
     @Query("select r.id as id, r.number as number, r.roomStatus as roomStatus, r.name as name, " +
             "r.price as price, r.capacity as capacity, rct.name as classTranslated " +
