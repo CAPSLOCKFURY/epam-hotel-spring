@@ -6,6 +6,10 @@ import com.example.epamhotelspring.forms.CloseRequestForm;
 import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.service.admin.AdminRoomRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +24,8 @@ public class AdminRoomRequestController {
     private final AdminRoomRequestService roomRequestService;
 
     @GetMapping("/room-requests")
-    public String getAdminRoomRequests(Model model){
-        List<AdminRoomRequestDTO> roomRequests = roomRequestService.getAdminRoomRequests();
+    public String getAdminRoomRequests(Model model,@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<AdminRoomRequestDTO> roomRequests = roomRequestService.getAdminRoomRequests(pageable);
         model.addAttribute("roomRequests", roomRequests);
         return "admin-room-requests";
     }

@@ -9,6 +9,8 @@ import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.repository.RoomRepository;
 import com.example.epamhotelspring.repository.admin.AdminRoomRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +29,8 @@ public class AdminRoomRequestService {
 
     private final RoomRepository roomRepository;
 
-    public List<AdminRoomRequestDTO> getAdminRoomRequests(){
-        return roomRequestRepository.findAdminRoomRequests();
+    public Page<AdminRoomRequestDTO> getAdminRoomRequests(Pageable pageable){
+        return roomRequestRepository.findAdminRoomRequests(pageable);
     }
 
     public AdminRoomRequestDTO getAdminRoomRequestById(Long id){

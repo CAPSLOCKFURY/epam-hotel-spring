@@ -7,6 +7,7 @@
 <body>
 <div th:include="header::nav"></div>
 <h1>Users room requests</h1>
+<div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 <div th:each="roomRequest: ${roomRequests}">
     <hr>
     <h1 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h1>
@@ -24,5 +25,6 @@
     <h2><a th:href="@{/manager/room-request/{id}(id=${roomRequest.id})}">See request</a></h2>
     <hr>
 </div>
+<div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 </body>
 </html>

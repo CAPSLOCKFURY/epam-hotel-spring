@@ -3,6 +3,8 @@ package com.example.epamhotelspring.repository.admin;
 import com.example.epamhotelspring.dto.AdminRoomRequestDTO;
 import com.example.epamhotelspring.dto.RoomDTO;
 import com.example.epamhotelspring.model.RoomRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,7 +23,7 @@ public interface AdminRoomRequestRepository extends JpaRepository<RoomRequest, L
             "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} " +
             "left join r.user user"
     )
-    List<AdminRoomRequestDTO> findAdminRoomRequests();
+    Page<AdminRoomRequestDTO> findAdminRoomRequests(Pageable pageable);
 
     @Query("select r.id as id, r.capacity as capacity, rct.name as roomClass, r.checkInDate as checkInDate, " +
             "r.checkOutDate as checkOutDate, r.comment as comment, r.status as status, r.room.id as roomId, r.managerComment as managerComment, " +
