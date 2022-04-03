@@ -7,6 +7,18 @@
 <body>
 <div th:include="header::nav"></div>
 <h1>Users room requests</h1>
+<div>
+    <form method="get">
+        <select name="roomRequestType">
+            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting')}" value="awaiting">Awaiting</option>
+            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting_confirmation')}" value="awaiting_confirmation">Awaiting confirmation</option>
+            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting_payment')}" value="awaiting_payment">Awaiting payment</option>
+            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'paid')}" value="paid">Paid</option>
+            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'closed')}" value="closed">Closed</option>
+        </select>
+        <button type="submit">Filter requests</button>
+    </form>
+</div>
 <div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 <div th:each="roomRequest: ${roomRequests}">
     <hr>

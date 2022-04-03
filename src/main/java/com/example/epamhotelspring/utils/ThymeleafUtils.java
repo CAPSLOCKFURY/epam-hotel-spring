@@ -25,6 +25,25 @@ public class ThymeleafUtils {
                 .collect(Collectors.joining("&"));
     }
 
+
+    /**
+     * @param params Map of parameters
+     * @param paramName Name of map key
+     * @param value value of map key to compare
+     * @return true if map entry with given key paramName equals to value
+     */
+    public boolean selectedIf(Map<String, List<String>> params, String paramName, String value){
+        System.out.println(params);
+        if(params == null || value.isEmpty()){
+            return false;
+        }
+        List<String> paramList = params.get(paramName);
+        if(paramList == null){
+            return false;
+        }
+        return paramList.contains(value);
+    }
+
     /**
      * Returns true whether field is in sort expression like 'id,asc'
      * @param param Get parameter containing sort expression

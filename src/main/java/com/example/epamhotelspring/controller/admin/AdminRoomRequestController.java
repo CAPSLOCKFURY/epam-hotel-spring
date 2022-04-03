@@ -24,8 +24,9 @@ public class AdminRoomRequestController {
     private final AdminRoomRequestService roomRequestService;
 
     @GetMapping("/room-requests")
-    public String getAdminRoomRequests(Model model,@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
-        Page<AdminRoomRequestDTO> roomRequests = roomRequestService.getAdminRoomRequests(pageable);
+    public String getAdminRoomRequests(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                                       @RequestParam(value = "roomRequestType", defaultValue = "awaiting") String roomRequestType){
+        Page<AdminRoomRequestDTO> roomRequests = roomRequestService.getAdminRoomRequests(roomRequestType, pageable);
         model.addAttribute("roomRequests", roomRequests);
         return "admin-room-requests";
     }

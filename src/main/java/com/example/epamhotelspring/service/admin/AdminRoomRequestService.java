@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class AdminRoomRequestService {
@@ -29,8 +30,9 @@ public class AdminRoomRequestService {
 
     private final RoomRepository roomRepository;
 
-    public Page<AdminRoomRequestDTO> getAdminRoomRequests(Pageable pageable){
-        return roomRequestRepository.findAdminRoomRequests(pageable);
+    public Page<AdminRoomRequestDTO> getAdminRoomRequests(String roomRequestType, Pageable pageable){
+        roomRequestType = roomRequestType.toUpperCase();
+        return roomRequestRepository.findAdminRoomRequests(RequestStatus.valueOfOrDefault(roomRequestType), pageable);
     }
 
     public AdminRoomRequestDTO getAdminRoomRequestById(Long id){
