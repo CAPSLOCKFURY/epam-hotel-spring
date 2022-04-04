@@ -29,7 +29,7 @@
                 </th:block>
             </th:block>
         </th:block>
-        <th:block th:if="${pageable.getPageNumber() + 2 < totalPages - 1}">
+        <th:block th:if="${(pageable.getPageNumber() + 2 < totalPages - 1) && (totalPages > 5)}">
             <a> ...</a>
             <a th:href="@{${'?page=' + (totalPages - 1)} + '&' + ${getParams}}" th:text="${totalPages}"></a>
         </th:block>

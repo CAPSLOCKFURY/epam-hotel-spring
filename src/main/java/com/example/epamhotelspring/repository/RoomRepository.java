@@ -40,7 +40,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "left join rc.roomClassTranslations rct on rct.language = ?#{T(org.springframework.context.i18n.LocaleContextHolder).getLocale().toLanguageTag()} " +
             "join r.roomRegistries rr " +
             "where rr.user.id = :userId ")
-    List<RoomHistoryDTO> findUserRoomHistory(Long userId);
+    Page<RoomHistoryDTO> findUserRoomHistory(Long userId, Pageable pageable);
 
     @Query("select count(rr.id) > 0 from RoomRequest rr where rr.room.id = :roomId and rr.status = 'AWAITING_CONFIRMATION' " +
             "and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate) ")

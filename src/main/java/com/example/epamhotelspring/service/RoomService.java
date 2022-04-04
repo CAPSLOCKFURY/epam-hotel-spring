@@ -67,8 +67,8 @@ public class RoomService {
         roomRegistryRepository.save(roomRegistry);
     }
 
-    public List<RoomHistoryDTO> getUserRoomHistory(Long userId){
-        return roomRepository.findUserRoomHistory(userId);
+    public Page<RoomHistoryDTO> getUserRoomHistory(Long userId, Pageable pageable){
+        return roomRepository.findUserRoomHistory(userId, pageable);
     }
 
     @Autowired

@@ -7,6 +7,10 @@ import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.RoomService;
 import com.example.epamhotelspring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,8 +58,8 @@ public class ProfileController {
 
 
     @GetMapping("/room-history")
-    public String getUserRoomHistory(Model model, @AuthenticationPrincipal User user){
-        List<RoomHistoryDTO> roomHistory = roomService.getUserRoomHistory(user.getId());
+    public String getUserRoomHistory(Model model, @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user){
+        Page<RoomHistoryDTO> roomHistory = roomService.getUserRoomHistory(user.getId(), pageable);
         model.addAttribute("rooms", roomHistory);
         return "room-history";
     }
