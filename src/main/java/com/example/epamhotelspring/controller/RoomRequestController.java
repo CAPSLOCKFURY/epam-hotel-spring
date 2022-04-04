@@ -10,6 +10,10 @@ import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.RoomClassTranslationService;
 import com.example.epamhotelspring.service.RoomRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,8 +57,8 @@ public class RoomRequestController {
     }
 
     @GetMapping("/profile/room-requests")
-    public String getMyRoomRequests(Model model, @AuthenticationPrincipal User user){
-        List<RoomRequestDTO> roomRequests = roomRequestService.getUserRoomRequests(user.getId());
+    public String getMyRoomRequests(Model model, @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, @AuthenticationPrincipal User user){
+        Page<RoomRequestDTO> roomRequests = roomRequestService.getUserRoomRequests(user.getId(), pageable);
         model.addAttribute("roomRequests", roomRequests);
         model.addAttribute("declineRoomForm", new DeclineRoomForm());
         return "room-requests";

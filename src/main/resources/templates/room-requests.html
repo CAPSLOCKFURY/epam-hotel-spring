@@ -6,6 +6,8 @@
 </head>
 <body>
 <div th:include="header::nav"></div>
+<h1>My room requests</h1>
+<div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 <div th:each="roomRequest: ${roomRequests}">
     <hr>
     <h1 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h1>
@@ -28,5 +30,6 @@
     <a th:href="@{/profile/room-requests/close/{id}(id=${roomRequest.id})}">Close this room request</a>
     <hr>
 </div>
+<div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 </body>
 </html>

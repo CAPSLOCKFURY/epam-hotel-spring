@@ -11,6 +11,8 @@ import com.example.epamhotelspring.repository.BillingRepository;
 import com.example.epamhotelspring.repository.RoomRegistryRepository;
 import com.example.epamhotelspring.repository.RoomRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +37,8 @@ public class RoomRequestService {
         return roomRequestRepository.save(roomRequest);
     }
 
-    public List<RoomRequestDTO> getUserRoomRequests(Long userId){
-        return roomRequestRepository.findRoomRequestsByUserId(userId);
+    public Page<RoomRequestDTO> getUserRoomRequests(Long userId, Pageable pageable){
+        return roomRequestRepository.findRoomRequestsByUserId(userId, pageable);
     }
 
     @Transactional
