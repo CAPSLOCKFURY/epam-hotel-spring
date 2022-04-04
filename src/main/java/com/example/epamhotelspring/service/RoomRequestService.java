@@ -46,6 +46,9 @@ public class RoomRequestService {
         if(!roomRequest.getUser().getId().equals(userId)){
             return;
         }
+        if(roomRequest.getStatus() != RequestStatus.AWAITING){
+            return;
+        }
         roomRequest.setStatus(RequestStatus.CLOSED);
         roomRequestRepository.save(roomRequest);
     }
