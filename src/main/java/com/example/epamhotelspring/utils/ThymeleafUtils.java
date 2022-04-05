@@ -33,7 +33,6 @@ public class ThymeleafUtils {
      * @return true if map entry with given key paramName equals to value
      */
     public boolean selectedIf(Map<String, List<String>> params, String paramName, String value){
-        System.out.println(params);
         if(params == null || value.isEmpty()){
             return false;
         }
