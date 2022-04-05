@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AdminRoomRequestRepository extends JpaRepository<RoomRequest, Long> {
@@ -36,7 +37,7 @@ public interface AdminRoomRequestRepository extends JpaRepository<RoomRequest, L
             "left join r.user user " +
             "where r.id = :requestId "
     )
-    AdminRoomRequestDTO findAdminRoomRequestById(Long requestId);
+    Optional<AdminRoomRequestDTO> findAdminRoomRequestById(Long requestId);
 
     @Query("select r.id as id, r.number as number, r.roomStatus as roomStatus, r.name as name, " +
             "r.price as price, r.capacity as capacity, rct.name as classTranslated " +

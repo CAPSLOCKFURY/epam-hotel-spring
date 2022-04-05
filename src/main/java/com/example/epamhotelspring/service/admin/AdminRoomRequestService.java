@@ -36,7 +36,7 @@ public class AdminRoomRequestService {
     }
 
     public AdminRoomRequestDTO getAdminRoomRequestById(Long id){
-        return roomRequestRepository.findAdminRoomRequestById(id);
+        return roomRequestRepository.findAdminRoomRequestById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public Page<RoomDTO> getSuitableRoomsForRequest(LocalDate checkInDate, LocalDate checkOutDate, Pageable pageable) {
