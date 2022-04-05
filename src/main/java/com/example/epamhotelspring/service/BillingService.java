@@ -8,6 +8,8 @@ import com.example.epamhotelspring.repository.BillingRepository;
 import com.example.epamhotelspring.repository.RoomRequestRepository;
 import com.example.epamhotelspring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class BillingService {
@@ -26,8 +27,8 @@ public class BillingService {
 
     private final UserRepository userRepository;
 
-    public List<Billing> getUserBillings(Long userId){
-        return billingRepository.findBillingsByRoomRequest_UserId(userId);
+    public Page<Billing> getUserBillings(Long userId, Pageable pageable){
+        return billingRepository.findBillingsByRoomRequest_UserId(userId, pageable);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
