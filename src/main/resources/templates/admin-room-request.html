@@ -33,6 +33,7 @@
 <hr>
 <h1>Suitable rooms</h1>
 <th:block th:if="${suitableRooms != null}">
+    <div th:replace="fragments/pagination.html :: pagination(${suitableRooms.pageable}, ${suitableRooms.getTotalPages()}, ${suitableRooms.hasNext()})"></div>
     <div th:each="room: ${suitableRooms}">
         <hr>
         <h1 th:inline="text">Room number : [[${room.number}]]</h1>
@@ -46,6 +47,7 @@
         </form>
         <hr>
     </div>
+    <div th:replace="fragments/pagination.html :: pagination(${suitableRooms.pageable}, ${suitableRooms.getTotalPages()}, ${suitableRooms.hasNext()})"></div>
 </th:block>
 </body>
 </html>

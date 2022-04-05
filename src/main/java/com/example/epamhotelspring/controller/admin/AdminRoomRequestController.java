@@ -32,11 +32,11 @@ public class AdminRoomRequestController {
     }
 
     @GetMapping("/room-request/{id}")
-    public String adminRoomRequestDetails(@PathVariable Long id, Model model){
+    public String adminRoomRequestDetails(@PathVariable Long id, Model model, @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable){
         AdminRoomRequestDTO roomRequest = roomRequestService.getAdminRoomRequestById(id);
         model.addAttribute("roomRequest", roomRequest);
         if(roomRequest.getStatus() == RequestStatus.AWAITING) {
-            List<RoomDTO> suitableRooms = roomRequestService.getSuitableRoomsForRequest(roomRequest.getCheckInDate(), roomRequest.getCheckOutDate());
+            Page<RoomDTO> suitableRooms = roomRequestService.getSuitableRoomsForRequest(roomRequest.getCheckInDate(), roomRequest.getCheckOutDate(), pageable);
             model.addAttribute("suitableRooms", suitableRooms);
         }
         model.addAttribute("closeRequestForm", new CloseRequestForm());

@@ -39,8 +39,8 @@ public class AdminRoomRequestService {
         return roomRequestRepository.findAdminRoomRequestById(id);
     }
 
-    public List<RoomDTO> getSuitableRoomsForRequest(LocalDate checkInDate, LocalDate checkOutDate) {
-        return roomRequestRepository.findSuitableRoomsForRoomRequest(checkInDate, checkOutDate);
+    public Page<RoomDTO> getSuitableRoomsForRequest(LocalDate checkInDate, LocalDate checkOutDate, Pageable pageable) {
+        return roomRequestRepository.findSuitableRoomsForRoomRequest(checkInDate, checkOutDate, pageable);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

@@ -48,6 +48,6 @@ public interface AdminRoomRequestRepository extends JpaRepository<RoomRequest, L
             " and rr.archived = false" +
             ") and r.id not in (select distinct rq.room.id from RoomRequest rq where rq.room.id is not null and (:checkInDate <= rq.checkOutDate and :checkOutDate >= rq.checkInDate)) "
     )
-    List<RoomDTO> findSuitableRoomsForRoomRequest(LocalDate checkInDate, LocalDate checkOutDate);
+    Page<RoomDTO> findSuitableRoomsForRoomRequest(LocalDate checkInDate, LocalDate checkOutDate, Pageable pageable);
 
 }
