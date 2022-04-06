@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -51,7 +52,7 @@ public class UserService implements UserDetailsService {
         repository.save(dbUser);
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void updateProfile(UserUpdateForm form, Long userId){
         User user = repository.findUserById(userId);
         user.setFirstName(form.getFirstName());
