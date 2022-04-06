@@ -3,6 +3,7 @@ package com.example.epamhotelspring.controller;
 import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.dto.RoomHistoryDTO;
 import com.example.epamhotelspring.forms.AddBalanceForm;
+import com.example.epamhotelspring.forms.UserUpdateForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.RoomService;
 import com.example.epamhotelspring.service.UserService;
@@ -62,6 +63,26 @@ public class ProfileController {
         Page<RoomHistoryDTO> roomHistory = roomService.getUserRoomHistory(user.getId(), pageable);
         model.addAttribute("rooms", roomHistory);
         return "room-history";
+    }
+
+    @GetMapping("/update")
+    public String showUpdateProfile(Model model, @AuthenticationPrincipal User user){
+        if(!model.containsAttribute("userUpdateForm")){
+            User dbUser = userService.getUserById(user.getId());
+            UserUpdateForm form = new UserUpdateForm();
+            form.setFirstName(dbUser.getFirstName());
+            form.setLastName(dbUser.getLastName());
+            model.addAttribute("userUpdateForm", form);
+        }
+        return "update-profile";
+    }
+
+    @ValidateFormWithPRG(formName = "userUpdateForm",redirectUrlOnError = "'redirect:/profile/update'")
+    @PostMapping("/update")
+    public String updateProfile(@Valid @ModelAttribute("userUpdateForm")UserUpdateForm form, BindingResult bindingResult, RedirectAttributes attributes,
+                                @AuthenticationPrincipal User user){
+        userService.updateProfile(form, user.getId());
+        return "redirect:/profile";
     }
 
     @Autowired

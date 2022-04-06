@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.service;
 
+import com.example.epamhotelspring.forms.UserUpdateForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,14 @@ public class UserService implements UserDetailsService {
         User dbUser = repository.findUserById(user.getId());
         dbUser.setBalance(dbUser.getBalance().add(amount));
         repository.save(dbUser);
+    }
+
+    @Transactional
+    public void updateProfile(UserUpdateForm form, Long userId){
+        User user = repository.findUserById(userId);
+        user.setFirstName(form.getFirstName());
+        user.setLastName(form.getLastName());
+        repository.save(user);
     }
 
     @Autowired

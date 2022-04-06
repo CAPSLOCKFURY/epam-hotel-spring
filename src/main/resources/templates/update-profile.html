@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:include="header::nav"></div>
+<h1>Update Profile</h1>
+<form method="post" th:object="${userUpdateForm}">
+    <p>First Name</p>
+    <input name="firstName" th:value="${userUpdateForm.getFirstName()}">
+    <a th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></a>
+    <p>Last Name</p>
+    <input name="lastName" th:value="${userUpdateForm.getLastName()}">
+    <a th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></a>
+    <button type="submit">Update Profile</button>
+</form>
+</body>
+</html>
