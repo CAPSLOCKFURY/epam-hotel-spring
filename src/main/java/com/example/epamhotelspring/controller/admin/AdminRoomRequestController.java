@@ -26,7 +26,7 @@ public class AdminRoomRequestController {
                                        @RequestParam(value = "roomRequestType", defaultValue = "awaiting") String roomRequestType){
         Page<AdminRoomRequestDTO> roomRequests = roomRequestService.getAdminRoomRequests(roomRequestType, pageable);
         model.addAttribute("roomRequests", roomRequests);
-        return "admin-room-requests";
+        return "manager/admin-room-requests";
     }
 
     @GetMapping("/room-request/{id}")
@@ -38,7 +38,7 @@ public class AdminRoomRequestController {
             model.addAttribute("suitableRooms", suitableRooms);
         }
         model.addAttribute("closeRequestForm", new CloseRequestForm());
-        return "admin-room-request";
+        return "manager/admin-room-request";
     }
 
     @PostMapping("/room-request/{id}/assign-room/{roomId}")
