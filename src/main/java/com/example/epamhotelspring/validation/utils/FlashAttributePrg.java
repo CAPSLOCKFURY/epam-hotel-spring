@@ -8,7 +8,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 public class FlashAttributePrg {
 
-    public final static String BINDING_RESULT_CLASS_PATH = "org.springframework.validation.BindingResult.";
+    public static final String BINDING_RESULT_CLASS_PATH = "org.springframework.validation.BindingResult.";
 
     private final BindingResult bindingResult;
 
