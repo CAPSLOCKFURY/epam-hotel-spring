@@ -9,8 +9,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@Transactional
 @TestPropertySource(locations = "/application-test.properties")
 public class UserServiceTest {
 
@@ -28,11 +28,14 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    private static Long setUpUserId;
+
     @BeforeAll
     public void setUp(){
         User user = new User().setUsername("username").setPassword("password").setEmail("email@gmail.com")
                 .setFirstName("test").setLastName("testov");
-        userRepository.save(user);
+        User dbUser = userRepository.save(user);
+        setUpUserId = dbUser.getId();
     }
 
     @Test
@@ -65,10 +68,9 @@ public class UserServiceTest {
 
     @Test
     void getUserByIdTest(){
-        Long id = 1L;
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(setUpUserId);
         assertNotNull(user);
-        assertEquals(id, user.getId());
+        assertEquals(setUpUserId, user.getId());
     }
 
     @Test
@@ -86,8 +88,8 @@ public class UserServiceTest {
         String updFirstName = "UpdJohn";
         String updLastName = "UpdDoe";
         UserUpdateForm form = new UserUpdateForm(updFirstName, updLastName);
-        userService.updateProfile(form, 1L);
-        User dbUser = userRepository.findUserById(1L);
+        userService.updateProfile(form, setUpUserId);
+        User dbUser = userRepository.findUserById(setUpUserId);
         assertNotNull(dbUser);
         assertEquals(dbUser.getFirstName(), updFirstName);
         assertEquals(dbUser.getLastName(), updLastName);
