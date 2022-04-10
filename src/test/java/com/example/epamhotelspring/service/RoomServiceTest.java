@@ -4,6 +4,7 @@ import com.example.epamhotelspring.dto.RoomDTO;
 import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.dto.RoomHistoryDTO;
 import com.example.epamhotelspring.forms.BookRoomForm;
+import com.example.epamhotelspring.fixtures.RoomDataGenerator;
 import com.example.epamhotelspring.mocks.BindingResultMock;
 import com.example.epamhotelspring.model.*;
 import com.example.epamhotelspring.repository.*;
@@ -21,7 +22,6 @@ import org.springframework.validation.BindingResult;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,7 +66,7 @@ public class RoomServiceTest {
         roomClassRepository.save(roomClass);
         rct.setRoomClass(roomClass);
         rctRepository.save(rct);
-        Iterable<? extends Room> rooms = generateRooms(roomClass);
+        Iterable<? extends Room> rooms = RoomDataGenerator.generateRooms(roomCount, roomClass);
         List<? extends Room> dbRooms = roomRepository.saveAll(rooms);
         RoomServiceTest.room = dbRooms.get(0);
     }
@@ -115,14 +115,5 @@ public class RoomServiceTest {
         assertEquals(2, roomRegistries.getNumberOfElements());
     }
 
-    private Iterable<? extends Room> generateRooms(RoomClass roomClass){
-        List<Room> rooms = new ArrayList<>(RoomServiceTest.roomCount);
-        for (int i = 1; i <= RoomServiceTest.roomCount; i++){
-            Room room = new Room().setNumber(i).setName(String.valueOf(i)).setCapacity(i)
-                    .setRoomClass(roomClass).setPrice(new BigDecimal(100 * i));
-            rooms.add(room);
-        }
-        return rooms;
-    }
 
 }
