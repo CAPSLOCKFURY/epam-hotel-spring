@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Accessors(chain = true)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Table(name = "room_requests")
 public class RoomRequest {

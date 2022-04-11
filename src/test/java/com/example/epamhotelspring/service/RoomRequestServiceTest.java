@@ -1,15 +1,18 @@
 package com.example.epamhotelspring.service;
 
-import com.example.epamhotelspring.fixtures.RoomDataGenerator;
+import com.example.epamhotelspring.dto.RoomRequestDTO;
+import com.example.epamhotelspring.fixtures.RoomRequestDataGenerator;
 import com.example.epamhotelspring.forms.RoomRequestForm;
 import com.example.epamhotelspring.model.*;
+import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.repository.*;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +46,9 @@ public class RoomRequestServiceTest {
     @Autowired
     private RoomRequestRepository roomRequestRepository;
 
+    @Autowired
+    private BillingRepository billingRepository;
+
     private static User user;
 
     private static Room room;
@@ -71,6 +77,55 @@ public class RoomRequestServiceTest {
         roomRequest.setUser(user);
         roomRequestService.createRoomRequest(roomRequest);
         assertEquals(1, roomRequestRepository.count());
+    }
+
+    @Test
+    void getUserRoomRequestsTest(){
+        int requestsCount = 5;
+        Iterable<? extends RoomRequest> roomRequests = RoomRequestDataGenerator.generateRoomRequests(user, roomClass, requestsCount);
+        roomRequestRepository.saveAll(roomRequests);
+        Pageable pageable = Pageable.ofSize(10);
+        Page<RoomRequestDTO> userRoomRequests = roomRequestService.getUserRoomRequests(user.getId(), pageable);
+        assertEquals(requestsCount, userRoomRequests.getNumberOfElements());
+    }
+
+    @Test
+    void closeRoomRequestTest(){
+        LocalDate today = LocalDate.now();
+        LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
+        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
+                .setCheckInDate(today).setCheckOutDate(todayPlus7);
+        roomRequest = roomRequestRepository.save(roomRequest);
+        roomRequestService.closeRoomRequest(roomRequest.getId(), user.getId());
+        roomRequest = roomRequestRepository.getById(roomRequest.getId());
+        assertEquals(RequestStatus.CLOSED, roomRequest.getStatus());
+    }
+
+    @Test
+    void acceptRoomRequestTest(){
+        LocalDate today = LocalDate.now();
+        LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
+        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
+                .setCheckInDate(today).setCheckOutDate(todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING_CONFIRMATION);
+        roomRequest = roomRequestRepository.save(roomRequest);
+        roomRequestService.acceptRoomRequest(roomRequest.getId(), user);
+        Pageable pageable = Pageable.ofSize(10);
+        roomRequest = roomRequestRepository.getById(roomRequest.getId());
+        assertEquals(RequestStatus.AWAITING_PAYMENT, roomRequest.getStatus());
+        Page<Billing> assignedBillings = billingRepository.findBillingsByRoomRequest_UserId(user.getId(), pageable);
+        assertEquals(1, assignedBillings.getNumberOfElements());
+    }
+
+    @Test
+    void declineRoomRequestTest(){
+        LocalDate today = LocalDate.now();
+        LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
+        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
+                .setCheckInDate(today).setCheckOutDate(todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING);
+        roomRequest = roomRequestRepository.save(roomRequest);
+        roomRequestService.closeRoomRequest(roomRequest.getId(), user.getId());
+        roomRequest = roomRequestRepository.getById(roomRequest.getId());
+        assertEquals(RequestStatus.CLOSED, roomRequest.getStatus());
     }
 
 }
