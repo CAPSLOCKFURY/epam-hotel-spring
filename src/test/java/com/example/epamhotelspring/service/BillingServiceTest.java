@@ -1,0 +1,78 @@
+package com.example.epamhotelspring.service;
+
+import com.example.epamhotelspring.mocks.RedirectAttributesMock;
+import com.example.epamhotelspring.model.*;
+import com.example.epamhotelspring.model.enums.RequestStatus;
+import com.example.epamhotelspring.repository.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
+@TestPropertySource(locations = "/application-test.properties")
+public class BillingServiceTest {
+
+    @Autowired
+    private BillingRepository billingRepository;
+
+    @Autowired
+    private BillingService billingService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private RoomRequestRepository roomRequestRepository;
+
+    @Autowired
+    private RoomClassRepository roomClassRepository;
+
+    private static User user;
+
+    @BeforeAll
+    public void setUp(){
+        User user = new User().setUsername("billingTester").setPassword("password").setEmail("billingTester@gmail.com")
+                .setFirstName("Billing").setLastName("Billingov").setBalance(new BigDecimal(100000));
+        BillingServiceTest.user = userRepository.save(user);
+    }
+
+    @Test
+    void payBillingTest(){
+        RoomClass roomClass = new RoomClass();
+        roomClassRepository.save(roomClass);
+        Room room = new Room().setNumber(998).setName(String.valueOf(998)).setCapacity(998)
+                .setRoomClass(roomClass).setPrice(new BigDecimal(100));
+        roomRepository.save(room);
+        LocalDate today = LocalDate.now();
+        LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
+        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
+                .setCheckInDate(today).setCheckOutDate(todayPlus7).setStatus(RequestStatus.AWAITING_PAYMENT).setRoom(room);
+        roomRequestRepository.save(roomRequest);
+        Billing billing = new Billing(roomRequest);
+        billing = billingRepository.save(billing);
+
+        RedirectAttributes redirectAttributes = RedirectAttributesMock.redirectAttributesMock();
+
+        billingService.payBilling(billing.getId(), user, redirectAttributes);
+
+        billing = billingRepository.getById(billing.getId());
+        assertTrue(billing.getPaid());
+    }
+
+}
