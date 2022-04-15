@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class AdminRoomRequestService {
@@ -43,6 +42,7 @@ public class AdminRoomRequestService {
         return roomRequestRepository.findSuitableRoomsForRoomRequest(checkInDate, checkOutDate, pageable);
     }
 
+    //TODO add one class for handling errors in service
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean assignRoomToRequest(Long requestId, Long roomId, RedirectAttributes errors){
         RoomRequest roomRequest = roomRequestRepository.findById(requestId).orElseThrow(EntityNotFoundException::new);
