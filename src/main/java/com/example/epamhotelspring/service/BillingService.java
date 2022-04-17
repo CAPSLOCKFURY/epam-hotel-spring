@@ -7,16 +7,15 @@ import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.repository.BillingRepository;
 import com.example.epamhotelspring.repository.RoomRequestRepository;
 import com.example.epamhotelspring.repository.UserRepository;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 
 @Service
 public class BillingService {
@@ -32,7 +31,7 @@ public class BillingService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void payBilling(Long billingId, User user, RedirectAttributes errors){
+    public void payBilling(Long billingId, User user, ServiceErrors errors){
         Billing billing = billingRepository.findBillingEager(billingId);
         RoomRequest roomRequest = billing.getRoomRequest();
         User dbUser = roomRequest.getUser();
@@ -44,7 +43,7 @@ public class BillingService {
         }
         BigDecimal userBalance = dbUser.getBalance();
         if(userBalance.compareTo(billing.getPrice()) < 0){
-            errors.addFlashAttribute("errors", Collections.singletonList("errors.notEnoughMoney"));
+            errors.reject("errors.notEnoughMoney");
             return;
         }
         dbUser.setBalance(dbUser.getBalance().subtract(billing.getPrice()));

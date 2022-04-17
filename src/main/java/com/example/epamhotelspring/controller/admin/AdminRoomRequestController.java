@@ -5,6 +5,7 @@ import com.example.epamhotelspring.dto.RoomDTO;
 import com.example.epamhotelspring.forms.CloseRequestForm;
 import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.service.admin.AdminRoomRequestService;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +44,9 @@ public class AdminRoomRequestController {
 
     @PostMapping("/room-request/{id}/assign-room/{roomId}")
     public String assignRoomToRoomRequest(@PathVariable("id") Long requestId, @PathVariable("roomId") Long roomId, RedirectAttributes redirectAttributes, @RequestHeader("Referer") String referer) {
-        boolean serviceResultSuccess = roomRequestService.assignRoomToRequest(requestId, roomId, redirectAttributes);
+        ServiceErrors serviceErrors = new ServiceErrors();
+        boolean serviceResultSuccess = roomRequestService.assignRoomToRequest(requestId, roomId, serviceErrors);
+        serviceErrors.toRedirectAttributes(redirectAttributes);
         if(!serviceResultSuccess){
             return "redirect:".concat(referer);
         }
@@ -52,7 +55,9 @@ public class AdminRoomRequestController {
 
     @PostMapping("/room-request/close")
     public String closeRoomRequest(@ModelAttribute("closeRequestForm")CloseRequestForm form, RedirectAttributes redirectAttributes, @RequestHeader("Referer") String referer){
-        roomRequestService.closeRoomRequest(form, redirectAttributes);
+        ServiceErrors serviceErrors = new ServiceErrors();
+        roomRequestService.closeRoomRequest(form, serviceErrors);
+        serviceErrors.toRedirectAttributes(redirectAttributes);
         return "redirect:".concat(referer);
     }
 

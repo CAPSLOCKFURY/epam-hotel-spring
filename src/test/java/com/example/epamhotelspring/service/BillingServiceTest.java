@@ -1,9 +1,9 @@
 package com.example.epamhotelspring.service;
 
-import com.example.epamhotelspring.mocks.RedirectAttributesMock;
 import com.example.epamhotelspring.model.*;
 import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.repository.*;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -67,9 +66,12 @@ public class BillingServiceTest {
         Billing billing = new Billing(roomRequest);
         billing = billingRepository.save(billing);
 
-        RedirectAttributes redirectAttributes = RedirectAttributesMock.redirectAttributesMock();
 
-        billingService.payBilling(billing.getId(), user, redirectAttributes);
+        ServiceErrors serviceErrors = new ServiceErrors();
+
+        billingService.payBilling(billing.getId(), user, serviceErrors);
+
+        assertTrue(serviceErrors.getErrors().isEmpty());
 
         billing = billingRepository.getById(billing.getId());
         assertTrue(billing.getPaid());

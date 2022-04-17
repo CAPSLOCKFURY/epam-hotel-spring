@@ -3,6 +3,7 @@ package com.example.epamhotelspring.controller;
 import com.example.epamhotelspring.model.Billing;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.BillingService;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,9 @@ public class BillingController {
 
     @PostMapping("/pay/{id}")
     public String payBilling(@PathVariable Long id, @AuthenticationPrincipal User user, RedirectAttributes redirectAttributes) {
-        billingService.payBilling(id, user, redirectAttributes);
+        ServiceErrors serviceErrors = new ServiceErrors();
+        billingService.payBilling(id, user, serviceErrors);
+        serviceErrors.toRedirectAttributes(redirectAttributes);
         return "redirect:/profile/billings";
     }
 

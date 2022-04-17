@@ -3,11 +3,11 @@ package com.example.epamhotelspring.service;
 import com.example.epamhotelspring.dto.RoomDTO;
 import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.dto.RoomHistoryDTO;
-import com.example.epamhotelspring.forms.BookRoomForm;
 import com.example.epamhotelspring.fixtures.RoomDataGenerator;
-import com.example.epamhotelspring.mocks.BindingResultMock;
+import com.example.epamhotelspring.forms.BookRoomForm;
 import com.example.epamhotelspring.model.*;
 import com.example.epamhotelspring.repository.*;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -89,11 +88,10 @@ public class RoomServiceTest {
     @Test
     void bookRoomTest(){
         Long roomId = RoomServiceTest.room.getId();
-        BindingResult bindingResult = BindingResultMock.mockBindingResult();
         BookRoomForm form = new BookRoomForm(roomId, LocalDate.now().atStartOfDay().toLocalDate(), LocalDate.now().atStartOfDay().plus(7, ChronoUnit.DAYS).toLocalDate());
-        roomService.bookRoom(form, user, bindingResult);
-        assertFalse(bindingResult.hasErrors());
-        assertFalse(bindingResult.hasGlobalErrors());
+        ServiceErrors serviceErrors = new ServiceErrors();
+        roomService.bookRoom(form, user, serviceErrors);
+        assertTrue(serviceErrors.getErrors().isEmpty());
         assertEquals(1, roomRegistryRepository.count());
     }
 
