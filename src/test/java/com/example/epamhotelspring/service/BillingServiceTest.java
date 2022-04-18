@@ -46,8 +46,8 @@ public class BillingServiceTest {
 
     @BeforeAll
     public void setUp(){
-        User user = new User().setUsername("billingTester").setPassword("password").setEmail("billingTester@gmail.com")
-                .setFirstName("Billing").setLastName("Billingov").setBalance(new BigDecimal(100000));
+        User user = new User("billingTester", "password", "billingTester@gmail.com", "Billing", "Billingov");
+        user.setBalance(new BigDecimal(100000));
         BillingServiceTest.user = userRepository.save(user);
     }
 

@@ -57,8 +57,7 @@ public class RoomServiceTest {
 
     @BeforeAll
     public void setUp(){
-        User user = new User().setUsername("roomsTester").setPassword("password").setEmail("roomTester@gmail.com")
-                .setFirstName("Room").setLastName("Roomich").setBalance(new BigDecimal(roomCount * 1000));
+        User user = new User("roomsTester", "password", "roomTester@gmail.com", "Room", "Roomich").setBalance(new BigDecimal(roomCount * 1000));
         RoomServiceTest.user = userRepository.save(user);
         RoomClass roomClass = new RoomClass();
         RoomClassTranslation rct = new RoomClassTranslation().setLanguage("en").setName("cheap");

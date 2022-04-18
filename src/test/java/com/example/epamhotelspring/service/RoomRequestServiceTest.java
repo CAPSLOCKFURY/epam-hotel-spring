@@ -57,11 +57,10 @@ public class RoomRequestServiceTest {
 
     @BeforeAll
     public void setUp(){
-        User user = new User().setUsername("roomsTester").setPassword("password").setEmail("roomTester@gmail.com")
-                .setFirstName("Room").setLastName("Roomich").setBalance(new BigDecimal(100));
+        User user = new User("roomsTester", "password", "roomTester@gmail.com", "Room", "Roomich").setBalance(new BigDecimal(100));
         RoomRequestServiceTest.user = userRepository.save(user);
         RoomClass roomClass = new RoomClass();
-        RoomClassTranslation rct = new RoomClassTranslation().setLanguage("en").setName("someClassName").setRoomClass(roomClass);
+        RoomClassTranslation rct = new RoomClassTranslation(roomClass, "en", "someClassName");
         RoomRequestServiceTest.roomClass = roomClassRepository.save(roomClass);
         rctRepository.save(rct);
         Room room = new Room().setNumber(100).setName(String.valueOf(100)).setCapacity(100)

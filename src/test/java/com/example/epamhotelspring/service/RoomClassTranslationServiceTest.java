@@ -36,11 +36,11 @@ public class RoomClassTranslationServiceTest {
     void getRoomClassesByLanguageTest(){
         RoomClass roomClass = new RoomClass();
         roomClass = roomClassRepository.save(roomClass);
-        RoomClassTranslation ruRoomClassTranslation = new RoomClassTranslation().setRoomClass(roomClass).setLanguage("ru").setName("ruName");
+        RoomClassTranslation ruRoomClassTranslation = new RoomClassTranslation(roomClass, "ru", "ruName");
         roomClassTranslationRepository.save(ruRoomClassTranslation);
-        RoomClassTranslation enRoomClassTranslation = new RoomClassTranslation().setRoomClass(roomClass).setLanguage("en").setName("enName");
+        RoomClassTranslation enRoomClassTranslation = new RoomClassTranslation(roomClass, "en", "enName");
         roomClassTranslationRepository.save(enRoomClassTranslation);
-        List<RoomClassTranslationDTO> roomClassTranslations = roomClassTranslationRepository.findRoomClassTranslationsByLanguage("en");
+        List<RoomClassTranslationDTO> roomClassTranslations = roomClassTranslationService.getRoomClassesByLanguage("en");
         List<String> roomClassTranslationNames = roomClassTranslations.stream().map(RoomClassTranslationDTO::getName).collect(Collectors.toList());
         assertTrue(roomClassTranslationNames.contains("enName") && !roomClassTranslationNames.contains("ruName"));
     }
