@@ -92,8 +92,7 @@ public class RoomRequestServiceTest {
     void closeRoomRequestTest(){
         LocalDate today = LocalDate.now();
         LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
-        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
-                .setCheckInDate(today).setCheckOutDate(todayPlus7);
+        RoomRequest roomRequest = new RoomRequest(user, roomClass, 2, today, todayPlus7);
         roomRequest = roomRequestRepository.save(roomRequest);
         roomRequestService.closeRoomRequest(roomRequest.getId(), user.getId());
         roomRequest = roomRequestRepository.getById(roomRequest.getId());
@@ -104,8 +103,7 @@ public class RoomRequestServiceTest {
     void acceptRoomRequestTest(){
         LocalDate today = LocalDate.now();
         LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
-        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
-                .setCheckInDate(today).setCheckOutDate(todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING_CONFIRMATION);
+        RoomRequest roomRequest = new RoomRequest(user, roomClass, 2, today, todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING_CONFIRMATION);
         roomRequest = roomRequestRepository.save(roomRequest);
         roomRequestService.acceptRoomRequest(roomRequest.getId(), user);
         Pageable pageable = Pageable.ofSize(10);
@@ -119,8 +117,7 @@ public class RoomRequestServiceTest {
     void declineRoomRequestTest(){
         LocalDate today = LocalDate.now();
         LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
-        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
-                .setCheckInDate(today).setCheckOutDate(todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING);
+        RoomRequest roomRequest = new RoomRequest(user, roomClass, 2, today, todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING);
         roomRequest = roomRequestRepository.save(roomRequest);
         roomRequestService.closeRoomRequest(roomRequest.getId(), user.getId());
         roomRequest = roomRequestRepository.getById(roomRequest.getId());

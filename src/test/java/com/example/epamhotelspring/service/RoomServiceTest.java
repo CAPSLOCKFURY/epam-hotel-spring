@@ -60,8 +60,8 @@ public class RoomServiceTest {
         User user = new User("roomsTester", "password", "roomTester@gmail.com", "Room", "Roomich").setBalance(new BigDecimal(roomCount * 1000));
         RoomServiceTest.user = userRepository.save(user);
         RoomClass roomClass = new RoomClass();
-        RoomClassTranslation rct = new RoomClassTranslation().setLanguage("en").setName("cheap");
         roomClassRepository.save(roomClass);
+        RoomClassTranslation rct = new RoomClassTranslation(roomClass, "en", "cheap");
         rct.setRoomClass(roomClass);
         rctRepository.save(rct);
         Iterable<? extends Room> rooms = RoomDataGenerator.generateRooms(roomCount, roomClass);
@@ -97,15 +97,11 @@ public class RoomServiceTest {
     @Test
     void getUserRoomHistoryTest(){
         LocalDate today = LocalDate.now();
-        RoomRegistry roomRegistry = new RoomRegistry().setRoom(room).setCheckInDate(today)
-                .setCheckOutDate(today.plus(7, ChronoUnit.DAYS))
-                .setUser(user);
+        RoomRegistry roomRegistry = new RoomRegistry(room, today, today.plus(7, ChronoUnit.DAYS), user);
         roomRegistryRepository.save(roomRegistry);
-        RoomRegistry secondRoomRegistry = new RoomRegistry().setRoom(room).setCheckInDate(today.minus(14, ChronoUnit.DAYS))
-                .setCheckOutDate(today.minus(7, ChronoUnit.DAYS))
-                .setUser(user).setArchived(true);
+        RoomRegistry secondRoomRegistry = new RoomRegistry(room, today.minus(14, ChronoUnit.DAYS), today.minus(7, ChronoUnit.DAYS), user)
+                .setArchived(true);
         roomRegistryRepository.save(secondRoomRegistry);
-
         Pageable pageable = Pageable.ofSize(10);
         Page<RoomHistoryDTO> roomRegistries = roomService.getUserRoomHistory(user.getId(), pageable);
         assertNotNull(roomRegistries);

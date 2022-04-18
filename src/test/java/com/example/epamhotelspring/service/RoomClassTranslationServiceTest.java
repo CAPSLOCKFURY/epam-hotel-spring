@@ -41,6 +41,7 @@ public class RoomClassTranslationServiceTest {
         RoomClassTranslation enRoomClassTranslation = new RoomClassTranslation(roomClass, "en", "enName");
         roomClassTranslationRepository.save(enRoomClassTranslation);
         List<RoomClassTranslationDTO> roomClassTranslations = roomClassTranslationService.getRoomClassesByLanguage("en");
+
         List<String> roomClassTranslationNames = roomClassTranslations.stream().map(RoomClassTranslationDTO::getName).collect(Collectors.toList());
         assertTrue(roomClassTranslationNames.contains("enName") && !roomClassTranslationNames.contains("ruName"));
     }
