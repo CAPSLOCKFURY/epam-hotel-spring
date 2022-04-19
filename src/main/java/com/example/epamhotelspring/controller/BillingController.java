@@ -34,7 +34,7 @@ public class BillingController {
     @PostMapping("/pay/{id}")
     public String payBilling(@PathVariable Long id, @AuthenticationPrincipal User user, RedirectAttributes redirectAttributes) {
         ServiceErrors serviceErrors = new ServiceErrors();
-        billingService.payBilling(id, user, serviceErrors);
+        billingService.payBilling(id, user.getId(), serviceErrors);
         serviceErrors.toRedirectAttributes(redirectAttributes);
         return "redirect:/profile/billings";
     }

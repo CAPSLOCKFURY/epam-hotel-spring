@@ -31,14 +31,14 @@ public class BillingService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void payBilling(Long billingId, User user, ServiceErrors errors){
+    public void payBilling(Long billingId, Long userId, ServiceErrors errors){
         Billing billing = billingRepository.findBillingEager(billingId);
         RoomRequest roomRequest = billing.getRoomRequest();
         User dbUser = roomRequest.getUser();
         if(billing.getPaid()){
             return;
         }
-        if(!dbUser.getId().equals(user.getId())){
+        if(!dbUser.getId().equals(userId)){
             return;
         }
         BigDecimal userBalance = dbUser.getBalance();

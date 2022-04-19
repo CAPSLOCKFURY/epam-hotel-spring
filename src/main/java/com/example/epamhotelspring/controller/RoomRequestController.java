@@ -73,13 +73,13 @@ public class RoomRequestController {
 
     @PostMapping("/profile/room-requests/confirm/{id}")
     public String acceptAssignedRoom(@PathVariable Long id, @AuthenticationPrincipal User user){
-        roomRequestService.acceptRoomRequest(id, user);
+        roomRequestService.acceptRoomRequest(id, user.getId());
         return "redirect:/profile/room-requests";
     }
 
     @PostMapping("/profile/room-requests/decline/{id}")
     public String declineAssignedRoom(@PathVariable Long id, @ModelAttribute("declineRoomForm") DeclineRoomForm form, @AuthenticationPrincipal User user){
-        roomRequestService.declineRoomRequest(id, form, user);
+        roomRequestService.declineRoomRequest(id, user.getId(), form);
         return "redirect:/profile/room-requests";
     }
 

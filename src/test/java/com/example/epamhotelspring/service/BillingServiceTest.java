@@ -67,7 +67,7 @@ public class BillingServiceTest {
 
         ServiceErrors serviceErrors = new ServiceErrors();
 
-        billingService.payBilling(billing.getId(), user, serviceErrors);
+        billingService.payBilling(billing.getId(), user.getId(), serviceErrors);
 
         assertTrue(serviceErrors.getErrors().isEmpty());
 

@@ -104,7 +104,7 @@ public class RoomRequestServiceTest {
         LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
         RoomRequest roomRequest = new RoomRequest(user, roomClass, 2, today, todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING_CONFIRMATION);
         roomRequest = roomRequestRepository.save(roomRequest);
-        roomRequestService.acceptRoomRequest(roomRequest.getId(), user);
+        roomRequestService.acceptRoomRequest(roomRequest.getId(), user.getId());
         Pageable pageable = Pageable.ofSize(10);
         roomRequest = roomRequestRepository.getById(roomRequest.getId());
         assertEquals(RequestStatus.AWAITING_PAYMENT, roomRequest.getStatus());

@@ -5,7 +5,6 @@ import com.example.epamhotelspring.forms.DeclineRoomForm;
 import com.example.epamhotelspring.model.Billing;
 import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.RoomRequest;
-import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.repository.BillingRepository;
 import com.example.epamhotelspring.repository.RoomRegistryRepository;
@@ -51,9 +50,9 @@ public class RoomRequestService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void acceptRoomRequest(Long requestId, User user){
+    public void acceptRoomRequest(Long requestId, Long userId){
         RoomRequest roomRequest = roomRequestRepository.findRoomRequestEagerById(requestId).orElseThrow(EntityNotFoundException::new);
-        if(!roomRequest.getUser().getId().equals(user.getId())){
+        if(!roomRequest.getUser().getId().equals(userId)){
             return;
         }
         if(roomRequest.getRoom() == null){
@@ -67,9 +66,12 @@ public class RoomRequestService {
         roomRegistryRepository.save(roomRegistry);
     }
 
-    public void declineRoomRequest(Long requestId, DeclineRoomForm form, User user){
-        RoomRequest roomRequest = roomRequestRepository.findById(requestId).orElseThrow(EntityNotFoundException::new);
+    public void declineRoomRequest(Long requestId, Long userId, DeclineRoomForm form){
+        RoomRequest roomRequest = roomRequestRepository.findRoomRequestEagerById(requestId).orElseThrow(EntityNotFoundException::new);
         if(roomRequest.getStatus() != RequestStatus.AWAITING_CONFIRMATION) {
+            return;
+        }
+        if(!roomRequest.getUser().getId().equals(userId)){
             return;
         }
         roomRequest.setStatus(RequestStatus.AWAITING);
