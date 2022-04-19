@@ -12,8 +12,7 @@ public class RoomDataGenerator {
     public static Iterable<? extends Room> generateRooms(int roomCount, RoomClass roomClass){
         List<Room> rooms = new ArrayList<>(roomCount);
         for (int i = 1; i <= roomCount; i++){
-            Room room = new Room().setNumber(i).setName(String.valueOf(i)).setCapacity(i)
-                    .setRoomClass(roomClass).setPrice(new BigDecimal(100 * i));
+            Room room = new Room(i, String.valueOf(i), i, new BigDecimal(100 * i), roomClass);
             rooms.add(room);
         }
         return rooms;

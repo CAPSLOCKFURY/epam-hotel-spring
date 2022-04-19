@@ -46,4 +46,11 @@ public class Room {
     @Transient
     private String classTranslated;
 
+    public Room(Integer number, String name, Integer capacity, BigDecimal price, RoomClass roomClass) {
+        this.number = number;
+        this.name = name;
+        this.price = price;
+        this.capacity = capacity;
+        this.roomClass = roomClass;
+    }
 }

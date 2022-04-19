@@ -55,13 +55,11 @@ public class BillingServiceTest {
     void payBillingTest(){
         RoomClass roomClass = new RoomClass();
         roomClassRepository.save(roomClass);
-        Room room = new Room().setNumber(998).setName(String.valueOf(998)).setCapacity(998)
-                .setRoomClass(roomClass).setPrice(new BigDecimal(100));
+        Room room = new Room(998, String.valueOf(998), 998, new BigDecimal(100),  roomClass);
         roomRepository.save(room);
         LocalDate today = LocalDate.now();
         LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
-        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
-                .setCheckInDate(today).setCheckOutDate(todayPlus7).setStatus(RequestStatus.AWAITING_PAYMENT).setRoom(room);
+        RoomRequest roomRequest = new RoomRequest(user, roomClass, 2, today, todayPlus7).setStatus(RequestStatus.AWAITING_PAYMENT).setRoom(room);
         roomRequestRepository.save(roomRequest);
         Billing billing = new Billing(roomRequest);
         billing = billingRepository.save(billing);

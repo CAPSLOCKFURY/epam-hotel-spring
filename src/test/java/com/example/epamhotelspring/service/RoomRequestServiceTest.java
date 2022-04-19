@@ -63,8 +63,7 @@ public class RoomRequestServiceTest {
         RoomClassTranslation rct = new RoomClassTranslation(roomClass, "en", "someClassName");
         RoomRequestServiceTest.roomClass = roomClassRepository.save(roomClass);
         rctRepository.save(rct);
-        Room room = new Room().setNumber(100).setName(String.valueOf(100)).setCapacity(100)
-                .setRoomClass(roomClass).setPrice(new BigDecimal(100 * 2));
+        Room room = new Room(100, String.valueOf(100), 100, new BigDecimal(100 * 2), roomClass);
         RoomRequestServiceTest.room = roomRepository.save(room);
     }
 
