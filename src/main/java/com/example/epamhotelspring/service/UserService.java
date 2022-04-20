@@ -1,8 +1,10 @@
 package com.example.epamhotelspring.service;
 
+import com.example.epamhotelspring.forms.ChangePasswordForm;
 import com.example.epamhotelspring.forms.UserUpdateForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.repository.UserRepository;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,6 +59,21 @@ public class UserService implements UserDetailsService {
         User user = repository.findUserById(userId);
         user.setFirstName(form.getFirstName());
         user.setLastName(form.getLastName());
+        repository.save(user);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void changePassword(ChangePasswordForm form, Long userId, ServiceErrors serviceErrors){
+        User user = repository.findUserById(userId);
+        if(!passwordEncoder.matches(form.getOldPassword(), user.getPassword())) {
+            serviceErrors.reject("errors.oldPasswordIsIncorrect");
+            return;
+        }
+        if(form.getOldPassword().equals(form.getNewPassword())){
+            serviceErrors.reject("errors.newPasswordIsOld");
+            return;
+        }
+        user.setPassword(passwordEncoder.encode(form.getNewPassword()));
         repository.save(user);
     }
 

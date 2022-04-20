@@ -9,6 +9,7 @@
 <h1 th:text="#{title.login}">Login</h1>
 <form name="f" th:action="@{/perform-login}" method="post">
     <a th:if="${param.error}" th:text="#{errors.badCredentials}">Bad Credentials</a>
+    <a th:if="${param.passchanged}" th:text="'Password changed login again'"></a>
     <p th:text="#{user.username}">Username</p><input type="text" id="user" name="user"/>
     <p th:text="#{user.password}">Password</p><input type="password" id="pass" name="pass"/>
     <button th:text="#{button.login}" type="submit">Login</button>

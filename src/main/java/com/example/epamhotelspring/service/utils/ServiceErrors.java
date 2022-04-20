@@ -18,6 +18,10 @@ public class ServiceErrors {
         return errors;
     }
 
+    public boolean hasErrors(){
+        return !errors.isEmpty();
+    }
+
     public BindingResult toBindingResult(BindingResult bindingResult){
         for(String error : errors){
             bindingResult.reject(error);

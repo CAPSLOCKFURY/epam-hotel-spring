@@ -1,10 +1,14 @@
 package com.example.epamhotelspring.controller;
 
 import com.example.epamhotelspring.aop.ValidateFormWithPRG;
+import com.example.epamhotelspring.forms.ChangePasswordForm;
 import com.example.epamhotelspring.forms.UserForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.UserService;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +44,28 @@ public class AuthController {
     @GetMapping("/login")
     public String showLogin(){
         return "login";
+    }
+
+    @GetMapping("/profile/change-password")
+    public String showChangePassword(Model model){
+        if(!model.containsAttribute("changePasswordForm")) {
+            model.addAttribute("changePasswordForm", new ChangePasswordForm());
+        }
+        return "change-password";
+    }
+
+    @ValidateFormWithPRG(formName = "changePasswordForm", redirectUrlOnError = "'redirect:/profile/change-password'")
+    @PostMapping("/profile/change-password")
+    public String changePassword(@Valid @ModelAttribute("changePasswordForm")ChangePasswordForm changePasswordForm, BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes, @AuthenticationPrincipal User user){
+        ServiceErrors serviceErrors = new ServiceErrors();
+        userService.changePassword(changePasswordForm, user.getId(), serviceErrors);
+        if(serviceErrors.hasErrors()){
+            serviceErrors.toRedirectAttributes(redirectAttributes);
+            return "redirect:/profile/change-password";
+        }
+        SecurityContextHolder.clearContext();
+        return "redirect:/login?passchanged";
     }
 
     @Autowired
