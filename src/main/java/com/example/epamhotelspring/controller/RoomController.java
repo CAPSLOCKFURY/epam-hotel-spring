@@ -5,6 +5,7 @@ import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.forms.BookRoomForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.RoomService;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import com.example.epamhotelspring.validation.utils.FlashAttributePrg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -47,8 +48,9 @@ public class RoomController {
             @Valid @ModelAttribute("bookRoomForm") BookRoomForm bookRoomForm, BindingResult bindingResult,
             RedirectAttributes attrs, @RequestHeader("Referer") String referer, @AuthenticationPrincipal User user){
 
-        roomService.bookRoom(bookRoomForm, user, bindingResult);
-        FlashAttributePrg errorsPrg = new FlashAttributePrg(bindingResult, attrs, "bookRoomForm", bookRoomForm);
+        ServiceErrors serviceErrors = new ServiceErrors();
+        roomService.bookRoom(bookRoomForm, user, serviceErrors);
+        FlashAttributePrg errorsPrg = new FlashAttributePrg(serviceErrors.toBindingResult(bindingResult), attrs, "bookRoomForm", bookRoomForm);
         boolean hasErrorsAfterService = errorsPrg.processErrorsIfExists();
         if(hasErrorsAfterService){
             return "redirect:".concat(referer);

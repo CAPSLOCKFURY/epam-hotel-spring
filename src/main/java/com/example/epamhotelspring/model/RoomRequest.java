@@ -58,4 +58,12 @@ public class RoomRequest {
         checkOutDate = form.getCheckOutDate();
         comment = form.getComment();
     }
+
+    public RoomRequest(User user, RoomClass roomClass, Integer capacity, LocalDate checkInDate, LocalDate checkOutDate) {
+        this.user = user;
+        this.capacity = capacity;
+        this.roomClass = roomClass;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+    }
 }

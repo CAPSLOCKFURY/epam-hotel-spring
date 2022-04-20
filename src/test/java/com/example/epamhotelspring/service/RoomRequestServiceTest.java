@@ -57,15 +57,13 @@ public class RoomRequestServiceTest {
 
     @BeforeAll
     public void setUp(){
-        User user = new User().setUsername("roomsTester").setPassword("password").setEmail("roomTester@gmail.com")
-                .setFirstName("Room").setLastName("Roomich").setBalance(new BigDecimal(100));
+        User user = new User("roomsTester", "password", "roomTester@gmail.com", "Room", "Roomich").setBalance(new BigDecimal(100));
         RoomRequestServiceTest.user = userRepository.save(user);
         RoomClass roomClass = new RoomClass();
-        RoomClassTranslation rct = new RoomClassTranslation().setLanguage("en").setName("someClassName").setRoomClass(roomClass);
+        RoomClassTranslation rct = new RoomClassTranslation(roomClass, "en", "someClassName");
         RoomRequestServiceTest.roomClass = roomClassRepository.save(roomClass);
         rctRepository.save(rct);
-        Room room = new Room().setNumber(100).setName(String.valueOf(100)).setCapacity(100)
-                .setRoomClass(roomClass).setPrice(new BigDecimal(100 * 2));
+        Room room = new Room(100, String.valueOf(100), 100, new BigDecimal(100 * 2), roomClass);
         RoomRequestServiceTest.room = roomRepository.save(room);
     }
 
@@ -93,8 +91,7 @@ public class RoomRequestServiceTest {
     void closeRoomRequestTest(){
         LocalDate today = LocalDate.now();
         LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
-        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
-                .setCheckInDate(today).setCheckOutDate(todayPlus7);
+        RoomRequest roomRequest = new RoomRequest(user, roomClass, 2, today, todayPlus7);
         roomRequest = roomRequestRepository.save(roomRequest);
         roomRequestService.closeRoomRequest(roomRequest.getId(), user.getId());
         roomRequest = roomRequestRepository.getById(roomRequest.getId());
@@ -105,10 +102,9 @@ public class RoomRequestServiceTest {
     void acceptRoomRequestTest(){
         LocalDate today = LocalDate.now();
         LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
-        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
-                .setCheckInDate(today).setCheckOutDate(todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING_CONFIRMATION);
+        RoomRequest roomRequest = new RoomRequest(user, roomClass, 2, today, todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING_CONFIRMATION);
         roomRequest = roomRequestRepository.save(roomRequest);
-        roomRequestService.acceptRoomRequest(roomRequest.getId(), user);
+        roomRequestService.acceptRoomRequest(roomRequest.getId(), user.getId());
         Pageable pageable = Pageable.ofSize(10);
         roomRequest = roomRequestRepository.getById(roomRequest.getId());
         assertEquals(RequestStatus.AWAITING_PAYMENT, roomRequest.getStatus());
@@ -120,8 +116,7 @@ public class RoomRequestServiceTest {
     void declineRoomRequestTest(){
         LocalDate today = LocalDate.now();
         LocalDate todayPlus7 = today.plus(7, ChronoUnit.DAYS);
-        RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass).setCapacity(2)
-                .setCheckInDate(today).setCheckOutDate(todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING);
+        RoomRequest roomRequest = new RoomRequest(user, roomClass, 2, today, todayPlus7).setRoom(room).setStatus(RequestStatus.AWAITING);
         roomRequest = roomRequestRepository.save(roomRequest);
         roomRequestService.closeRoomRequest(roomRequest.getId(), user.getId());
         roomRequest = roomRequestRepository.getById(roomRequest.getId());

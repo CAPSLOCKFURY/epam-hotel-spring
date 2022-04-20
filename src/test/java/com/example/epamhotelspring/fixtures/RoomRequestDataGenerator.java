@@ -16,8 +16,7 @@ public class RoomRequestDataGenerator {
         LocalDate weekAway = today.plus(7, ChronoUnit.DAYS);
         List<RoomRequest> roomRequests = new LinkedList<>();
         for (int i = 0; i < requestsCount; i++) {
-            RoomRequest roomRequest = new RoomRequest().setUser(user).setRoomClass(roomClass);
-            roomRequest.setCapacity(i).setCheckInDate(today).setCheckOutDate(weekAway);
+            RoomRequest roomRequest = new RoomRequest(user, roomClass, i, today, weekAway);
             roomRequests.add(roomRequest);
         }
         return roomRequests;

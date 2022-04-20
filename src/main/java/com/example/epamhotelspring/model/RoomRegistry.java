@@ -47,4 +47,11 @@ public class RoomRegistry {
         user = roomRequest.getUser();
         room = roomRequest.getRoom();
     }
+
+    public RoomRegistry(Room room, LocalDate checkInDate, LocalDate checkOutDate, User user) {
+        this.user = user;
+        this.room = room;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+    }
 }

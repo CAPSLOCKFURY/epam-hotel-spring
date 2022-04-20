@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 @TestPropertySource(locations = "/application-test.properties")
-public class UserServiceTest {
+public class  UserServiceTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -32,8 +32,7 @@ public class UserServiceTest {
 
     @BeforeAll
     public void setUp(){
-        User user = new User().setUsername("username").setPassword("password").setEmail("email@gmail.com")
-                .setFirstName("test").setLastName("testov");
+        User user = new User("username", "password", "email@gmail.com", "test", "testov");
         User dbUser = userRepository.save(user);
         setUpUserId = dbUser.getId();
     }
@@ -51,8 +50,7 @@ public class UserServiceTest {
 
     @Test
     void registerUserTest(){
-        User newUser = new User().setUsername("test0user").setPassword("12345").setEmail("testemail@gmail.com")
-                .setFirstName("John").setLastName("Doe");
+        User newUser = new User("test0user", "12345", "testemail@gmail.com", "John", "Doe");
         User returnedUser = userService.registerUser(newUser);
         assertNotNull(returnedUser);
         assertNotNull(returnedUser.getId());
@@ -75,8 +73,7 @@ public class UserServiceTest {
 
     @Test
     void addBalanceTest(){
-        User newUser = new User().setUsername("test1user").setPassword("12345").setEmail("testemail1@gmail.com")
-                .setFirstName("John1").setLastName("Doe1");
+        User newUser = new User("test1user", "12345", "testemail1@gmail.com", "John1", "Doe1");
         User dbUser = userRepository.save(newUser);
         userService.addBalance(new BigDecimal(100), dbUser);
         dbUser = userRepository.findUserById(dbUser.getId());

@@ -91,6 +91,14 @@ public class User implements UserDetails {
         firstName = form.getFirstName();
         lastName = form.getLastName();
     }
+
+    public User(String username, String password, String email, String firstName, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
 
 

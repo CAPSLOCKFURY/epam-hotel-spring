@@ -8,19 +8,16 @@ import com.example.epamhotelspring.model.RoomRequest;
 import com.example.epamhotelspring.model.enums.RequestStatus;
 import com.example.epamhotelspring.repository.RoomRepository;
 import com.example.epamhotelspring.repository.admin.AdminRoomRequestRepository;
+import com.example.epamhotelspring.service.utils.ServiceErrors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 @Service
 public class AdminRoomRequestService {
@@ -42,26 +39,21 @@ public class AdminRoomRequestService {
         return roomRequestRepository.findSuitableRoomsForRoomRequest(checkInDate, checkOutDate, pageable);
     }
 
-    //TODO add one class for handling errors in service
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public boolean assignRoomToRequest(Long requestId, Long roomId, RedirectAttributes errors){
+    public boolean assignRoomToRequest(Long requestId, Long roomId, ServiceErrors errors){
         RoomRequest roomRequest = roomRequestRepository.findById(requestId).orElseThrow(EntityNotFoundException::new);
-        List<String> errorsList = new LinkedList<>();
         if(roomRequest.getStatus() != RequestStatus.AWAITING) {
-            errorsList.add("errors.requestStatusIsNotAwaiting");
-            errors.addFlashAttribute("errors", errorsList);
+            errors.reject("errors.requestStatusIsNotAwaiting");
             return false;
         }
         Long datesOverlapCount = roomRepository.countRoomOverlaps(roomRequest.getCheckInDate(), roomRequest.getCheckOutDate(), roomId);
         if(datesOverlapCount != 0){
-            errorsList.add("errors.datesOverlap");
-            errors.addFlashAttribute("errors", errorsList);
+            errors.reject("errors.datesOverlap");
             return false;
         }
         boolean roomAssigned = roomRepository.isRoomAssignedToRequest(roomId, roomRequest.getCheckInDate(), roomRequest.getCheckOutDate());
         if(roomAssigned){
-            errorsList.add("errors.roomAlreadyAssigned");
-            errors.addFlashAttribute("errors", errorsList);
+            errors.reject("errors.roomAlreadyAssigned");
             return false;
         }
         Room room = roomRepository.findById(roomId).orElseThrow(EntityNotFoundException::new);
@@ -72,10 +64,10 @@ public class AdminRoomRequestService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void closeRoomRequest(CloseRequestForm form, RedirectAttributes errors){
+    public void closeRoomRequest(CloseRequestForm form, ServiceErrors errors){
         RoomRequest roomRequest = roomRequestRepository.findById(form.getRequestId()).orElseThrow(EntityNotFoundException::new);
         if(roomRequest.getStatus() != RequestStatus.AWAITING_CONFIRMATION && roomRequest.getStatus() != RequestStatus.AWAITING){
-            errors.addFlashAttribute("errors", Collections.singletonList("errors.requestStatusIsNotAwaitingOrAwaitingConf"));
+            errors.reject("errors.requestStatusIsNotAwaitingOrAwaitingConf");
             return;
         }
         roomRequest.setManagerComment(form.getComment());
