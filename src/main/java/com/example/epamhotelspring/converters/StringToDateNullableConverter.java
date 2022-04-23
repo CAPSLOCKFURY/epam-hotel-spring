@@ -13,7 +13,7 @@ public class StringToDateNullableConverter implements Converter<String, LocalDat
     public LocalDate convert(String source) {
         try{
             return LocalDate.parse(source);
-        } catch (IllegalArgumentException | DateTimeParseException e) {
+        } catch (IllegalArgumentException | DateTimeParseException | NullPointerException e) {
             return null;
         }
     }

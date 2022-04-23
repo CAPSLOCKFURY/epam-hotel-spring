@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
@@ -17,7 +19,7 @@ public class AdminRoomRegistryRepository {
     @PersistenceContext
     EntityManager em;
 
-    public List<RoomRegistryReportDTO> findRoomRegistriesForPdfReport(){
+    public List<RoomRegistryReportDTO> findRoomRegistriesForPdfReport(LocalDate checkInDate, LocalDate checkOutDate){
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<RoomRegistryReportDTO> cq = cb.createQuery(RoomRegistryReportDTO.class);
         Root<RoomRegistry> roomRegistry = cq.from(RoomRegistry.class);
@@ -31,10 +33,25 @@ public class AdminRoomRegistryRepository {
                 roomRegistry.get("checkInDate"),
                 roomRegistry.get("checkOutDate")
         );
+        List<Predicate> predicates = getRoomRegistryFilterPredicates(cb, roomRegistry, checkInDate, checkOutDate);
         cq.select(dto);
+        if(!predicates.isEmpty()) {
+            cq.where(cb.and(predicates.toArray(new Predicate[0])));
+        }
         TypedQuery<RoomRegistryReportDTO> query = em.createQuery(cq);
         List<RoomRegistryReportDTO> result = query.getResultList();
         return result;
+    }
+
+    private List<Predicate> getRoomRegistryFilterPredicates(CriteriaBuilder cb, Path<RoomRegistry> root, LocalDate checkInDate, LocalDate checkOutDate){
+        List<Predicate> predicates = new LinkedList<>();
+        if(checkInDate != null){
+            predicates.add(cb.greaterThanOrEqualTo(root.get("checkInDate"), checkInDate));
+        }
+        if(checkOutDate != null){
+            predicates.add(cb.lessThanOrEqualTo(root.get("checkOutDate"), checkOutDate));
+        }
+        return predicates;
     }
 
 }
