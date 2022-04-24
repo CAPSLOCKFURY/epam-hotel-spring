@@ -8,6 +8,8 @@
 <div th:include="header::nav"></div>
 <h1>Configure room report</h1>
 <form th:action="@{/manager/report/pdf}" method="get">
+    <p>Page</p><input type="number" min="0" name="page">
+    <p>Page size</p><input type="number" min="1" name="size">
     <p>Check In Date</p><input name="checkInDate" type="date">
     <p>Check Out Date</p><input name="checkOutDate" type="date">
     <button type="submit">Generate report</button>

@@ -5,6 +5,8 @@ import com.example.epamhotelspring.dto.RoomRegistryReportDTO;
 import com.example.epamhotelspring.pdf.RoomRegistryPDFReport;
 import com.example.epamhotelspring.service.admin.AdminPdfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +34,12 @@ public class PdfReportController {
 
     @GetMapping("/pdf")
     public void roomRegistryPdfReport(HttpServletResponse response, Locale locale,
-                        @RequestParam(value = "checkInDate", required = false) String checkInDate, @RequestParam(value = "checkOutDate", required = false) String checkOutDate) throws IOException {
+                                      @RequestParam(value = "checkInDate", required = false) String checkInDate, @RequestParam(value = "checkOutDate", required = false) String checkOutDate,
+                                      @RequestParam(value = "page", required = false, defaultValue = "0") int page, @RequestParam(value = "size", required = false, defaultValue = "100") int size) throws IOException {
         response.setContentType("application/pdf");
         ServletOutputStream out = response.getOutputStream();
-        List<RoomRegistryReportDTO> data = adminPdfService.getRoomRegistryReportData(stringToDateConverter.convert(checkInDate), stringToDateConverter.convert(checkOutDate));
+        Pageable pageable = PageRequest.of(page - 1, size);
+        List<RoomRegistryReportDTO> data = adminPdfService.getRoomRegistryReportData(stringToDateConverter.convert(checkInDate), stringToDateConverter.convert(checkOutDate), pageable);
         RoomRegistryPDFReport pdfReport = new RoomRegistryPDFReport(out, data, locale);
         pdfReport.buildDocument();
     }

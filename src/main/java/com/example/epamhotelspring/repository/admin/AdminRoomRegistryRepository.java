@@ -3,6 +3,7 @@ package com.example.epamhotelspring.repository.admin;
 import com.example.epamhotelspring.dto.RoomRegistryReportDTO;
 import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.User;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -19,7 +20,7 @@ public class AdminRoomRegistryRepository {
     @PersistenceContext
     EntityManager em;
 
-    public List<RoomRegistryReportDTO> findRoomRegistriesForPdfReport(LocalDate checkInDate, LocalDate checkOutDate){
+    public List<RoomRegistryReportDTO> findRoomRegistriesForPdfReport(LocalDate checkInDate, LocalDate checkOutDate, Pageable pageable){
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<RoomRegistryReportDTO> cq = cb.createQuery(RoomRegistryReportDTO.class);
         Root<RoomRegistry> roomRegistry = cq.from(RoomRegistry.class);
@@ -38,7 +39,7 @@ public class AdminRoomRegistryRepository {
         if(!predicates.isEmpty()) {
             cq.where(cb.and(predicates.toArray(new Predicate[0])));
         }
-        TypedQuery<RoomRegistryReportDTO> query = em.createQuery(cq);
+        TypedQuery<RoomRegistryReportDTO> query = em.createQuery(cq).setFirstResult((int)pageable.getOffset()).setMaxResults(pageable.getPageSize());
         List<RoomRegistryReportDTO> result = query.getResultList();
         return result;
     }
