@@ -19,6 +19,7 @@
 <a th:href="@{/profile/change-password}">Change password</a>
 <th:block sec:authorize="hasAuthority(T(com.example.epamhotelspring.model.enums.Role).MANAGER.getAuthority())">
     <a th:href="@{/manager/room-requests}">User room requests</a>
+    <a th:href="@{/manager/report/configure}">Configure Room PDF report</a>
 </th:block>
 <a th:href="@{/logout}">Logout</a>
 </body>

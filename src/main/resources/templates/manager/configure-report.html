@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:include="header::nav"></div>
+<h1>Configure room report</h1>
+<form th:action="@{/manager/report/pdf}" method="get">
+    <p>Check In Date</p><input name="checkInDate" type="date">
+    <p>Check Out Date</p><input name="checkOutDate" type="date">
+    <button type="submit">Generate report</button>
+</form>
+</body>
+</html>

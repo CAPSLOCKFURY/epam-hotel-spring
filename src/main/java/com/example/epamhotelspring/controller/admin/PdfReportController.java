@@ -24,6 +24,12 @@ public class PdfReportController {
 
     private final StringToDateNullableConverter stringToDateConverter;
 
+
+    @GetMapping("/configure")
+    public String configurePdfReport(){
+        return "manager/configure-report";
+    }
+
     @GetMapping("/pdf")
     public void roomRegistryPdfReport(HttpServletResponse response, Locale locale,
                         @RequestParam(value = "checkInDate", required = false) String checkInDate, @RequestParam(value = "checkOutDate", required = false) String checkOutDate) throws IOException {
