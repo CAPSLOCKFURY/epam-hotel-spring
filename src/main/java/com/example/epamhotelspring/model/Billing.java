@@ -21,7 +21,9 @@ public class Billing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(
+            foreignKeyDefinition = "foreign key (roomrequest_id) references room_requests on delete set null"))
     private RoomRequest roomRequest;
 
     @Column(name = "price", precision = 11, scale = 2)
@@ -33,6 +35,11 @@ public class Billing {
 
     @Column(name = "paid")
     private Boolean paid = false;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(foreignKey = @ForeignKey(
+            foreignKeyDefinition = "foreign key (roomregistry_id) references room_registry on delete set null"))
+    private RoomRegistry roomRegistry = null;
 
     public Billing(RoomRequest roomRequest){
         this.roomRequest = roomRequest;

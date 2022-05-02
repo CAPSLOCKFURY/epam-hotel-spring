@@ -61,9 +61,10 @@ public class RoomRequestService {
         roomRequest.setStatus(RequestStatus.AWAITING_PAYMENT);
         Billing billing = new Billing(roomRequest);
         RoomRegistry roomRegistry = new RoomRegistry(roomRequest);
+        roomRegistry = roomRegistryRepository.save(roomRegistry);
+        billing.setRoomRegistry(roomRegistry);
         billingRepository.save(billing);
         roomRequestRepository.save(roomRequest);
-        roomRegistryRepository.save(roomRegistry);
     }
 
     public void declineRoomRequest(Long requestId, Long userId, DeclineRoomForm form){
