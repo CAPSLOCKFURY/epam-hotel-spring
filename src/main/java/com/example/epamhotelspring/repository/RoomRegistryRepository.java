@@ -2,6 +2,8 @@ package com.example.epamhotelspring.repository;
 
 import com.example.epamhotelspring.model.RoomRegistry;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,5 +12,9 @@ import java.util.List;
 public interface RoomRegistryRepository extends JpaRepository<RoomRegistry, Long> {
 
     List<RoomRegistry> findRoomRegistriesByRoomIdAndArchivedFalse(Long roomId);
+
+    @Modifying
+    @Query("update RoomRegistry rr set rr.archived = true where rr.checkOutDate < current_date and rr.archived = false ")
+    int archiveOldRoomRegistries();
 
 }
