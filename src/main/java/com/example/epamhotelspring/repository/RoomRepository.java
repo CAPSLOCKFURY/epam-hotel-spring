@@ -5,14 +5,12 @@ import com.example.epamhotelspring.dto.RoomHistoryDTO;
 import com.example.epamhotelspring.model.Room;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
@@ -49,4 +47,14 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Modifying
     @Query("update RoomRequest rr set rr.room = null, rr.status = 'AWAITING' where rr.status = 'AWAITING_CONFIRMATION' and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate)")
     void unAssignRoomOnOverlappingDates(LocalDate checkInDate, LocalDate checkOutDate);
+
+    @Modifying
+    @Query("update Room r set r.roomStatus = " +
+            "case " +
+            "   when r.id in (select rr.room.id from RoomRegistry rr where rr.checkOutDate = current_date and rr.archived = false) then ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).FREE} " +
+            "   when r.id in (select rr.room.id from RoomRegistry  rr where rr.checkInDate = current_date and rr.archived = false ) then ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).OCCUPIED} " +
+            "   else ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).FREE} " +
+            "end " +
+            "where r.roomStatus <> ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).UNAVAILABLE}")
+    int updateRoomStatuses();
 }
