@@ -35,6 +35,9 @@ public class RoomRegistry {
     @Column(name = "archived")
     private Boolean archived = false;
 
+    @OneToOne(mappedBy = "roomRegistry", fetch = FetchType.LAZY)
+    private Billing billing;
+
     public RoomRegistry(BookRoomForm form){
         checkInDate = form.getCheckInDate();
         checkOutDate = form.getCheckOutDate();

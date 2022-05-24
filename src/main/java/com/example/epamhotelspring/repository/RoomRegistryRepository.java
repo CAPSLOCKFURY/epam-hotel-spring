@@ -17,4 +17,8 @@ public interface RoomRegistryRepository extends JpaRepository<RoomRegistry, Long
     @Query("update RoomRegistry rr set rr.archived = true where rr.checkOutDate < current_date and rr.archived = false ")
     int archiveOldRoomRegistries();
 
+    @Modifying
+    @Query("delete from RoomRegistry rr where rr.id in :ids")
+    void deleteByIdIn(Iterable<Long> ids);
+
 }

@@ -28,4 +28,7 @@ public interface BillingRepository extends JpaRepository<Billing, Long> {
     @Query("delete from Billing b where b.payEndDate < current_date and b.paid = false")
     int deleteUnpaidOldBillings();
 
+    @Modifying
+    @Query("delete from Billing b where b.id in :ids")
+    void deleteByIdIn(Iterable<Long> ids);
 }

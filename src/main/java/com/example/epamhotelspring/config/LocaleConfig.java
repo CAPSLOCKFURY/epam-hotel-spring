@@ -16,7 +16,7 @@ public class LocaleConfig implements WebMvcConfigurer{
     @Bean
     public LocaleResolver localeResolver(){
         CookieLocaleResolver clr = new CookieLocaleResolver();
-        clr.setDefaultLocale(Locale.US);
+        clr.setDefaultLocale(new Locale("en"));
         return clr;
     }
 

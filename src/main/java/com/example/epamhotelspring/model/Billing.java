@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.time.temporal.ChronoUnit;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Accessors(chain = true)
 @Table(name = "billings")
 public class Billing {
 

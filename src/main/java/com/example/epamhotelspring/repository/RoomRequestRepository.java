@@ -5,10 +5,10 @@ import com.example.epamhotelspring.model.RoomRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,4 +25,7 @@ public interface RoomRequestRepository extends JpaRepository<RoomRequest, Long> 
     @Query("select rr, room, user from RoomRequest rr join rr.room room join rr.user user where rr.id = :requestId")
     Optional<RoomRequest> findRoomRequestEagerById(Long requestId);
 
+    @Modifying
+    @Query("delete from RoomRequest rr where rr.id in :ids")
+    void deleteByIdIn(Iterable<Long> ids);
 }

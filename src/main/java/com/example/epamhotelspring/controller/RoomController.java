@@ -3,6 +3,7 @@ package com.example.epamhotelspring.controller;
 import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.forms.BookRoomForm;
+import com.example.epamhotelspring.forms.CloseRoomForm;
 import com.example.epamhotelspring.model.User;
 import com.example.epamhotelspring.service.RoomService;
 import com.example.epamhotelspring.service.utils.ServiceErrors;
@@ -39,6 +40,7 @@ public class RoomController {
         if(!model.containsAttribute("bookRoomForm")) {
             model.addAttribute("bookRoomForm", new BookRoomForm());
         }
+        model.addAttribute("closeRoomForm", new CloseRoomForm());
         return "room";
     }
 
