@@ -1,6 +1,5 @@
 package com.example.epamhotelspring.dto;
 
-import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.enums.RoomStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,9 +26,9 @@ public class RoomDetailDTO {
 
     String classTranslated;
 
-    List<RoomRegistry> roomRegistries;
+    List<BookedDatesDTO> roomRegistries;
 
-    public RoomDetailDTO(RoomDTO roomDTO, List<RoomRegistry> roomRegistries) {
+    public RoomDetailDTO(RoomDTO roomDTO, List<BookedDatesDTO> roomRegistries) {
         id = roomDTO.getId();
         number = roomDTO.getNumber();
         roomStatus = roomDTO.getRoomStatus();

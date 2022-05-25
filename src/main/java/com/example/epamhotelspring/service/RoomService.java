@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.service;
 
+import com.example.epamhotelspring.dto.BookedDatesDTO;
 import com.example.epamhotelspring.dto.RoomDTO;
 import com.example.epamhotelspring.dto.RoomDetailDTO;
 import com.example.epamhotelspring.dto.RoomHistoryDTO;
@@ -38,7 +39,7 @@ public class RoomService {
 
     public RoomDetailDTO getRoomById(Long id){
         RoomDTO roomDetailDTO = roomRepository.findRoomById(id);
-        List<RoomRegistry> roomRegistries = roomRegistryRepository.findRoomRegistriesByRoomIdAndArchivedFalse(id);
+        List<BookedDatesDTO> roomRegistries = roomRegistryRepository.findRoomRegistriesByRoomIdAndArchivedFalse(id);
         return new RoomDetailDTO(roomDetailDTO, roomRegistries);
     }
 

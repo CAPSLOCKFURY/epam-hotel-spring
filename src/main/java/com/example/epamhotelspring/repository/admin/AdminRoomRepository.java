@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface AdminRoomRepository extends JpaRepository<Room, Long> {
-    //TODO remove n+1 on selecting room registries list at room details
+
     @Query("select rr.id as id, rr.user as user, rr.checkInDate as checkInDate, rr.checkOutDate as checkOutDate, room.price as roomPrice " +
             "from RoomRegistry rr left join rr.billing b join rr.room room where rr.room.id = :roomId and (:startDate <= rr.checkOutDate and :endDate >= rr.checkInDate) " +
             "and (b.id is null or b.paid = true)")
