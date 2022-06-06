@@ -33,12 +33,19 @@
         </form>
         <a>Estimated price: </a><a id="calculatedPrice"></a>
     </div>
-    <div sec:authorize="hasAuthority(T(com.example.epamhotelspring.model.enums.Role).MANAGER.getAuthority())">
-        <form method="post" th:object="${closeRoomForm}" th:action="@{/room/close}">
+    <div th:if="${#authorization.expression('hasAuthority(T(com.example.epamhotelspring.model.enums.Role).MANAGER.getAuthority())')
+    && !room.roomStatus.equals(T(com.example.epamhotelspring.model.enums.RoomStatus).UNAVAILABLE)}">
+        <form method="post" th:object="${closeRoomForm}" th:action="@{/manager/room/close}">
             <input type="hidden" th:value="${room.id}" name="roomId">
             <input type="date" th:field="*{startDate}">
             <input type="date" th:field="*{endDate}">
             <button type="submit">Close room</button>
+        </form>
+    </div>
+    <div th:if="${#authorization.expression('hasAuthority(T(com.example.epamhotelspring.model.enums.Role).MANAGER.getAuthority())')
+    && room.roomStatus.equals(T(com.example.epamhotelspring.model.enums.RoomStatus).UNAVAILABLE)}">
+        <form method="post" th:object="${closeRoomForm}" th:action="@{/manager/room/{id}/open(id=${room.id})}">
+            <button type="submit">Open room</button>
         </form>
     </div>
     <h1>Booked dates</h1>

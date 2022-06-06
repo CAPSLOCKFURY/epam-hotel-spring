@@ -74,6 +74,13 @@ public class AdminRoomService {
         billingRepository.deleteByIdIn(billingIds);
     }
 
+    @Transactional
+    public void openRoom(Long id){
+        Room room = roomRepository.getById(id);
+        room.setRoomStatus(RoomStatus.FREE);
+        roomRepository.save(room);
+    }
+
     @Transactional(propagation = Propagation.MANDATORY)
     public void refundMoney(Long roomId, LocalDate startDate, LocalDate endDate){
         List<RoomRegistryRefundDTO> refunds = adminRoomRepository.findRoomRegistriesForRefund(roomId, startDate, endDate);

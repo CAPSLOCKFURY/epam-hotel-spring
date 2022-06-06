@@ -40,7 +40,7 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private RoomClass roomClass;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<RoomRegistry> roomRegistries;
 
     @Transient
