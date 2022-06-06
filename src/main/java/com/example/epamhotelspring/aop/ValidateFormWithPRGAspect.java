@@ -8,8 +8,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
-import static com.example.epamhotelspring.aop.utils.AspectUtils.*;
-
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -19,7 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.lang.reflect.Method;
+import static com.example.epamhotelspring.aop.utils.AspectUtils.getAnnotationFromJoinPoint;
+import static com.example.epamhotelspring.aop.utils.AspectUtils.getArgumentByType;
 
 @Aspect
 @Component
