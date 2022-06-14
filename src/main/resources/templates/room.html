@@ -38,7 +38,12 @@
         <form method="post" th:object="${closeRoomForm}" th:action="@{/manager/room/close}">
             <input type="hidden" th:value="${room.id}" name="roomId">
             <input type="date" th:field="*{startDate}">
+            <a th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">Start date error</a>
             <input type="date" th:field="*{endDate}">
+            <a th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">End date error</a>
+            <div th:if="${#fields.hasErrors('global')}">
+                <a th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></a>
+            </div>
             <button type="submit">Close room</button>
         </form>
     </div>

@@ -1,5 +1,6 @@
 package com.example.epamhotelspring.controller.admin;
 
+import com.example.epamhotelspring.aop.ValidateFormWithPRG;
 import com.example.epamhotelspring.forms.CloseRoomForm;
 import com.example.epamhotelspring.service.admin.AdminRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class AdminRoomController {
     private final AdminRoomService roomService;
 
     @PostMapping("/manager/room/close")
+    @ValidateFormWithPRG(formName = "closeRoomForm", redirectUrlOnError = "'redirect:/room/'+#closeRoomForm.roomId")
     public String closeRoom(@Valid @ModelAttribute("closeRoomForm") CloseRoomForm closeRoomForm, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         roomService.closeRoom(closeRoomForm);
         return "redirect:/room/" + closeRoomForm.getRoomId();

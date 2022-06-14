@@ -40,7 +40,9 @@ public class RoomController {
         if(!model.containsAttribute("bookRoomForm")) {
             model.addAttribute("bookRoomForm", new BookRoomForm());
         }
-        model.addAttribute("closeRoomForm", new CloseRoomForm());
+        if(!model.containsAttribute("closeRoomForm")) {
+            model.addAttribute("closeRoomForm", new CloseRoomForm());
+        }
         return "room";
     }
 
@@ -49,7 +51,6 @@ public class RoomController {
     public String bookRoom(
             @Valid @ModelAttribute("bookRoomForm") BookRoomForm bookRoomForm, BindingResult bindingResult,
             RedirectAttributes attrs, @RequestHeader("Referer") String referer, @AuthenticationPrincipal User user){
-
         ServiceErrors serviceErrors = new ServiceErrors();
         roomService.bookRoom(bookRoomForm, user, serviceErrors);
         FlashAttributePrg errorsPrg = new FlashAttributePrg(serviceErrors.toBindingResult(bindingResult), attrs, "bookRoomForm", bookRoomForm);

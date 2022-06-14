@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class AddBalanceForm {
 
-    @DecimalMin(value = "0.00", inclusive = false)
+    @DecimalMin(value = "0.00", inclusive = false, message = "{errors.incorrectMoneyAmount}")
     private BigDecimal amount;
 
 }
