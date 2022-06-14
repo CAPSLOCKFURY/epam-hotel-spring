@@ -3,25 +3,38 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Title</title>
 </head>
 <body>
-<nav>
-    <a th:href="@{/}">Home</a>
-    <div sec:authorize="isAnonymous()">
-        <a th:href="@{/login}">Login</a>
-        <a th:href="@{/register}">Register</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Home</a>
     </div>
-    <div sec:authorize="isAuthenticated()">
-        <a th:href="@{/profile}">Profile</a>
+    <div class="container-fluid justify-content-end">
+        <ul class="navbar-nav">
+            <th:block sec:authorize="isAnonymous()">
+                <li class="nav-item">
+                    <a class="link-primary me-2 text-decoration-none" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="link-primary me-2 text-decoration-none" th:href="@{/register}">Register</a>
+                </li>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="link-info me-2 text-decoration-none text-nowrap" th:href="@{/profile}">Profile</a>
+                </li>
+            </th:block>
+        </ul>
+        <form class="d-flex my-0"  method="get">
+            <select class="form-control me-2 form-select" name="lang">
+                <option th:selected="${#locale.toLanguageTag()} == en" value="en">English</option>
+                <option th:selected="${#locale.toLanguageTag()} == ru" value="ru">Русский</option>
+            </select>
+            <button class="nav-item btn-sm btn-dark text-nowrap" type="submit">Change language</button>
+        </form>
     </div>
-    <form method="get">
-        <select name="lang">
-            <option th:selected="${#locale.toLanguageTag()} == en" value="en">English</option>
-            <option th:selected="${#locale.toLanguageTag()} == ru" value="ru">Русский</option>
-        </select>
-        <button type="submit">Change language</button>
-    </form>
 </nav>
 </body>
 </html>

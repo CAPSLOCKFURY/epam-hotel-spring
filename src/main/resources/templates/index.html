@@ -5,35 +5,41 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
+<th:block th:include="header"/>
+<div class="ms-2">
 <h1>Main</h1>
 <div th:replace="fragments/pagination.html :: pagination(${rooms.pageable}, ${rooms.getTotalPages()}, ${rooms.hasNext()})"></div>
-<form id="sortForm" method="get">
+<form id="sortForm" method="get" class="form-group">
     <script type="text/javascript" th:src="@{/js/sendSortForm.js}"></script>
-    <select name="sort" id="sortField">
-        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'id')}" value="id">Id</option>
-        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'price')}" value="price">Price</option>
-        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomStatus')}" value="roomStatus">Status</option>
-        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomClass')}" value="roomClass">Class</option>
-        <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'capacity')}" value="capacity">Capacity</option>
-    </select>
-    <select id="sortDirection">
-        <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'asc')}" value="asc">Ascending</option>
-        <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'desc')}" value="desc">Descending</option>
-    </select>
-    <button onclick="sendSortParameters()">Sort</button>
+    <div class="d-flex justify-content-start">
+        <select class="form-select me-2" style="width: 10%"  name="sort" id="sortField">
+            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'id')}" value="id">Id</option>
+            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'price')}" value="price">Price</option>
+            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomStatus')}" value="roomStatus">Status</option>
+            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomClass')}" value="roomClass">Class</option>
+            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'capacity')}" value="capacity">Capacity</option>
+        </select>
+        <select class="form-select me-2" style="width: 10%"  id="sortDirection">
+            <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'asc')}" value="asc">Ascending</option>
+            <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'desc')}" value="desc">Descending</option>
+        </select>
+    <button class="btn btn-outline-primary" onclick="sendSortParameters()">Sort</button>
+    </div>
 </form>
-<div th:each="room: ${rooms}">
-    <hr>
-    <h1 th:inline="text">Room number : [[${room.number}]]</h1>
-    <h1 th:inline="text">Room name : [[${room.name}]]</h1>
-    <h1 th:inline="text">Room status : [[${room.roomStatus}]]</h1>
-    <h1 th:inline="text">Room capacity : [[${room.capacity}]]</h1>
-    <h1 th:inline="text">Room class : [[${room.classTranslated}]]</h1>
-    <h1 th:inline="text">Room price : [[${room.price}]]</h1>
-    <h2><a th:href="@{/room/{id}(id=${room.id})}">See room</a></h2>
-    <hr>
-</div>
+<th:block th:each="room: ${rooms}">
+    <div class="d-flex justify-content-start">
+        <div class="card bg-light justify-content-center text-center my-2">
+            <h2 th:inline="text">Room number : [[${room.number}]]</h2>
+            <h2 th:inline="text">Room name : [[${room.name}]]</h2>
+            <h2 th:inline="text">Room status : [[${room.roomStatus}]]</h2>
+            <h2 th:inline="text">Room capacity : [[${room.capacity}]]</h2>
+            <h2 th:inline="text">Room class : [[${room.classTranslated}]]</h2>
+            <h2 th:inline="text">Room price : [[${room.price}]]</h2>
+            <h3 class="text-center"><a th:href="@{/room/{id}(id=${room.id})}">See room</a></h3>
+        </div>
+    </div>
+</th:block>
 <div th:replace="fragments/pagination.html :: pagination(${rooms.pageable}, ${rooms.getTotalPages()}, ${rooms.hasNext()})"></div>
+</div>
 </body>
 </html>

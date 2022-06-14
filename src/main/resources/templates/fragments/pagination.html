@@ -7,34 +7,34 @@
 <body>
 <!--/*@thymesVar id="pageable" type="org.springframework.data.domain.Pageable"*/-->
 <div th:fragment="pagination(pageable, totalPages, hasNext)">
-    <div th:with="getParams=${@thymeleafUtils.buildGetParameters(param, 'page')}">
-        <a th:if="${pageable.hasPrevious()}" th:href="@{${'?page='+pageable.previousOrFirst().getPageNumber() + '&'} + ${getParams}}">Previous page</a>
+    <ul class="pagination" th:with="getParams=${@thymeleafUtils.buildGetParameters(param, 'page')}">
+        <li class="page-item" th:if="${pageable.hasPrevious()}"><a class="page-link" th:href="@{${'?page='+pageable.previousOrFirst().getPageNumber() + '&'} + ${getParams}}">Previous page</a></li>
         <th:block th:if="${pageable.getPageNumber() - 3 >= 0}">
-            <a th:href="@{'?page=0&' + ${getParams}}">1</a>
-            <a>... </a>
+            <li class="page-item"><a class="page-link" th:href="@{'?page=0&' + ${getParams}}">1</a></li>
+            <li class="page-item"><a class="page-link">... </a></li>
         </th:block>
         <th:block th:if="${pageable.getPageNumber() - 2 <= 0}">
             <th:block th:each="pageNumber:${#numbers.sequence(0, 5)}">
                 <th:block th:if="${pageNumber <= totalPages - 1}">
-                    <a th:if="${pageNumber == pageable.getPageNumber()}" th:text="${pageNumber + 1}"></a>
-                    <a th:if="${pageNumber != pageable.getPageNumber()}" th:text="${pageNumber + 1}" th:href="@{${'?page='+ pageNumber + '&'} + ${getParams}}"></a>
+                    <li class="page-item" th:if="${pageNumber == pageable.getPageNumber()}"><a class="page-link" th:text="${pageNumber + 1}"></a></li>
+                    <li class="page-item" th:if="${pageNumber != pageable.getPageNumber()}"><a class="page-link" th:text="${pageNumber + 1}" th:href="@{${'?page='+ pageNumber + '&'} + ${getParams}}"></a></li>
                 </th:block>
             </th:block>
         </th:block>
         <th:block th:if="${pageable.getPageNumber() - 2 > 0}">
             <th:block th:each="pageNumber:${#numbers.sequence(pageable.getPageNumber() - 2, pageable.getPageNumber() + 2)}">
                 <th:block th:if="${pageNumber <= totalPages - 1}">
-                    <a th:if="${pageNumber == pageable.getPageNumber()}" th:text="${pageNumber + 1}"></a>
-                    <a th:if="${pageNumber != pageable.getPageNumber()}" th:text="${pageNumber + 1}" th:href="@{${'?page='+ pageNumber + '&'} + ${getParams}}"></a>
+                    <li class="page-item" th:if="${pageNumber == pageable.getPageNumber()}"><a class="page-link"  th:text="${pageNumber + 1}"></a></li>
+                    <li class="page-item" th:if="${pageNumber != pageable.getPageNumber()}"><a class="page-link" th:text="${pageNumber + 1}" th:href="@{${'?page='+ pageNumber + '&'} + ${getParams}}"></a></li>
                 </th:block>
             </th:block>
         </th:block>
         <th:block th:if="${(pageable.getPageNumber() + 2 < totalPages - 1) && (totalPages > 5)}">
-            <a> ...</a>
-            <a th:href="@{${'?page=' + (totalPages - 1)} + '&' + ${getParams}}" th:text="${totalPages}"></a>
+            <li class="page-item"><a class="page-link">...</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{${'?page=' + (totalPages - 1)} + '&' + ${getParams}}" th:text="${totalPages}"></a></li>
         </th:block>
-        <a th:if="${hasNext}" th:href="@{${'?page='+pageable.next().getPageNumber() + '&'} + ${getParams}}">Next page</a>
-    </div>
+        <li class="page-item" th:if="${hasNext}"><a class="page-link" th:href="@{${'?page='+pageable.next().getPageNumber() + '&'} + ${getParams}}">Next page</a></li>
+    </ul>
 </div>
 </body>
 </html>
