@@ -5,31 +5,39 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
-<h1>My room requests</h1>
-<div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
-<div th:each="roomRequest: ${roomRequests}">
-    <hr>
-    <h1 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h1>
-    <h1 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h1>
-    <h1 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h1>
-    <h1 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h1>
-    <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
-    <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
-    <h1 th:inline="text">Comment : [[${roomRequest.comment}]]</h1>
-    <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
-    <div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">
-        <form method="post" th:action="@{/profile/room-requests/confirm/{id}(id=${roomRequest.id})}">
-            <button type="submit">Accept room</button>
-        </form>
-        <form method="post" th:action="@{/profile/room-requests/decline/{id}(id=${roomRequest.id})}" th:object="${declineRoomForm}">
-            <input th:field="*{comment}">
-            <button type="submit">Decline this room</button>
-        </form>
-    </div>
-    <a th:href="@{/profile/room-requests/close/{id}(id=${roomRequest.id})}">Close this room request</a>
-    <hr>
+<div th:include="header"></div>
+<h1 class="ms-2">My room requests</h1>
+<div class="ms-2">
+    <div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 </div>
-<div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
+<th:block th:each="roomRequest: ${roomRequests}">
+    <div class="d-flex">
+        <div class="row card bg-light ms-2 my-2">
+            <h2 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h2>
+            <h2 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h2>
+            <h2 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h2>
+            <h2 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h2>
+            <h2 th:inline="text">Status : [[${roomRequest.status}]]</h2>
+            <h2 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h2>
+            <h2 th:inline="text">Comment : [[${roomRequest.comment}]]</h2>
+            <h2 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h2>
+            <div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">
+                <form method="post" th:action="@{/profile/room-requests/confirm/{id}(id=${roomRequest.id})}">
+                    <button class="btn btn-outline-info" type="submit">Accept room</button>
+                </form>
+                <form method="post" th:action="@{/profile/room-requests/decline/{id}(id=${roomRequest.id})}" th:object="${declineRoomForm}">
+                    <input class="form-control" th:field="*{comment}">
+                    <button class="btn btn-outline-danger my-2" type="submit">Decline this room</button>
+                </form>
+            </div>
+            <th:block th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING}">
+                <a class="link-danger text-decoration-none" th:href="@{/profile/room-requests/close/{id}(id=${roomRequest.id})}">Close this room request</a>
+            </th:block>
+        </div>
+    </div>
+</th:block>
+<div class="ms-2">
+    <div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
+</div>
 </body>
 </html>

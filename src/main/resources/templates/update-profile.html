@@ -5,16 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
-<h1>Update Profile</h1>
-<form method="post" th:object="${userUpdateForm}">
-    <p>First Name</p>
-    <input name="firstName" th:value="${userUpdateForm.getFirstName()}">
-    <a th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></a>
-    <p>Last Name</p>
-    <input name="lastName" th:value="${userUpdateForm.getLastName()}">
-    <a th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></a>
-    <button type="submit">Update Profile</button>
-</form>
+<div th:include="header"></div>
+<h1 class="ms-2">Update Profile</h1>
+<div class="d-flex ms-2">
+    <form method="post" th:object="${userUpdateForm}">
+        <p>First Name</p>
+        <input class="form-control my-2" name="firstName" th:value="${userUpdateForm.getFirstName()}">
+        <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></a>
+        <p>Last Name</p>
+        <input class="form-control my-2" name="lastName" th:value="${userUpdateForm.getLastName()}">
+        <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></a>
+        <button class="btn btn-outline-info" type="submit">Update Profile</button>
+    </form>
+</div>
 </body>
 </html>

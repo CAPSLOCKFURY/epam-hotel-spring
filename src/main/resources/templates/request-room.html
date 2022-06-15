@@ -5,29 +5,31 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
-<h1>Request Room</h1>
-<form method="post" th:action="@{/profile/request-room}" th:object="${roomRequestForm}">
-    <p>Capacity</p>
-        <input type="number" min="1" th:field="*{capacity}">
-        <a th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}">Capacity Error</a>
-    <p>Room Class</p>
-        <select th:field="*{roomClass.id}">
-            <option th:each="roomClass: ${roomClasses}" th:value="${roomClass.roomClassId}" th:text="${roomClass.name}"></option>
-        </select>
-    <p>Check In Date</p>
-        <input type="date" th:field="*{checkInDate}">
-        <a th:if="${#fields.hasErrors('checkInDate')}" th:errors="*{checkInDate}">Check In Date Error</a>
-    <p>Check Out Date</p>
-        <input type="date" th:field="*{checkOutDate}">
-        <a th:if="${#fields.hasErrors('checkOutDate')}" th:errors="*{checkOutDate}">Check Out Date Error</a>
-    <p>Comment</p>
-        <input th:field="*{comment}">
-        <a th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment Error</a>
-    <button type="submit">Request Room</button>
-    <div th:if="${#fields.hasErrors('global')}">
-        <a th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></a>
+<div th:include="header"></div>
+<h1 class="ms-2">Request Room</h1>
+<div class="d-flex ms-2">
+    <form class="form-group" method="post" th:action="@{/profile/request-room}" th:object="${roomRequestForm}">
+        <p>Capacity</p>
+            <input class="form-control my-2" type="number" min="1" th:field="*{capacity}">
+            <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}">Capacity Error</a>
+        <p>Room Class</p>
+            <select class="form-select my-2" th:field="*{roomClass.id}">
+                <option th:each="roomClass: ${roomClasses}" th:value="${roomClass.roomClassId}" th:text="${roomClass.name}"></option>
+            </select>
+        <p>Check In Date</p>
+            <input class="form-control my-2" type="date" th:field="*{checkInDate}">
+            <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('checkInDate')}" th:errors="*{checkInDate}">Check In Date Error</a>
+        <p>Check Out Date</p>
+            <input class="form-control my-2" type="date" th:field="*{checkOutDate}">
+            <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('checkOutDate')}" th:errors="*{checkOutDate}">Check Out Date Error</a>
+        <p>Comment</p>
+            <input class="form-control my-2" th:field="*{comment}">
+            <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment Error</a>
+        <button class="btn btn-success" type="submit">Request Room</button>
+        <div th:if="${#fields.hasErrors('global')}">
+            <a class="text-danger text-decoration-none" th:each="err : ${#fields.errors('global')}" th:text="${err}"></a>
     </div>
 </form>
+</div>
 </body>
 </html>

@@ -5,22 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
+<div th:include="header"></div>
 <div th:if="${errors != null}" th:each="error: ${errors}">
-    <h2 th:text="#{${error}}"></h2>
+    <h2 class="text-danger text-decoration-none" th:text="#{${error}}"></h2>
 </div>
-<div th:replace="fragments/pagination.html :: pagination(${billings.pageable}, ${billings.getTotalPages()}, ${billings.hasNext()})"></div>
-<h1>My billings</h1>
-    <div th:each="billing: ${billings}">
-        <hr>
-        <h1 th:inline="text">Price: [[${billing.price}]]</h1>
-        <h1 th:inline="text">Pay End Date : [[${billing.payEndDate}]]</h1>
-        <h1 th:inline="text">Is paid : [[${billing.paid}]]</h1>
-        <form method="post" th:action="@{/profile/billings/pay/{id}(id=${billing.id})}">
-            <button type="submit">Pay billing</button>
-        </form>
-        <hr>
+<div class="ms-2">
+    <div th:replace="fragments/pagination.html :: pagination(${billings.pageable}, ${billings.getTotalPages()}, ${billings.hasNext()})"></div>
+</div>
+<h1 class="ms-2">My billings</h1>
+<th:block th:each="billing: ${billings}">
+    <div class="d-flex">
+        <div class="row card bg-light my-2 ms-2">
+            <h1 th:inline="text">Price: [[${billing.price}]]</h1>
+            <h1 th:inline="text">Pay End Date : [[${billing.payEndDate}]]</h1>
+            <h1 th:inline="text">Is paid : [[${billing.paid}]]</h1>
+            <th:block th:if="${!billing.paid}">
+                <form method="post" th:action="@{/profile/billings/pay/{id}(id=${billing.id})}">
+                    <button class="btn btn-success" type="submit">Pay billing</button>
+                </form>
+            </th:block>
+        </div>
     </div>
-<div th:replace="fragments/pagination.html :: pagination(${billings.pageable}, ${billings.getTotalPages()}, ${billings.hasNext()})"></div>
+</th:block>
+<div class="ms-2">
+    <div th:replace="fragments/pagination.html :: pagination(${billings.pageable}, ${billings.getTotalPages()}, ${billings.hasNext()})"></div>
+</div>
 </body>
 </html>

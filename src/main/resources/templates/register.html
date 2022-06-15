@@ -5,25 +5,27 @@
     <title th:text="#{title.register}">Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
-<h1 th:text="#{title.register}">Register</h1>
-<form method="post" th:action="@{/register}" th:object="${registrationForm}">
-    <p th:text="#{user.username}">Username</p>
-        <input th:field="*{username}">
-        <a th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</a>
-    <p th:text="#{user.password}">Password</p>
-        <input th:field="*{password}">
-        <a th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</a>
-    <p th:text="#{user.email}">Email</p>
-        <input th:field="*{email}">
-        <a th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</a>
-    <p th:text="#{user.firstName}">First Name</p>
-        <input th:field="*{firstName}">
-        <a th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</a>
-    <p th:text="#{user.lastName}">Last Name</p>
-        <input th:field="*{lastName}">
-        <a th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</a>
-    <button th:text="#{button.register}" type="submit">Register</button>
+<div th:include="header"></div>
+<h1 class="ms-2" th:text="#{title.register}">Register</h1>
+<div class="d-flex ms-2">
+    <form class="form-group" method="post" th:action="@{/register}" th:object="${registrationForm}">
+        <p th:text="#{user.username}">Username</p>
+            <input class="form-control my-2" th:field="*{username}">
+            <a class="text-danger" style="text-decoration: none" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</a>
+        <p th:text="#{user.password}">Password</p>
+            <input class="form-control my-2" th:field="*{password}">
+            <a class="text-danger" style="text-decoration: none" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</a>
+        <p th:text="#{user.email}">Email</p>
+            <input class="form-control my-2" th:field="*{email}">
+            <a class="text-danger" style="text-decoration: none" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</a>
+        <p th:text="#{user.firstName}">First Name</p>
+            <input class="form-control my-2" th:field="*{firstName}">
+            <a class="text-danger" style="text-decoration: none" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</a>
+        <p th:text="#{user.lastName}">Last Name</p>
+            <input class="form-control my-2" th:field="*{lastName}">
+            <a class="text-danger" style="text-decoration: none" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</a>
+        <button class="btn btn-danger" th:text="#{button.register}" type="submit">Register</button>
 </form>
+</div>
 </body>
 </html>

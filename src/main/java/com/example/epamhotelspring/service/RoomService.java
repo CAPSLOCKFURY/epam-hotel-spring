@@ -8,6 +8,7 @@ import com.example.epamhotelspring.forms.BookRoomForm;
 import com.example.epamhotelspring.model.Room;
 import com.example.epamhotelspring.model.RoomRegistry;
 import com.example.epamhotelspring.model.User;
+import com.example.epamhotelspring.model.enums.RoomStatus;
 import com.example.epamhotelspring.repository.RoomRegistryRepository;
 import com.example.epamhotelspring.repository.RoomRepository;
 import com.example.epamhotelspring.repository.UserRepository;
@@ -53,6 +54,9 @@ public class RoomService {
             return;
         }
         Room room = roomRepository.findById(roomRegistry.getRoom().getId()).orElseThrow(EntityNotFoundException::new);
+        if (room.getRoomStatus().equals(RoomStatus.UNAVAILABLE)) {
+            return;
+        }
         User userFromDb = userRepository.findUserById(user.getId());
         BigDecimal roomPrice = room.getPrice();
         long stayDaysCount = Duration.between(roomRegistry.getCheckInDate().atStartOfDay(), roomRegistry.getCheckOutDate().atStartOfDay()).toDays();

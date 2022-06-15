@@ -6,21 +6,25 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
-<h1 th:inline="text">Welcome : [[${user.firstName} + ' ' + ${user.lastName}]]</h1>
-<h1 th:inline="text">Your balance : [[${user.balance}]]</h1>
-<a th:href="@{/profile/update}">Update profile</a>
-<a th:href="@{/profile/request-room}">Request Room</a>
-<a th:href="@{/profile/room-requests}">Room requests</a>
-<a th:href="@{/profile/room-history}">Room history</a>
-<a th:href="@{/profile/add-balance}">Add Balance</a>
-<a th:href="@{/profile/billings}">Billings</a>
-<a th:href="@{/profile/update}">Update profile</a>
-<a th:href="@{/profile/change-password}">Change password</a>
-<th:block sec:authorize="hasAuthority(T(com.example.epamhotelspring.model.enums.Role).MANAGER.getAuthority())">
-    <a th:href="@{/manager/room-requests}">User room requests</a>
-    <a th:href="@{/manager/report/configure}">Configure Room PDF report</a>
-</th:block>
-<a th:href="@{/logout}">Logout</a>
+<div th:include="header"></div>
+<div class="d-flex bg-light w-25">
+    <div class="ms-2 row">
+        <h1 th:inline="text">Welcome : [[${user.firstName} + ' ' + ${user.lastName}]]</h1>
+        <h1 th:inline="text">Your balance : [[${user.balance}]]</h1>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/profile/update}">Update profile</a>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/profile/request-room}">Request Room</a>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/profile/room-requests}">Room requests</a>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/profile/room-history}">Room history</a>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/profile/add-balance}">Add Balance</a>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/profile/billings}">Billings</a>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/profile/update}">Update profile</a>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/profile/change-password}">Change password</a>
+        <th:block sec:authorize="hasAuthority(T(com.example.epamhotelspring.model.enums.Role).MANAGER.getAuthority())">
+            <a class="link-primary my-1 text-decoration-none" th:href="@{/manager/room-requests}">User room requests</a>
+            <a class="link-primary my-1 text-decoration-none" th:href="@{/manager/report/configure}">Configure Room PDF report</a>
+        </th:block>
+        <a class="link-primary my-1 text-decoration-none" th:href="@{/logout}">Logout</a>
+    </div>
+</div>
 </body>
 </html>
