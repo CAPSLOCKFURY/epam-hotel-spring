@@ -35,7 +35,7 @@ public class PdfReportController {
     @GetMapping("/pdf")
     public void roomRegistryPdfReport(HttpServletResponse response, Locale locale,
                                       @RequestParam(value = "checkInDate", required = false) String checkInDate, @RequestParam(value = "checkOutDate", required = false) String checkOutDate,
-                                      @RequestParam(value = "page", required = false, defaultValue = "0") int page, @RequestParam(value = "size", required = false, defaultValue = "100") int size) throws IOException {
+                                      @RequestParam(value = "page", required = false, defaultValue = "1") int page, @RequestParam(value = "size", required = false, defaultValue = "1000") int size) throws IOException {
         response.setContentType("application/pdf");
         ServletOutputStream out = response.getOutputStream();
         Pageable pageable = PageRequest.of(page - 1, size);

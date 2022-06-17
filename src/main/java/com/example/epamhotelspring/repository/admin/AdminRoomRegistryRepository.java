@@ -40,8 +40,7 @@ public class AdminRoomRegistryRepository {
             cq.where(cb.and(predicates.toArray(new Predicate[0])));
         }
         TypedQuery<RoomRegistryReportDTO> query = em.createQuery(cq).setFirstResult((int)pageable.getOffset()).setMaxResults(pageable.getPageSize());
-        List<RoomRegistryReportDTO> result = query.getResultList();
-        return result;
+        return query.getResultList();
     }
 
     private List<Predicate> getRoomRegistryFilterPredicates(CriteriaBuilder cb, Path<RoomRegistry> root, LocalDate checkInDate, LocalDate checkOutDate){
