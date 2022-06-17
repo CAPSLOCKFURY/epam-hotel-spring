@@ -5,14 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
-<h1>Configure room report</h1>
-<form th:action="@{/manager/report/pdf}" method="get">
-    <p>Page</p><input type="number" min="0" name="page">
-    <p>Page size</p><input type="number" min="1" name="size">
-    <p>Check In Date</p><input name="checkInDate" type="date">
-    <p>Check Out Date</p><input name="checkOutDate" type="date">
-    <button type="submit">Generate report</button>
-</form>
+<div th:include="header"></div>
+<h1 class="ms-2">Configure room report</h1>
+<div class="d-flex ms-2">
+    <form th:action="@{/manager/report/pdf}" method="get">
+        <p>Page</p><input class="form-control" type="number" min="0" name="page">
+        <p>Page size</p><input class="form-control" type="number" min="1" name="size">
+        <p>Check In Date</p><input class="form-control" name="checkInDate" type="date">
+        <p>Check Out Date</p><input class="form-control" name="checkOutDate" type="date">
+        <button class="btn btn-primary my-2" type="submit">Generate report</button>
+    </form>
+</div>
 </body>
 </html>

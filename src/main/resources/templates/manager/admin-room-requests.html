@@ -5,38 +5,44 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
-<h1>Users room requests</h1>
-<div>
-    <form method="get">
-        <select name="roomRequestType">
+<div th:include="header"></div>
+<h1 class="ms-2">Users room requests</h1>
+<form method="get" class="form-group">
+    <div class="d-flex justify-content-start">
+        <select style="width: 8%" class="form-select" name="roomRequestType">
             <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting')}" value="awaiting">Awaiting</option>
             <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting_confirmation')}" value="awaiting_confirmation">Awaiting confirmation</option>
             <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting_payment')}" value="awaiting_payment">Awaiting payment</option>
             <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'paid')}" value="paid">Paid</option>
             <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'closed')}" value="closed">Closed</option>
         </select>
-        <button type="submit">Filter requests</button>
-    </form>
+        <button class="btn btn-outline-primary" type="submit">Filter requests</button>
+    </div>
+</form>
+<div class="ms-2">
+    <div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 </div>
-<div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
-<div th:each="roomRequest: ${roomRequests}">
-    <hr>
-    <h1 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h1>
-    <h1 th:inline="text">Last Name : [[${roomRequest.userLastName}]]</h1>
-    <h1 th:inline="text">User Email : [[${roomRequest.userEmail}]]</h1>
-    <h1 th:inline="text">Username : [[${roomRequest.userUsername}]]</h1>
-    <h1 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h1>
-    <h1 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h1>
-    <h1 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h1>
-    <h1 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h1>
-    <h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
-    <h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
-    <h1 th:inline="text">Comment: [[${roomRequest.comment}]]</h1>
-    <h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
-    <h2><a th:href="@{/manager/room-request/{id}(id=${roomRequest.id})}">See request</a></h2>
-    <hr>
+<th:block th:each="roomRequest: ${roomRequests}">
+    <div class="d-flex">
+        <div class="row my-2 ms-2 card bg-light">
+            <h2 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h2>
+            <h2 th:inline="text">Last Name : [[${roomRequest.userLastName}]]</h2>
+            <h2 th:inline="text">User Email : [[${roomRequest.userEmail}]]</h2>
+            <h2 th:inline="text">Username : [[${roomRequest.userUsername}]]</h2>
+            <h2 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h2>
+            <h2 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h2>
+            <h2 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h2>
+            <h2 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h2>
+            <h2 th:inline="text">Status : [[${roomRequest.status}]]</h2>
+            <h2 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h2>
+            <h2 th:inline="text">Comment: [[${roomRequest.comment}]]</h2>
+            <h2 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h2>
+            <h2><a th:href="@{/manager/room-request/{id}(id=${roomRequest.id})}">See request</a></h2>
+        </div>
+    </div>
+</th:block>
+<div class="ms-2">
+    <div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 </div>
-<div th:replace="fragments/pagination.html :: pagination(${roomRequests.pageable}, ${roomRequests.getTotalPages()}, ${roomRequests.hasNext()})"></div>
 </body>
 </html>

@@ -5,64 +5,76 @@
     <title>Title</title>
 </head>
 <body>
-<div th:include="header::nav"></div>
-<h1>User room request</h1>
+<div th:include="header"></div>
+<h1 class="ms-2">User room request</h1>
 <div th:if="${errors != null}" th:each="error: ${errors}">
-    <h2 th:text="#{${error}}"></h2>
+    <h2 class="text-danger text-decoration-none" th:text="#{${error}}"></h2>
 </div>
-<hr>
-<h1 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h1>
-<h1 th:inline="text">Last Name : [[${roomRequest.userLastName}]]</h1>
-<h1 th:inline="text">User Email : [[${roomRequest.userEmail}]]</h1>
-<h1 th:inline="text">Username : [[${roomRequest.userUsername}]]</h1>
-<h1 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h1>
-<h1 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h1>
-<h1 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h1>
-<h1 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h1>
-<h1 th:inline="text">Status : [[${roomRequest.status}]]</h1>
-<h1 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h1>
-<h1 th:inline="text">Comment: [[${roomRequest.comment}]]</h1>
-<h1 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h1>
-<div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING || roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">
-    <form method="post" th:action="@{/manager/room-request/close}" th:object="${closeRequestForm}">
-        <input type="hidden" th:value="${roomRequest.id}" name="requestId">
-        <input placeholder="Comment" type="text" th:field="*{comment}">
-        <button type="submit">Close request</button>
-    </form>
+<div class="d-flex">
+    <div class="row card bg-light ms-2">
+        <h2 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h2>
+        <h2 th:inline="text">Last Name : [[${roomRequest.userLastName}]]</h2>
+        <h2 th:inline="text">User Email : [[${roomRequest.userEmail}]]</h2>
+        <h2 th:inline="text">Username : [[${roomRequest.userUsername}]]</h2>
+        <h2 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h2>
+        <h2 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h2>
+        <h2 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h2>
+        <h2 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h2>
+        <h2 th:inline="text">Status : [[${roomRequest.status}]]</h2>
+        <h2 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h2>
+        <h2 th:inline="text">Comment: [[${roomRequest.comment}]]</h2>
+        <h2 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h2>
+        <div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING || roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">
+            <form method="post" th:action="@{/manager/room-request/close}" th:object="${closeRequestForm}">
+                <div class="d-flex">
+                    <input type="hidden" th:value="${roomRequest.id}" name="requestId">
+                    <input class="form-control" placeholder="Comment" type="text" th:field="*{comment}">
+                    <button class="btn btn-outline-danger my-2" type="submit">Close request</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-<hr>
-<h1>Suitable rooms</h1>
+<h2 class="ms-2">Suitable rooms</h2>
 <th:block th:if="${suitableRooms != null}">
     <form id="sortForm" method="get">
-        <script type="text/javascript" th:src="@{/js/sendSortForm.js}"></script>
-        <select name="sort" id="sortField">
-            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'id')}" value="id">Id</option>
-            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'price')}" value="price">Price</option>
-            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomStatus')}" value="roomStatus">Status</option>
-            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomClass')}" value="roomClass">Class</option>
-            <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'capacity')}" value="capacity">Capacity</option>
-        </select>
-        <select id="sortDirection">
-            <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'asc')}" value="asc">Ascending</option>
-            <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'desc')}" value="desc">Descending</option>
-        </select>
-        <button onclick="sendSortParameters()">Sort</button>
+        <div class="d-flex justify-content-start">
+            <script type="text/javascript" th:src="@{/js/sendSortForm.js}"></script>
+            <select style="width: 10%;" class="form-select ms-2 me-1" name="sort" id="sortField">
+                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'id')}" value="id">Id</option>
+                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'price')}" value="price">Price</option>
+                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomStatus')}" value="roomStatus">Status</option>
+                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomClass')}" value="roomClass">Class</option>
+                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'capacity')}" value="capacity">Capacity</option>
+            </select>
+            <select style="width: 10%;" class="form-select mx-1" id="sortDirection">
+                <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'asc')}" value="asc">Ascending</option>
+                <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'desc')}" value="desc">Descending</option>
+            </select>
+            <button class="btn btn-outline-primary mx-1" onclick="sendSortParameters()">Sort</button>
+        </div>
     </form>
-    <div th:replace="fragments/pagination.html :: pagination(${suitableRooms.pageable}, ${suitableRooms.getTotalPages()}, ${suitableRooms.hasNext()})"></div>
-    <div th:each="room: ${suitableRooms}">
-        <hr>
-        <h1 th:inline="text">Room number : [[${room.number}]]</h1>
-        <h1 th:inline="text">Room name : [[${room.name}]]</h1>
-        <h1 th:inline="text">Room status : [[${room.roomStatus}]]</h1>
-        <h1 th:inline="text">Room capacity : [[${room.capacity}]]</h1>
-        <h1 th:inline="text">Room class : [[${room.classTranslated}]]</h1>
-        <h1 th:inline="text">Room price : [[${room.price}]]</h1>
-        <form method="post" th:action="@{/manager/room-request/{id}/assign-room/{roomId}(id=${roomRequest.id}, roomId=${room.id})}">
-            <button type="submit">Assign this room</button>
-        </form>
-        <hr>
+    <div class="ms-2">
+        <div th:replace="fragments/pagination.html :: pagination(${suitableRooms.pageable}, ${suitableRooms.getTotalPages()}, ${suitableRooms.hasNext()})"></div>
     </div>
-    <div th:replace="fragments/pagination.html :: pagination(${suitableRooms.pageable}, ${suitableRooms.getTotalPages()}, ${suitableRooms.hasNext()})"></div>
+    <th:block th:each="room: ${suitableRooms}">
+        <div class="d-flex my-2">
+            <div class="row card bg-light ms-2">
+                <h2 th:inline="text">Room number : [[${room.number}]]</h2>
+                <h2 th:inline="text">Room name : [[${room.name}]]</h2>
+                <h2 th:inline="text">Room status : [[${room.roomStatus}]]</h2>
+                <h2 th:inline="text">Room capacity : [[${room.capacity}]]</h2>
+                <h2 th:inline="text">Room class : [[${room.classTranslated}]]</h2>
+                <h2 th:inline="text">Room price : [[${room.price}]]</h2>
+                <form class="form-group" method="post" th:action="@{/manager/room-request/{id}/assign-room/{roomId}(id=${roomRequest.id}, roomId=${room.id})}">
+                    <button class="btn btn-outline-success" type="submit">Assign this room</button>
+                </form>
+            </div>
+        </div>
+    </th:block>
+    <div class="ms-2">
+        <div th:replace="fragments/pagination.html :: pagination(${suitableRooms.pageable}, ${suitableRooms.getTotalPages()}, ${suitableRooms.hasNext()})"></div>
+    </div>
 </th:block>
 </body>
 </html>
