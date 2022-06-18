@@ -48,13 +48,13 @@ public class RoomService {
     public void bookRoom(BookRoomForm form, User user, ServiceErrors serviceErrors){
         RoomRegistry roomRegistry = new RoomRegistry(form);
         roomRegistry.setUser(user);
+        Room room = roomRepository.findById(roomRegistry.getRoom().getId()).orElseThrow(EntityNotFoundException::new);
+        if (room.getRoomStatus().equals(RoomStatus.UNAVAILABLE)) {
+            return;
+        }
         Long bookingOverlaps = roomRepository.countRoomOverlaps(roomRegistry.getCheckInDate(), roomRegistry.getCheckOutDate(), roomRegistry.getRoom().getId());
         if(bookingOverlaps != 0){
             serviceErrors.reject("errors.datesOverlap");
-            return;
-        }
-        Room room = roomRepository.findById(roomRegistry.getRoom().getId()).orElseThrow(EntityNotFoundException::new);
-        if (room.getRoomStatus().equals(RoomStatus.UNAVAILABLE)) {
             return;
         }
         User userFromDb = userRepository.findUserById(user.getId());

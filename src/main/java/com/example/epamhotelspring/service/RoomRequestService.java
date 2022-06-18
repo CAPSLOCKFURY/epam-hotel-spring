@@ -58,6 +58,9 @@ public class RoomRequestService {
         if(roomRequest.getRoom() == null){
             return;
         }
+        if(roomRequest.getStatus() != RequestStatus.AWAITING_CONFIRMATION){
+            return;
+        }
         roomRequest.setStatus(RequestStatus.AWAITING_PAYMENT);
         Billing billing = new Billing(roomRequest);
         RoomRegistry roomRegistry = new RoomRegistry(roomRequest);
