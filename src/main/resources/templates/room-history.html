@@ -2,26 +2,26 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{title.roomHistory}">Title</title>
 </head>
 <body>
 <div th:include="header"></div>
-<h1 class="ms-2">Room history</h1>
+<h1 class="ms-2" th:text="#{title.roomHistory}">Room history</h1>
 <div class="ms-2">
     <div th:replace="fragments/pagination.html :: pagination(${rooms.pageable}, ${rooms.getTotalPages()}, ${rooms.hasNext()})"></div>
 </div>
 <th:block th:each="room: ${rooms}">
     <div class="d-flex">
         <div class="row card bg-light ms-2 my-2">
-            <h1 th:inline="text">Room number : [[${room.number}]]</h1>
-            <h1 th:inline="text">Room name : [[${room.name}]]</h1>
-            <h1 th:inline="text">Room status : [[${room.roomStatus}]]</h1>
-            <h1 th:inline="text">Room capacity : [[${room.capacity}]]</h1>
-            <h1 th:inline="text">Room class : [[${room.classTranslated}]]</h1>
-            <h1 th:inline="text">Room price : [[${room.price}]]</h1>
-            <h1 th:inline="text">Check In Date : [[${room.checkInDate}]]</h1>
-            <h1 th:inline="text">Check Out Date : [[${room.checkOutDate}]]</h1>
-            <h2><a th:href="@{/room/{id}(id=${room.id})}">See room</a></h2>
+            <h1 th:inline="text">[[#{room.number}]] : [[${room.number}]]</h1>
+            <h1 th:inline="text">[[#{room.name}]] : [[${room.name}]]</h1>
+            <h1 th:text="#{room.status} + ' : ' + #{'roomStatus.'+ ${room.roomStatus}}"></h1>
+            <h1 th:inline="text">[[#{room.capacity}]] : [[${room.capacity}]]</h1>
+            <h1 th:inline="text">[[#{room.class}]] : [[${room.classTranslated}]]</h1>
+            <h1 th:inline="text">[[#{room.price}]] : [[${room.price}]]</h1>
+            <h1 th:inline="text">[[#{room.checkInDate}]] : [[${room.checkInDate}]]</h1>
+            <h1 th:inline="text">[[#{room.checkOutDate}]] : [[${room.checkOutDate}]]</h1>
+            <h2><a th:href="@{/room/{id}(id=${room.id})}" th:text="#{index.seeRoom}">See room</a></h2>
         </div>
     </div>
 </th:block>

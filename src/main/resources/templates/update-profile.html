@@ -2,17 +2,17 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{title.updateProfile}">Title</title>
 </head>
 <body>
 <div th:include="header"></div>
-<h1 class="ms-2">Update Profile</h1>
+<h1 class="ms-2" th:text="#{title.updateProfile}">Update Profile</h1>
 <div class="d-flex ms-2">
     <form method="post" th:object="${userUpdateForm}">
-        <p>First Name</p>
+        <p th:text="#{user.firstName}">First Name</p>
         <input class="form-control my-2" name="firstName" th:value="${userUpdateForm.getFirstName()}">
         <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></a>
-        <p>Last Name</p>
+        <p th:text="#{user.lastName}">Last Name</p>
         <input class="form-control my-2" name="lastName" th:value="${userUpdateForm.getLastName()}">
         <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></a>
         <button class="btn btn-outline-info" type="submit">Update Profile</button>

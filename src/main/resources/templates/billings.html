@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{title.myBillings}">Title</title>
 </head>
 <body>
 <div th:include="header"></div>
@@ -12,16 +12,16 @@
 <div class="ms-2">
     <div th:replace="fragments/pagination.html :: pagination(${billings.pageable}, ${billings.getTotalPages()}, ${billings.hasNext()})"></div>
 </div>
-<h1 class="ms-2">My billings</h1>
+<h1 class="ms-2" th:text="#{title.myBillings}">My billings</h1>
 <th:block th:each="billing: ${billings}">
     <div class="d-flex">
         <div class="row card bg-light my-2 ms-2">
-            <h1 th:inline="text">Price: [[${billing.price}]]</h1>
-            <h1 th:inline="text">Pay End Date : [[${billing.payEndDate}]]</h1>
-            <h1 th:inline="text">Is paid : [[${billing.paid}]]</h1>
+            <h1 th:inline="text">[[#{billing.price}]] : [[${billing.price}]]</h1>
+            <h1 th:inline="text">[[#{billing.payEndDate}]] : [[${billing.payEndDate}]]</h1>
+            <h1 th:inline="text">[[#{billing.isPaid}]] : [[#{${billing.paid}}]]</h1>
             <th:block th:if="${!billing.paid}">
                 <form method="post" th:action="@{/profile/billings/pay/{id}(id=${billing.id})}">
-                    <button class="btn btn-success" type="submit">Pay billing</button>
+                    <button th:text="#{button.payBilling}" class="btn btn-success" type="submit">Pay billing</button>
                 </form>
             </th:block>
         </div>

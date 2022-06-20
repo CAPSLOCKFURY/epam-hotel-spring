@@ -8,7 +8,7 @@
 <div th:include="header"></div>
 <h1 class="ms-2" th:text="#{title.login}">Login</h1>
 <h4 class="text-danger ms-2" style="text-decoration: none" th:if="${param.error}" th:text="#{errors.badCredentials}">Bad Credentials</h4>
-<h4 class="text-success ms-2" style="text-decoration: none" th:if="${param.passchanged}" th:text="'Password changed login again'"></h4>
+<h4 class="text-success ms-2" style="text-decoration: none" th:if="${param.passchanged}" th:text="#{passChanged}"></h4>
 <div class="d-flex ms-2">
     <form name="f" th:action="@{/perform-login}" method="post">
         <p th:text="#{user.username}">Username</p><input class="form-control my-2" type="text" id="user" name="user"/>

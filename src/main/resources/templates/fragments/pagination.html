@@ -8,7 +8,7 @@
 <!--/*@thymesVar id="pageable" type="org.springframework.data.domain.Pageable"*/-->
 <div th:fragment="pagination(pageable, totalPages, hasNext)">
     <ul class="pagination" th:with="getParams=${@thymeleafUtils.buildGetParameters(param, 'page')}">
-        <li class="page-item" th:if="${pageable.hasPrevious()}"><a class="page-link" th:href="@{${'?page='+pageable.previousOrFirst().getPageNumber() + '&'} + ${getParams}}">Previous page</a></li>
+        <li class="page-item" th:if="${pageable.hasPrevious()}"><a class="page-link" th:text="#{pagination.prevPage}" th:href="@{${'?page='+pageable.previousOrFirst().getPageNumber() + '&'} + ${getParams}}">Previous page</a></li>
         <th:block th:if="${pageable.getPageNumber() - 3 >= 0}">
             <li class="page-item"><a class="page-link" th:href="@{'?page=0&' + ${getParams}}">1</a></li>
             <li class="page-item"><a class="page-link">... </a></li>
@@ -33,7 +33,7 @@
             <li class="page-item"><a class="page-link">...</a></li>
             <li class="page-item"><a class="page-link" th:href="@{${'?page=' + (totalPages - 1)} + '&' + ${getParams}}" th:text="${totalPages}"></a></li>
         </th:block>
-        <li class="page-item" th:if="${hasNext}"><a class="page-link" th:href="@{${'?page='+pageable.next().getPageNumber() + '&'} + ${getParams}}">Next page</a></li>
+        <li class="page-item" th:if="${hasNext}"><a class="page-link" th:text="#{pagination.nextPage}" th:href="@{${'?page='+pageable.next().getPageNumber() + '&'} + ${getParams}}">Next page</a></li>
     </ul>
 </div>
 </body>

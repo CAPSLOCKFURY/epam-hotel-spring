@@ -9,21 +9,21 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Home</a>
+        <a class="navbar-brand" th:text="#{header.home}" th:href="@{/}">Home</a>
     </div>
     <div class="container-fluid justify-content-end">
         <ul class="navbar-nav">
             <th:block sec:authorize="isAnonymous()">
                 <li class="nav-item">
-                    <a class="link-primary me-2 text-decoration-none" th:href="@{/login}">Login</a>
+                    <a class="link-primary me-2 text-decoration-none" th:text="#{header.login}" th:href="@{/login}">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="link-primary me-2 text-decoration-none" th:href="@{/register}">Register</a>
+                    <a class="link-primary me-2 text-decoration-none" th:text="#{header.register}" th:href="@{/register}">Register</a>
                 </li>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
                 <li class="nav-item">
-                    <a class="link-info me-2 text-decoration-none text-nowrap" th:href="@{/profile}">Profile</a>
+                    <a class="link-info me-2 text-decoration-none text-nowrap" th:text="#{header.profile}" th:href="@{/profile}">Profile</a>
                 </li>
             </th:block>
         </ul>
@@ -32,7 +32,7 @@
                 <option th:selected="${#locale.toLanguageTag()} == en" value="en">English</option>
                 <option th:selected="${#locale.toLanguageTag()} == ru" value="ru">Русский</option>
             </select>
-            <button class="nav-item btn-sm btn-dark text-nowrap" type="submit">Change language</button>
+            <button class="nav-item btn-sm btn-dark text-nowrap" th:text="#{header.changeLang}" type="submit">Change language</button>
         </form>
     </div>
 </nav>

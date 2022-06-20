@@ -2,19 +2,19 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Room</title>
+    <title th:text="#{title.room}">Room</title>
 </head>
 <body>
 <div th:include="header"></div>
 <div class="ms-2">
     <div class="ms-2 d-flex my-2">
         <div class="row card bg-light">
-            <h2 th:inline="text">Room number : [[${room.number}]]</h2>
-            <h2 th:inline="text">Room name : [[${room.name}]]</h2>
-            <h2 th:inline="text">Room status : [[${room.roomStatus}]]</h2>
-            <h2 th:inline="text">Room capacity : [[${room.capacity}]]</h2>
-            <h2 th:inline="text">Room class : [[${room.classTranslated}]]</h2>
-            <h2 th:inline="text">Room price : [[${room.price}]]</h2>
+            <h2 th:inline="text">[[#{room.number}]] : [[${room.number}]]</h2>
+            <h2 th:inline="text">[[#{room.name}]] : [[${room.name}]]</h2>
+            <h2 th:text="#{room.status} + ' : ' + #{'roomStatus.'+ ${room.roomStatus}}"></h2>
+            <h2 th:inline="text">[[#{room.capacity}]] : [[${room.capacity}]]</h2>
+            <h2 th:inline="text">[[#{room.class}]] : [[${room.classTranslated}]]</h2>
+            <h2 th:inline="text">[[#{room.price}]] : [[${room.price}]]</h2>
         </div>
     </div>
     <th:block th:if="${#authorization.expression('isAuthenticated()')&& !room.roomStatus.equals(T(com.example.epamhotelspring.model.enums.RoomStatus).UNAVAILABLE)}">
@@ -23,20 +23,20 @@
         <div class="d-flex ms-2">
             <form class="form-group bg-light" method="post" th:object="${bookRoomForm}" th:action="@{/room/book-room}">
                 <input type="hidden" th:value="${room.id}" name="roomId">
-                <p class="my-1">Check In Date</p>
+                <p class="my-1" th:text="#{roomRequest.checkInDate}">Check In Date</p>
                 <input class="form-control my-1" type="date" th:field="*{checkInDate}" onchange="dateChange()">
                 <script>document.getElementById("checkInDate").min = new Date().toISOString().split("T")[0];</script>
                 <a class="text-danger" style="text-decoration: none" th:if="${#fields.hasErrors('checkInDate')}" th:errors="*{checkInDate}">Check In Date Error</a>
-                <p class="my-1">Check Out Date</p>
+                <p class="my-1" th:text="#{roomRequest.checkOutDate}">Check Out Date</p>
                 <input class="form-control my-1" type="date" th:field="*{checkOutDate}" onchange="dateChange()">
                 <a class="text-danger" style="text-decoration: none" th:if="${#fields.hasErrors('checkOutDate')}" th:errors="*{checkOutDate}">Check Out Date Error</a>
                 <div th:if="${#fields.hasErrors('global')}">
                     <a class="text-danger" style="text-decoration: none" th:each="err : ${#fields.errors('global')}" th:text="${err}"></a>
                 </div>
-                <button class="btn btn-outline-success" type="submit">Book Room</button>
+                <button class="btn btn-outline-success" th:text="#{button.bookRoom}" type="submit">Book Room</button>
             </form>
         </div>
-        <a>Estimated price: </a><a class="text-success" style="text-decoration: none" id="calculatedPrice"></a>
+        <a th:text="#{estimatedPrice}">Estimated price: </a><a class="text-success" style="text-decoration: none" id="calculatedPrice"></a>
     </th:block>
     <th:block th:if="${#authorization.expression('hasAuthority(T(com.example.epamhotelspring.model.enums.Role).MANAGER.getAuthority())')
     && !room.roomStatus.equals(T(com.example.epamhotelspring.model.enums.RoomStatus).UNAVAILABLE)}">
@@ -50,17 +50,17 @@
                 <div th:if="${#fields.hasErrors('global')}">
                     <a class="text-danger" style="text-decoration: none" th:each="err : ${#fields.errors('global')}" th:text="${err}"></a>
                 </div>
-                <button class="btn btn-outline-warning" type="submit">Close room</button>
+                <button class="btn btn-outline-warning" type="submit" th:text="#{button.closeRoom}">Close room</button>
             </form>
         </div>
     </th:block>
     <div th:if="${#authorization.expression('hasAuthority(T(com.example.epamhotelspring.model.enums.Role).MANAGER.getAuthority())')
     && room.roomStatus.equals(T(com.example.epamhotelspring.model.enums.RoomStatus).UNAVAILABLE)}">
         <form method="post" th:object="${closeRoomForm}" th:action="@{/manager/room/{id}/open(id=${room.id})}">
-            <button class="btn btn-success" type="submit">Open room</button>
+            <button th:text="#{button.openRoom}" class="btn btn-success" type="submit">Open room</button>
         </form>
     </div>
-    <h1>Booked dates</h1>
+    <h1 th:text="#{bookedDates}">Booked dates</h1>
     <div th:each="roomRegistry: ${room.roomRegistries}">
         <h3 th:text="${roomRegistry.checkInDate} + '|' + ${roomRegistry.checkOutDate}"></h3>
     </div>
