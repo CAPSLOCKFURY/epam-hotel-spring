@@ -26,7 +26,7 @@
                     <button class="btn btn-outline-info" type="submit">Accept room</button>
                 </form>
                 <form method="post" th:action="@{/profile/room-requests/decline/{id}(id=${roomRequest.id})}" th:object="${declineRoomForm}">
-                    <input class="form-control" th:field="*{comment}">
+                    <input class="form-control w-50" th:field="*{comment}">
                     <button class="btn btn-outline-danger my-2" type="submit">Decline this room</button>
                 </form>
             </div>

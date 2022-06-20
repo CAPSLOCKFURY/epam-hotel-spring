@@ -28,7 +28,7 @@
             <form method="post" th:action="@{/manager/room-request/close}" th:object="${closeRequestForm}">
                 <div class="d-flex">
                     <input type="hidden" th:value="${roomRequest.id}" name="requestId">
-                    <input class="form-control" placeholder="Comment" type="text" th:field="*{comment}">
+                    <input class="form-control w-25" placeholder="Comment" type="text" th:field="*{comment}">
                     <button class="btn btn-outline-danger my-2" type="submit">Close request</button>
                 </div>
             </form>
