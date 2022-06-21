@@ -6,17 +6,17 @@
 </head>
 <body>
 <div th:include="header"></div>
-<h1 class="ms-2">Users room requests</h1>
+<h1 class="ms-2" th:text="#{title.admin.userRoomRequests}">Users room requests</h1>
 <form method="get" class="form-group ms-2">
     <div class="d-flex justify-content-start">
         <select style="width: 8%" class="form-select" name="roomRequestType">
-            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting')}" value="awaiting">Awaiting</option>
-            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting_confirmation')}" value="awaiting_confirmation">Awaiting confirmation</option>
-            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting_payment')}" value="awaiting_payment">Awaiting payment</option>
-            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'paid')}" value="paid">Paid</option>
-            <option th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'closed')}" value="closed">Closed</option>
+            <option th:text="#{filter.awaiting}" th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting')}" value="awaiting">Awaiting</option>
+            <option th:text="#{filter.awaiting_confirmation}" th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting_confirmation')}" value="awaiting_confirmation">Awaiting confirmation</option>
+            <option th:text="#{filter.awaiting_payment}" th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'awaiting_payment')}" value="awaiting_payment">Awaiting payment</option>
+            <option th:text="#{filter.paid}" th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'paid')}" value="paid">Paid</option>
+            <option th:text="#{filter.closed}" th:selected="${@thymeleafUtils.selectedIf(param, 'roomRequestType', 'closed')}" value="closed">Closed</option>
         </select>
-        <button class="btn btn-outline-primary" type="submit">Filter requests</button>
+        <button class="btn btn-outline-primary" type="submit" th:text="#{button.filterRequests}">Filter requests</button>
     </div>
 </form>
 <div class="ms-2">
@@ -25,19 +25,19 @@
 <th:block th:each="roomRequest: ${roomRequests}">
     <div class="d-flex">
         <div class="row my-2 ms-2 card bg-light">
-            <h2 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h2>
-            <h2 th:inline="text">Last Name : [[${roomRequest.userLastName}]]</h2>
-            <h2 th:inline="text">User Email : [[${roomRequest.userEmail}]]</h2>
-            <h2 th:inline="text">Username : [[${roomRequest.userUsername}]]</h2>
-            <h2 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h2>
-            <h2 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h2>
-            <h2 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h2>
-            <h2 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h2>
-            <h2 th:inline="text">Status : [[${roomRequest.status}]]</h2>
-            <h2 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h2>
-            <h2 th:inline="text">Comment: [[${roomRequest.comment}]]</h2>
-            <h2 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h2>
-            <h2><a th:href="@{/manager/room-request/{id}(id=${roomRequest.id})}">See request</a></h2>
+            <h2 th:inline="text">[[#{roomRequest.firstName}]] : [[${roomRequest.userFirstName}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.lastName}]] : [[${roomRequest.userLastName}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.email}]] : [[${roomRequest.userEmail}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.username}]] : [[${roomRequest.userUsername}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.capacity}]] : [[${roomRequest.capacity}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.roomClass}]] : [[${roomRequest.roomClass}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.checkInDate}]] : [[${roomRequest.checkInDate}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.checkOutDate}]] : [[${roomRequest.checkOutDate}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.status}]] : [[${roomRequest.status}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.assignedRoom}]] : [[${roomRequest.roomId}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.comment}]] : [[${roomRequest.comment}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.managerComment}]] : [[${roomRequest.managerComment}]]</h2>
+            <h2><a th:href="@{/manager/room-request/{id}(id=${roomRequest.id})}" th:text="#{seeRequest}">See request</a></h2>
         </div>
     </div>
 </th:block>

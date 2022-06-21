@@ -15,7 +15,7 @@
         <p th:text="#{user.lastName}">Last Name</p>
         <input class="form-control my-2" name="lastName" th:value="${userUpdateForm.getLastName()}">
         <a class="text-danger text-decoration-none" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></a>
-        <button class="btn btn-outline-info" type="submit">Update Profile</button>
+        <button class="btn btn-outline-info" type="submit" th:text="#{button.updateProfile}">Update Profile</button>
     </form>
 </div>
 </body>

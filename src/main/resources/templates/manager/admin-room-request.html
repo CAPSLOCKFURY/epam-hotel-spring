@@ -2,56 +2,56 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{title.admin.userRoomRequest}">Title</title>
 </head>
 <body>
 <div th:include="header"></div>
-<h1 class="ms-2">User room request</h1>
+<h1 class="ms-2" th:text="#{title.admin.userRoomRequest}">User room request</h1>
 <div th:if="${errors != null}" th:each="error: ${errors}">
     <h2 class="text-danger text-decoration-none" th:text="#{${error}}"></h2>
 </div>
 <div class="d-flex">
     <div class="row card bg-light ms-2">
-        <h2 th:inline="text">First Name : [[${roomRequest.userFirstName}]]</h2>
-        <h2 th:inline="text">Last Name : [[${roomRequest.userLastName}]]</h2>
-        <h2 th:inline="text">User Email : [[${roomRequest.userEmail}]]</h2>
-        <h2 th:inline="text">Username : [[${roomRequest.userUsername}]]</h2>
-        <h2 th:inline="text">Capacity : [[${roomRequest.capacity}]]</h2>
-        <h2 th:inline="text">Room Class : [[${roomRequest.roomClass}]]</h2>
-        <h2 th:inline="text">Check in date : [[${roomRequest.checkInDate}]]</h2>
-        <h2 th:inline="text">Check out date : [[${roomRequest.checkOutDate}]]</h2>
-        <h2 th:inline="text">Status : [[${roomRequest.status}]]</h2>
-        <h2 th:inline="text">Assigned room : [[${roomRequest.roomId}]]</h2>
-        <h2 th:inline="text">Comment: [[${roomRequest.comment}]]</h2>
-        <h2 th:inline="text">Manager comment : [[${roomRequest.managerComment}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.firstName}]] : [[${roomRequest.userFirstName}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.lastName}]] : [[${roomRequest.userLastName}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.email}]] : [[${roomRequest.userEmail}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.username}]] : [[${roomRequest.userUsername}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.capacity}]] : [[${roomRequest.capacity}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.roomClass}]] : [[${roomRequest.roomClass}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.checkInDate}]] : [[${roomRequest.checkInDate}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.checkOutDate}]] : [[${roomRequest.checkOutDate}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.status}]] : [[${roomRequest.status}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.assignedRoom}]] : [[${roomRequest.roomId}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.comment}]] : [[${roomRequest.comment}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.managerComment}]] : [[${roomRequest.managerComment}]]</h2>
         <div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING || roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">
             <form method="post" th:action="@{/manager/room-request/close}" th:object="${closeRequestForm}">
                 <div class="d-flex">
                     <input type="hidden" th:value="${roomRequest.id}" name="requestId">
                     <input class="form-control w-25" placeholder="Comment" type="text" th:field="*{comment}">
-                    <button class="btn btn-outline-danger my-2" type="submit">Close request</button>
+                    <button class="btn btn-outline-danger my-2" th:text="#{button.closeRoomRequest}" type="submit">Close request</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<h2 class="ms-2">Suitable rooms</h2>
+<h2 class="ms-2" th:text="#{suitableRooms}">Suitable rooms</h2>
 <th:block th:if="${suitableRooms != null}">
     <form id="sortForm" method="get">
         <div class="d-flex justify-content-start">
             <script type="text/javascript" th:src="@{/js/sendSortForm.js}"></script>
-            <select style="width: 10%;" class="form-select ms-2 me-1" name="sort" id="sortField">
-                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'id')}" value="id">Id</option>
-                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'price')}" value="price">Price</option>
-                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomStatus')}" value="roomStatus">Status</option>
-                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomClass')}" value="roomClass">Class</option>
-                <option th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'capacity')}" value="capacity">Capacity</option>
+            <select class="form-select me-2" style="width: 10%"  name="sort" id="sortField">
+                <option th:text="#{sort.id}" th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'id')}" value="id">Id</option>
+                <option th:text="#{sort.price}" th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'price')}" value="price">Price</option>
+                <option th:text="#{sort.roomStatus}" th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomStatus')}" value="roomStatus">Status</option>
+                <option th:text="#{sort.roomClass}" th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'roomClass')}" value="roomClass">Class</option>
+                <option th:text="#{sort.capacity}" th:selected="${@thymeleafUtils.sortFieldSelected(param.sort, 'capacity')}" value="capacity">Capacity</option>
             </select>
-            <select style="width: 10%;" class="form-select mx-1" id="sortDirection">
-                <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'asc')}" value="asc">Ascending</option>
-                <option th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'desc')}" value="desc">Descending</option>
+            <select class="form-select me-2" style="width: 10%"  id="sortDirection">
+                <option th:text="#{sort.asc}" th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'asc')}" value="asc">Ascending</option>
+                <option th:text="#{sort.desc}" th:selected="${@thymeleafUtils.sortDirectionSelected(param.sort, 'desc')}" value="desc">Descending</option>
             </select>
-            <button class="btn btn-outline-primary mx-1" onclick="sendSortParameters()">Sort</button>
+            <button class="btn btn-outline-primary mx-1" onclick="sendSortParameters()" th:text="#{button.sort}">Sort</button>
         </div>
     </form>
     <div class="ms-2">
@@ -60,14 +60,14 @@
     <th:block th:each="room: ${suitableRooms}">
         <div class="d-flex my-2">
             <div class="row card bg-light ms-2">
-                <h2 th:inline="text">Room number : [[${room.number}]]</h2>
-                <h2 th:inline="text">Room name : [[${room.name}]]</h2>
-                <h2 th:inline="text">Room status : [[${room.roomStatus}]]</h2>
-                <h2 th:inline="text">Room capacity : [[${room.capacity}]]</h2>
-                <h2 th:inline="text">Room class : [[${room.classTranslated}]]</h2>
-                <h2 th:inline="text">Room price : [[${room.price}]]</h2>
+                <h2 th:inline="text">[[#{room.number}]] : [[${room.number}]]</h2>
+                <h2 th:inline="text">[[#{room.name}]] : [[${room.name}]]</h2>
+                <h2 th:text="#{room.status} + ' : ' + #{'roomStatus.'+ ${room.roomStatus}}"></h2>
+                <h2 th:inline="text">[[#{room.capacity}]] : [[${room.capacity}]]</h2>
+                <h2 th:inline="text">[[#{room.class}]] : [[${room.classTranslated}]]</h2>
+                <h2 th:inline="text">[[#{room.price}]] : [[${room.price}]]</h2>
                 <form class="form-group" method="post" th:action="@{/manager/room-request/{id}/assign-room/{roomId}(id=${roomRequest.id}, roomId=${room.id})}">
-                    <button class="btn btn-outline-success" type="submit">Assign this room</button>
+                    <button class="btn btn-outline-success" type="submit" th:text="#{button.assignRoom}">Assign this room</button>
                 </form>
             </div>
         </div>

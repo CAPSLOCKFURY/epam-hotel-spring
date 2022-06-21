@@ -2,18 +2,18 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{title.admin.configureRoomReport}">Title</title>
 </head>
 <body>
 <div th:include="header"></div>
-<h1 class="ms-2">Configure room report</h1>
+<h1 class="ms-2" th:text="#{title.admin.configureRoomReport}">Configure room report</h1>
 <div class="d-flex ms-2">
     <form th:action="@{/manager/report/pdf}" method="get">
-        <p>Page</p><input class="form-control" type="number" min="0" name="page">
-        <p>Page size</p><input class="form-control" type="number" min="1" name="size">
-        <p>Check In Date</p><input class="form-control" name="checkInDate" type="date">
-        <p>Check Out Date</p><input class="form-control" name="checkOutDate" type="date">
-        <button class="btn btn-primary my-2" type="submit">Generate report</button>
+        <p th:text="#{page}">Page</p><input class="form-control" type="number" min="0" name="page">
+        <p th:text="#{pageSize}">Page size</p><input class="form-control" type="number" min="1" name="size">
+        <p th:text="#{checkInDate}">Check In Date</p><input class="form-control" name="checkInDate" type="date">
+        <p th:text="#{checkOutDate}">Check Out Date</p><input class="form-control" name="checkOutDate" type="date">
+        <button class="btn btn-primary my-2" type="submit" th:text="#{button.createRoomReport}">Generate report</button>
     </form>
 </div>
 </body>
