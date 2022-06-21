@@ -20,7 +20,7 @@
         <h2 th:inline="text">[[#{roomRequest.roomClass}]] : [[${roomRequest.roomClass}]]</h2>
         <h2 th:inline="text">[[#{roomRequest.checkInDate}]] : [[${roomRequest.checkInDate}]]</h2>
         <h2 th:inline="text">[[#{roomRequest.checkOutDate}]] : [[${roomRequest.checkOutDate}]]</h2>
-        <h2 th:inline="text">[[#{roomRequest.status}]] : [[${roomRequest.status}]]</h2>
+        <h2 th:inline="text">[[#{roomRequest.status}]] : [[#{'roomRequest.status.' + ${roomRequest.status}}]]</h2>
         <h2 th:inline="text">[[#{roomRequest.assignedRoom}]] : [[${roomRequest.roomId}]]</h2>
         <h2 th:inline="text">[[#{roomRequest.comment}]] : [[${roomRequest.comment}]]</h2>
         <h2 th:inline="text">[[#{roomRequest.managerComment}]] : [[${roomRequest.managerComment}]]</h2>
