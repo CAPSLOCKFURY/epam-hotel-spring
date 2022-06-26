@@ -37,7 +37,6 @@ public class RoomRequestService {
 
     @Transactional
     public void closeRoomRequest(Long requestId, Long userId){
-        //TODO add controller advices to handle exceptions
         RoomRequest roomRequest = roomRequestRepository.findById(requestId).orElseThrow(EntityNotFoundException::new);
         if(!roomRequest.getUser().getId().equals(userId)){
             return;
