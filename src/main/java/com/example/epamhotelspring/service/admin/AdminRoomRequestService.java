@@ -6,6 +6,7 @@ import com.example.epamhotelspring.forms.CloseRequestForm;
 import com.example.epamhotelspring.model.Room;
 import com.example.epamhotelspring.model.RoomRequest;
 import com.example.epamhotelspring.model.enums.RequestStatus;
+import com.example.epamhotelspring.model.enums.RoomStatus;
 import com.example.epamhotelspring.repository.RoomRepository;
 import com.example.epamhotelspring.repository.admin.AdminRoomRequestRepository;
 import com.example.epamhotelspring.service.utils.ServiceErrors;
@@ -57,6 +58,10 @@ public class AdminRoomRequestService {
             return false;
         }
         Room room = roomRepository.findById(roomId).orElseThrow(EntityNotFoundException::new);
+        if(room.getRoomStatus().equals(RoomStatus.UNAVAILABLE)){
+            errors.reject("errors.roomIsUnavailable");
+            return false;
+        }
         roomRequest.setRoom(room);
         roomRequest.setStatus(RequestStatus.AWAITING_CONFIRMATION);
         roomRequestRepository.save(roomRequest);

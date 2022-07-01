@@ -45,8 +45,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     boolean isRoomAssignedToRequest(Long roomId, LocalDate checkInDate, LocalDate checkOutDate);
 
     @Modifying
-    @Query("update RoomRequest rr set rr.room = null, rr.status = 'AWAITING' where rr.status = 'AWAITING_CONFIRMATION' and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate)")
-    void unAssignRoomOnOverlappingDates(LocalDate checkInDate, LocalDate checkOutDate);
+    @Query("update RoomRequest rr set rr.room = null, rr.status = 'AWAITING' where rr.status = 'AWAITING_CONFIRMATION' and rr.room.id = :roomId and (:checkInDate <= rr.checkOutDate and :checkOutDate >= rr.checkInDate)")
+    void unAssignRoomOnOverlappingDates(Long roomId,LocalDate checkInDate, LocalDate checkOutDate);
 
     //TODO add this to AdminRoomRepository
     @Modifying

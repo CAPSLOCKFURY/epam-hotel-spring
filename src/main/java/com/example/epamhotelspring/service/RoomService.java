@@ -66,7 +66,7 @@ public class RoomService {
             return;
         }
         userFromDb.setBalance(userFromDb.getBalance().subtract(roomPriceForStayDays));
-        roomRepository.unAssignRoomOnOverlappingDates(roomRegistry.getCheckInDate(), roomRegistry.getCheckOutDate());
+        roomRepository.unAssignRoomOnOverlappingDates(form.getRoomId(), roomRegistry.getCheckInDate(), roomRegistry.getCheckOutDate());
         userRepository.save(userFromDb);
         roomRegistryRepository.save(roomRegistry);
     }

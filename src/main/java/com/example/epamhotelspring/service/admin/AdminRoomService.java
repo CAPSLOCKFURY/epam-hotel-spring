@@ -72,6 +72,7 @@ public class AdminRoomService {
         roomRegistryRepository.deleteByIdIn(roomRegistryIds);
         roomRequestRepository.deleteByIdIn(roomRequestIds);
         billingRepository.deleteByIdIn(billingIds);
+        roomRepository.unAssignRoomOnOverlappingDates(closeRoomForm.getRoomId(), closeRoomForm.getStartDate(), closeRoomForm.getEndDate());
     }
 
     @Transactional
