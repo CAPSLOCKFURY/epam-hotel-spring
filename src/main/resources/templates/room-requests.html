@@ -18,7 +18,7 @@
             <h2 th:inline="text">[[#{roomRequest.checkInDate}]] : [[${roomRequest.checkInDate}]]</h2>
             <h2 th:inline="text">[[#{roomRequest.checkOutDate}]] : [[${roomRequest.checkOutDate}]]</h2>
             <h2 th:inline="text">[[#{roomRequest.status}]] : [[#{'roomRequest.status.' + ${roomRequest.status}}]]</h2>
-            <h2 th:inline="text">[[#{roomRequest.assignedRoom}]] : [[${roomRequest.roomId}]]</h2>
+            <h2 th:inline="text">[[#{roomRequest.assignedRoom}]] : </h2><a th:href="@{/room/{id}(id=${roomRequest.roomId})}"><h2 th:inline="text">[[${roomRequest.roomId}]]</h2></a>
             <h2 th:inline="text">[[#{roomRequest.comment}]] : [[${roomRequest.comment}]]</h2>
             <h2 th:inline="text">[[#{roomRequest.managerComment}]] : [[${roomRequest.managerComment}]]</h2>
             <div th:if="${roomRequest.status == T(com.example.epamhotelspring.model.enums.RequestStatus).AWAITING_CONFIRMATION}">

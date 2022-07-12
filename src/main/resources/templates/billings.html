@@ -9,10 +9,10 @@
 <div th:if="${errors != null}" th:each="error: ${errors}">
     <h2 class="text-danger text-decoration-none" th:text="#{${error}}"></h2>
 </div>
+<h1 class="ms-2" th:text="#{title.myBillings}">My billings</h1>
 <div class="ms-2">
     <div th:replace="fragments/pagination.html :: pagination(${billings.pageable}, ${billings.getTotalPages()}, ${billings.hasNext()})"></div>
 </div>
-<h1 class="ms-2" th:text="#{title.myBillings}">My billings</h1>
 <th:block th:each="billing: ${billings}">
     <div class="d-flex">
         <div class="row card bg-light my-2 ms-2">
