@@ -52,8 +52,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Modifying
     @Query("update Room r set r.roomStatus = " +
             "case " +
-            "   when r.id in (select rr.room.id from RoomRegistry rr where rr.checkOutDate = current_date and rr.archived = false) then ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).FREE} " +
-            "   when r.id in (select rr.room.id from RoomRegistry  rr where rr.checkInDate = current_date and rr.archived = false ) then ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).OCCUPIED} " +
+            "   when r.id in (select rr.room.id from RoomRegistry rr where rr.checkOutDate <= current_date and rr.archived = false) then ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).FREE} " +
+            "   when r.id in (select rr.room.id from RoomRegistry  rr where rr.checkInDate <= current_date and rr.archived = false ) then ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).OCCUPIED} " +
             "   else ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).FREE} " +
             "end " +
             "where r.roomStatus <> ?#{T(com.example.epamhotelspring.model.enums.RoomStatus).UNAVAILABLE}")
